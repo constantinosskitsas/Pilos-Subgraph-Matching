@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/konstantinos/Pilos-Subgraph_Matching/matching/EdgeListToCSR.cpp
+cassert
+-
+algorithm
+-
+vector
+-
+fstream
+-
+iostream
+-
+sstream
+-
+chrono
+-
+tuple
+-
+random
+-
+

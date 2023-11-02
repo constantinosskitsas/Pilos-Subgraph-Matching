@@ -445,7 +445,7 @@ void BDCSVD<MatrixType>::divide(Eigen::Index firstCol, Eigen::Index lastCol, Eig
   // We use the divide and conquer algorithm
   alphaK =  m_computed(firstCol + k, firstCol + k);
   betaK = m_computed(firstCol + k + 1, firstCol + k);
-  // The divide must be done in that order in order to have good results. Divide change the data inside the submatrices
+  // The divide must be done in that order in order to have good candidate_true. Divide change the data inside the submatrices
   // and the divide of the right submatrice reads one column of the left submatrice. That's why we need to treat the 
   // right submatrix before the left one. 
   divide(k + 1 + firstCol, lastCol, k + 1 + firstRowW, k + 1 + firstColW, shift);

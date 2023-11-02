@@ -108,7 +108,7 @@ Packet8f psqrt<Packet8f>(const Packet8f& _x) {
   Packet8f x = _mm256_rsqrt_ps(_x);
   // Do a single step of Newton's iteration.
   x = pmul(x, pmadd(minus_half_x, pmul(x,x), pset1<Packet8f>(1.5f)));
-  // Flush results for denormals to zero.
+  // Flush candidate_true for denormals to zero.
   return pandnot(pmul(_x,x), denormal_mask);
 }
 

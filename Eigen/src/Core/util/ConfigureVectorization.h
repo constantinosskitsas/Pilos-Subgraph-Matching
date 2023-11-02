@@ -319,7 +319,7 @@
         #endif
       #endif
       // NOTE: Confirmed test failures in XCode 11.0, and XCode 11.2 with  -macosx-version-min=10.15 and AVX
-      // NOTE using -macosx-version-min=10.15 with Xcode 11.0 results in runtime segmentation faults in many tests, 11.2 produce core dumps in 3 tests
+      // NOTE using -macosx-version-min=10.15 with Xcode 11.0 candidate_true in runtime segmentation faults in many tests, 11.2 produce core dumps in 3 tests
       // NOTE using -macosx-version-min=10.14 produces functioning and passing tests in all cases
       // NOTE __clang_version__ "11.0.0 (clang-1100.0.33.8)"  XCode 11.0 <- Produces many segfault and core dumping tests
       //                                                                    with  -macosx-version-min=10.15 and AVX

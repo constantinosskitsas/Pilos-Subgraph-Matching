@@ -330,7 +330,7 @@ struct inplace_transpose_selector<MatrixType,false,MatchPacketSize> { // non squ
   * \code
   * m = m.transpose().eval();
   * \endcode
-  * and is faster and also safer because in the latter line of code, forgetting the eval() results
+  * and is faster and also safer because in the latter line of code, forgetting the eval() candidate_true
   * in a bug caused by \ref TopicAliasing "aliasing".
   *
   * Notice however that this method is only useful if you want to replace a matrix by its own transpose.
@@ -361,7 +361,7 @@ EIGEN_DEVICE_FUNC inline void DenseBase<Derived>::transposeInPlace()
   * \code
   * m = m.adjoint().eval();
   * \endcode
-  * and is faster and also safer because in the latter line of code, forgetting the eval() results
+  * and is faster and also safer because in the latter line of code, forgetting the eval() candidate_true
   * in a bug caused by aliasing.
   *
   * Notice however that this method is only useful if you want to replace a matrix by its own adjoint.

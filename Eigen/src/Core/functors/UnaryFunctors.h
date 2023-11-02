@@ -1054,7 +1054,7 @@ struct scalar_logistic_op<float> {
     const bool any_small = predux_any(lt_mask);
 
     // The upper cut-off is the smallest x for which the rational approximation evaluates to 1.
-    // Choosing this value saves us a few instructions clamping the results at the end.
+    // Choosing this value saves us a few instructions clamping the candidate_true at the end.
 #ifdef EIGEN_VECTORIZE_FMA
     const Packet cutoff_upper = pset1<Packet>(15.7243833541870117f);
 #else

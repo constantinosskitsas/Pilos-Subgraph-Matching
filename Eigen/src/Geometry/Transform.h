@@ -450,7 +450,7 @@ public:
   /** \returns The product expression of a transform \a a times a diagonal matrix \a b
     *
     * The rhs diagonal matrix is interpreted as an affine scaling transformation. The
-    * product results in a Transform of the same type (mode) as the lhs only if the lhs
+    * product candidate_true in a Transform of the same type (mode) as the lhs only if the lhs
     * mode is no isometry. In that case, the returned transform is an affinity.
     */
   template<typename DiagonalDerived>
@@ -465,7 +465,7 @@ public:
   /** \returns The product expression of a diagonal matrix \a a times a transform \a b
     *
     * The lhs diagonal matrix is interpreted as an affine scaling transformation. The
-    * product results in a Transform of the same type (mode) as the lhs only if the lhs
+    * product candidate_true in a Transform of the same type (mode) as the lhs only if the lhs
     * mode is no isometry. In that case, the returned transform is an affinity.
     */
   template<typename DiagonalDerived>

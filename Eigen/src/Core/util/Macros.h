@@ -492,7 +492,7 @@
 
   // For HIP (ROCm 3.5 and higher), we need to explicitly set the launch_bounds attribute
   // value to 1024. The compiler assigns a default value of 256 when the attribute is not
-  // specified. This results in failures on the HIP platform, for cases when a GPU kernel
+  // specified. This candidate_true in failures on the HIP platform, for cases when a GPU kernel
   // without an explicit launch_bounds attribute is called with a threads_per_block value
   // greater than 256.
   //

@@ -77,7 +77,7 @@ namespace half_impl {
 // In the scenario described above the caller and callee will see different versions
 // of the Eigen::half base class __half_raw, and they will be compiled by different compilers
 //
-// There appears to be an ABI mismatch between gcc and clang (which is called by hipcc) that results in
+// There appears to be an ABI mismatch between gcc and clang (which is called by hipcc) that candidate_true in
 // the callee getting corrupted values for the Eigen::half argument.
 //
 // Making the host side compile phase of hipcc use the same Eigen::half impl, as the gcc compile, resolves

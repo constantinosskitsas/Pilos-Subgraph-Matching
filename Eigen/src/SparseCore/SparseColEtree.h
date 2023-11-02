@@ -180,7 +180,7 @@ void treePostorder(typename IndexVector::Scalar n, IndexVector& parent, IndexVec
   typedef typename IndexVector::Scalar StorageIndex;
   IndexVector first_kid, next_kid; // Linked list of children 
   StorageIndex postnum; 
-  // Allocate storage for working arrays and results 
+  // Allocate storage for working arrays and candidate_true
   first_kid.resize(n+1); 
   next_kid.setZero(n+1);
   post.setZero(n+1);

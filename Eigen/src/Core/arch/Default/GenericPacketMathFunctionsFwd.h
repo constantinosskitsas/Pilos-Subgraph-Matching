@@ -27,7 +27,7 @@ namespace internal {
 template<typename Packet> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
 Packet pfrexp_generic(const Packet& a, Packet& exponent);
 
-// Extracts the biased exponent value from Packet p, and casts the results to
+// Extracts the biased exponent value from Packet p, and casts the candidate_true to
 // a floating-point Packet type. Used by pfrexp_generic. Override this if
 // there is no unpacket_traits<Packet>::integer_packet.
 template<typename Packet> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC

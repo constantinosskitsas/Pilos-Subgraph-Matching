@@ -41,10 +41,12 @@ make
 
 ## Execute
 
+-dataset the dataset, -qsize query size, -qnumber, -qprop query name , -filter filter algorithm
 
 ```zsh
-./SubgraphMatching.out -d ../../test/sample_dataset/test_case_1.graph -q ../../test/sample_dataset/query1_positive.graph -filter SF -order GQL -engine LFTJ -num MAX
+timeout 3600s ./SubgraphMatching.out -dataset $t -qsize $j -qnumber $i -qprop G -filter KFR2
 ```
+
 ## Reference
 
 Please cite our work in your publications if it helps your research:
@@ -52,5 +54,7 @@ Please cite our work in your publications if it helps your research:
 ```
 Paper under submission
 ```
-
+## 
+## Note
+The code is under refactor. Expected to be available 15-11-23.
 

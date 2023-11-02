@@ -23,7 +23,7 @@ queries after a lapse of 10 minutes than the state of the art.
 
 ## **Code**
 We build our algorithm on top of SIGMOD'2020 paper "In-Memory Subgraph Matching: an In-depth Study" by Dr. Shixuan Sun and Prof. Qiong Luo.
-For more details of how to use the framework we refer to [Code](https://github.com/RapidsAtHKUST/SubgraphMatching).
+We kept all the functionalities of the framework and for mospecific details we refer to [Code](https://github.com/RapidsAtHKUST/SubgraphMatching).
 
 ## Additional Techniques Supported
 |Pilos| the filtering method of Pilos |
@@ -40,14 +40,7 @@ make
 ```
 
 ## Execute
-After compiling the source code, you can find the binary file 'SubgraphMatching.out' under the 'build/matching' directory. 
-Execute the binary with the following command ./SubgraphMatching.out -d data_graphs -q query_graphs
--filter method_of_filtering_candidate_vertices -order method_of_ordering_query_vertices -engine method_of_enumerating_partial_results -num number_of_embeddings,
-in which -d specifies the input of the data graphs and -q specifies the input of the query graphs.
-The -filter parameter gives the filtering method, the -order specifies the ordering method, and the -engine
-sets the enumeration method. The -num parameter sets the maximum number of embeddings that you would like to find.
-If the number of embeddings enumerated reaches the limit or all the results have been found, then the program will terminate.
-Set -num as 'MAX' to find all results.
+
 
 ```zsh
 ./SubgraphMatching.out -d ../../test/sample_dataset/test_case_1.graph -q ../../test/sample_dataset/query1_positive.graph -filter SF -order GQL -engine LFTJ -num MAX

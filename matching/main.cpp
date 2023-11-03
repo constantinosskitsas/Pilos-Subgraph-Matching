@@ -200,6 +200,7 @@ int main(int argc, char** argv) {
      data_graph->loadGraphFromFile(datagraph);
     
     int aa[5]={32,64,96,128,256};
+    
     if(query_filter=="BQ"){
         bool ck=false;
         int qn=stoi(query_number);
@@ -212,36 +213,16 @@ int main(int argc, char** argv) {
      }
      return 0;
     }
+    
+    if(query_filter=="EC"){
+        generate_datagraph_eigenvector("../../dataset/"+data_graph"/data_graph/+"data_graph+".graph",data_graph+".csv",stoi(query_number));
+    }
 
 
-    //string datagraph = "../../test/reallife_dataset/wordnet/data_graph/wordnet.graph";
-    //string querygraph = "../../test/randomwalk_queries/wordnet/50/randomwalk_50_"+query_number+".graph";
     Experiments::datagraphEigenMatrix = "../../"+dataset_name+".csv";
     //string datagraph = "../../dataset/wordnet/data_graph/wordnet.graph";
      datagraph ="../../dataset/"+dataset_name+"/data_graph/"+dataset_name+".graph";
     string querygraph = "../../dataset/"+dataset_name+"/query_graph/query_"+query_property+"_"+query_size+"_"+query_number+".graph";
-     
-    //string querygraph = "../../dataset/"+dataset_name+"/query_graph/query_"+query_property+"_"+query_size+"_"+query_number+".graph";
-    //string querygraph = "../../dataset/wordnet/query_graph/query_dense_16_"+query_number+".graph";
-//    string datagraph = "../../test/reallife_dataset/wordnet/data_graph/wordnet.graph";
-//    string querygraph = "../../test/large_query/"+dataset_name+"/"+query_property+"/"+query_property+"_"+query_number+".graph";
-
-//    string datagraph = "../../test/mydataset/youtube/data_graph/25-0/youtube.graph";
-//    string querygraph = "../../test/mydataset/youtube/query_graph/25-0/query_"+query_property+"_"+query_size+"_"+query_number+".graph";
-
-
-    //pair <matching_algo_outputs,matching_algo_outputs> LDF = MatchingWrapper(datagraph,querygraph,"LDF");
-    //return 0;
-
-    //pair <matching_algo_outputs,matching_algo_outputs> NLF = MatchingWrapper(datagraph,querygraph,"NLF");
-    //pair <matching_algo_outputs,matching_algo_outputs> GQL = MatchingWrapper(datagraph,querygraph,"GQL");
-    //pair <matching_algo_outputs,matching_algo_outputs> TSOF = MatchingWrapper(datagraph,querygraph,"TSO");
-    //pair <matching_algo_outputs,matching_algo_outputs> CFL = MatchingWrapper(datagraph,querygraph,"CFL");
-    //pair <matching_algo_outputs,matching_algo_outputs> DPiso = MatchingWrapper(datagraph,querygraph,"DPiso");
-    //pair <matching_algo_outputs,matching_algo_outputs> KFA = MatchingWrapper(datagraph,querygraph,"KFA");
-    //pair <matching_algo_outputs,matching_algo_outputs> KFB = MatchingWrapper(datagraph,querygraph,"KFB");
-    //pair <matching_algo_outputs,matching_algo_outputs> KFC = MatchingWrapper(datagraph,querygraph,"KFC");
-    //pair <matching_algo_outputs,matching_algo_outputs> KFD = MatchingWrapper(datagraph,querygraph,"KFD");
     //pair <matching_algo_outputs,matching_algo_outputs> KFE = MatchingWrapper(datagraph,querygraph,"KFE");
     matching_algo_outputs KF = Experiments::experiment3(datagraph,querygraph,query_filter,"0",NULL);
 

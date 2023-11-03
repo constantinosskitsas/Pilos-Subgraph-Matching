@@ -201,7 +201,7 @@ int main(int argc, char** argv) {
     
     int aa[5]={32,64,96,128,256};
     
-    if(query_filter=="BQ"){
+    if(query_filter=="GQ"){
         bool ck=false;
         int qn=stoi(query_number);
     for (int da=0;da<=4;da++)

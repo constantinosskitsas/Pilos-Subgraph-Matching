@@ -46,7 +46,18 @@ make
 ```zsh
 timeout 3600s ./SubgraphMatching.out -dataset $t -qsize $j -qnumber $i -qprop G -filter KFR2
 ```
-
+### Query Generation
+To create queries use -qnumber for the number of queries, -qprop the name of the queries you want -dataset the name of the dataset and -filter GQ.
+For example, to generate 400 queries for dblp
+```zsh
+./SubgraphMatching.out -dataset dblp -qnumber 400 -qprop G -filter QG
+```
+### Index Generation
+To create Eigenvalue index for a dataset use -filter GQ.
+For example, to generate 400 queries for dblp
+```zsh
+./SubgraphMatching.out -dataset dblp -filter EC
+```
 ## Reference
 
 Please cite our work in your publications if it helps your research:

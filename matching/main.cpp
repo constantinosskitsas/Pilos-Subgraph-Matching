@@ -215,7 +215,8 @@ int main(int argc, char** argv) {
     }
     
     if(query_filter=="EC"){
-        generate_datagraph_eigenvector("../../dataset/"+data_graph"/data_graph/+"data_graph+".graph",data_graph+".csv",stoi(query_number));
+        int numeig=stoi(query_number);
+        generate_datagraph_eigenvector("../../dataset/"+dataset_name+"/data_graph/"+dataset_name+".graph",dataset_name+".csv",numeig);
     }
 
 

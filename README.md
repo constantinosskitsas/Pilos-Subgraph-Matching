@@ -42,9 +42,12 @@ make
 ## Execute
 
 -dataset the dataset, -qsize query size, -qnumber, -qprop query name , -filter filter algorithm
-
+PL for alpha=25,PLA alpha 50,PLB alpha 75,PLA alpha 100,PLA alpha 125,
+PL to be changed to accept alpha as parameter.
+beta will be added also.
+MT to be added by parameter also.
 ```zsh
-timeout 3600s ./SubgraphMatching.out -dataset $t -qsize $j -qnumber $i -qprop G -filter KFR2
+timeout 3600s ./SubgraphMatching.out -dataset $t -qsize $j -qnumber $i -qprop G -filter PL
 ```
 ### Query Generation
 To create queries use -qnumber for the number of queries, -qprop the name of the queries you want -dataset the name of the dataset and -filter GQ.

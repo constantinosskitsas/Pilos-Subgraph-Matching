@@ -1102,8 +1102,42 @@ int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file,
     }
     
     //cout<<CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates1, candidates_count1,EWeight,eigenVD1)<<endl;
+    return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1);
+}
+
+int SpectralMatchingMT(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1)
+{
+    ui** candidates1 = NULL;
+    
+    ui* candidates_count1 = NULL;
+    
+    Graph *query_graph = new Graph(true);
+    query_graph->loadGraphFromFile(input_query_graph_file);
+    
+    int sizq = query_graph->getVerticesCount();
+    ui Eprun = sizq - 3;
+    Eprun=30;
+
+    MatrixXd eigenVq1(sizq, Eprun);
+    int oMax=sizq*3;
+    oMax=300;
+    MTcalc12(query_graph, query_graph->getGraphMaxDegree(), eigenVq1, true, Eprun,oMax);
+    float **eigenQ = NULL;
+    eigenQ = new float *[sizq];
+    
+    for (ui i = 0; i < sizq; ++i)
+    {
+        eigenQ[i] = new float[Eprun];
+        for (ui j = 0; j < Eprun; j++)
+        {
+            eigenQ[i][j] = eigenVq1(i, j);
+        }
+    }
+    
+    //cout<<CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates1, candidates_count1,EWeight,eigenVD1)<<endl;
     return CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1);
 }
+
 
 /*Assuming FCS[i][j].ID is sorted we cand find any j given IDC=i and IDQ=FCS[i][j].ID with Binary search.
 **Keep in mind sorted properties have to be kept when removing elements.

@@ -240,30 +240,22 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     std::vector<std::vector<std::unordered_map<VertexID, std::vector<VertexID>>>> NTE_Candidates;
     if (input_filter_type == "LDF") {
         FilterVertices::LDFFilter(data_graph, query_graph, candidates, candidates_count,isEigenCheck,top_s);
-    } else if(input_filter_type=="KF"){
-
-        //SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight);
-        auto ss = std::chrono::high_resolution_clock::now();
+    } else if(input_filter_type=="PL"){
         SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight,eigenVD1);
-        auto oo = std::chrono::high_resolution_clock::now();
-        auto duration3 = duration_cast<seconds>(oo - ss);
-            cout << "SM-0 " << duration3.count() << endl;
-        cout<<"pruningDone"<<endl;
+
     }
-    else if(input_filter_type=="KFD"){
+    else if(input_filter_type=="PLA"){
         SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 1,candidates,candidates_count,EWeight,eigenVD1);
-        //cout<<"hi_eleos"<<endl;
     }
-    else if(input_filter_type=="KFE"){
+    else if(input_filter_type=="PLB"){
         SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 2,candidates,candidates_count,EWeight,eigenVD1);
 
     }
-        else if(input_filter_type=="KFR"){
+        else if(input_filter_type=="PLC"){
         SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 3,candidates,candidates_count,EWeight,eigenVD1);
 
-    } else if(input_filter_type=="KFR2"){
+    } else if(input_filter_type=="PLD"){
         SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 4,candidates,candidates_count,EWeight,eigenVD1);
-
     }
     else if (input_filter_type == "NLF") {
         FilterVertices::NLFFilter(data_graph, query_graph, candidates, candidates_count,false,top_s);

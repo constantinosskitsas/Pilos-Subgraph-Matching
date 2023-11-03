@@ -5,6 +5,8 @@ double round_to(double value, double precision = 1.0)
 {
     return std::round(value / precision) * precision;
 }
+
+// RI -> flaged to improve the code quality
 bool GenerateQueryD(ui QS,const Graph *data_graph,ui MinDen,int dd,string Dataset){
     unordered_map<ui, ui> SID;
     vector<ui> ID;

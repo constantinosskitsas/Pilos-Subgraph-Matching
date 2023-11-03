@@ -198,13 +198,13 @@ int main(int argc, char** argv) {
      string datagraph ="../../dataset/"+dataset_name+"/data_graph/"+dataset_name+".graph";
      Graph* data_graph = new Graph(true);
      data_graph->loadGraphFromFile(datagraph);
-     int aa[5]={32,64,96,128,256};
-
-
+    
+    int aa[5]={32,64,96,128,256};
     if(query_filter=="BQ"){
         bool ck=false;
+        int qn=stoi(query_number);
     for (int da=0;da<=4;da++)
-    for (int di=1;di<=query_number;di++){
+    for (int di=1;di<=qn;di++){
         ui kk=aa[da];
     while(!GenerateQueryD(kk,data_graph,1,di,dataset_name));
     ck=false;
@@ -212,11 +212,7 @@ int main(int argc, char** argv) {
      }
      return 0;
     }
-    //query_number="1";
-//    cout<<dataset_name<<endl;
-//    cout<<query_size<<endl;
-//    cout<<query_number<<endl;
-//    cout<<query_property<<endl;
+
 
     //string datagraph = "../../test/reallife_dataset/wordnet/data_graph/wordnet.graph";
     //string querygraph = "../../test/randomwalk_queries/wordnet/50/randomwalk_50_"+query_number+".graph";

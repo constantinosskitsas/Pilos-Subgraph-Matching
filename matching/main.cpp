@@ -254,13 +254,6 @@ int main(int argc, char** argv) {
     evaluations.push_back(CFL);
     evaluations.push_back(DPiso);
     */
-    //evaluations.push_back(KFA);
-    //evaluations.push_back(KFB);
-    //evaluations.push_back(KFC);
-    //evaluations.push_back(KFD);
-    //evaluations.push_back(KFE);
-    //evaluations.push_back(DPiso);
-
     std::ostringstream oss;
     oss <<query_property<<"_"<<query_size<<"_"<<query_number<<endl;
     //ExcelFormat::BasicExcelWorksheet* dataSheet = workbook.GetWorksheet("IT");
@@ -313,10 +306,6 @@ int main(int argc, char** argv) {
     cout<<var<<endl;
 
     string file_path = "";
-
-   // file_path = "performance_experiment/LArgeQ_"+query_filter+"_emb100000_"+dataset_name+"_"+query_property+query_size+".csv";
-   
-//file_path = "performance_experiment/LastTotalTime"+query_filter+"_emb100000_"+dataset_name+"_"+query_property+query_size+".csv";
     file_path = "performance_experiment/MultiThreading"+query_filter+"_emb100000_"+dataset_name+"_"+query_property+query_size+".csv";
     std::ofstream myfile;
     myfile.open (file_path,std::ios_base::app);

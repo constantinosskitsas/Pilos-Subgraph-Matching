@@ -176,7 +176,8 @@ void Experiments::experiment2(string data_graph_path,string query_graph_path,str
 matching_algo_outputs Experiments::experiment3(const string data_graph_path,const string query_graph_path,const string filter,const string eigen,ui* order_pointer) {
 
 //    string filters[6] = {"LDF","NLF","GQL","TSO","CFL","DPiso"};
-
+//PL->Pilos
+//PLMT->PilosMT
     matching_algo_inputs inputs;
     inputs.dgraph_path = data_graph_path;
     inputs.qgraph_path = query_graph_path;
@@ -187,112 +188,12 @@ matching_algo_outputs Experiments::experiment3(const string data_graph_path,cons
     else{
         inputs.engine = "CECI";
     }
-    if(inputs.filter=="KFA"||inputs.filter=="KFB"){
-        //inputs.order = inputs.filter;
-        inputs.order = "GQL";
-        //inputs.filter="KFE";
-        if (stoi(eigen))
-            inputs.engine = "LFTJA";
-    }else if (inputs.filter=="KFC"){
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";
-    }
-    else if (inputs.filter=="KFR"){
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";
-    }
-    else if (inputs.filter=="KFE"){
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";
-    }
-    else if (inputs.filter=="KFD"){
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";
-    }
-    else if (inputs.filter=="KFL"){
-        inputs.filter="KFE";
-        inputs.order = "KF";
-        inputs.engine = "LFTJ";    
-    }    else if (inputs.filter=="KFLL"){
-        inputs.filter="KFE";
-        inputs.order = "KF";
-        inputs.engine = "LFTJA";    
-    }
-    else if (inputs.filter=="KFEL"){
-        inputs.filter="KFE";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJA";    
-    }
-    else if (inputs.filter=="KF"){
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";
-    }else if (inputs.filter=="EOL"){
-        //inputs.filter = "KF";
-        inputs.filter = "KF";
+    //new algorithm will have different Order and Enumeration
+    //thus we should keep it here or create new experiment
+    if (inputs.filter=="KFER"){
         inputs.order = "GQL";
         inputs.engine = "LFTJA";
-
-    }else if (inputs.filter=="EOH"){
-        inputs.filter = "KF";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJB";
-        
-    }else if (inputs.filter=="EOCR"){
-        inputs.filter = "KF";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJR";        
-    }
-    else if (inputs.filter=="EOCR1"){
-        inputs.filter = "KF";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJR";        
-    }
-    else if (inputs.filter=="EOCR2"){
-        inputs.filter = "KF";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJR";        
-    }
-    else if (inputs.filter=="EOCR3"){
-        inputs.filter = "KF";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJR";        
-    }
-    else if (inputs.filter=="EOCR4"){
-        inputs.filter = "KF";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJR";        
-    }
-    else if (inputs.filter=="EO"){
-        inputs.filter = "KF";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";     
-    }
-    else if (inputs.filter=="EOF"){
-        inputs.filter = "KFE";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";     
-    }else if (inputs.filter=="EOF1"){
-        inputs.filter = "KFR";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";     
-    }
-    else if (inputs.filter=="KFR2"){
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";     
-    }
-    else if (inputs.filter=="EOF3"){
-        inputs.filter = "KF";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";     
-    }
-    else if (inputs.filter=="EOFF"){
-        inputs.filter = "KFD";
-        inputs.order = "GQL";
-        inputs.engine = "LFTJ";     
-    }
-
-    
-    
+    }     
     inputs.eigen = eigen;
     inputs.order_pointer = order_pointer;
 

@@ -28,7 +28,8 @@ enum OptionKeyword {
     QuerySize = 18,
     QueryProperty = 19,
     QueryNumber = 20,
-
+    alphaPar=21, //-alpha
+    betaPar=22,  //-beta
 };
 
 class MatchingCommand : public CommandParser{
@@ -124,6 +125,13 @@ public:
     std::string getCSRFilePath() {
         return options_value[OptionKeyword::CSRFilePath] == "" ? "" : options_value[OptionKeyword::CSRFilePath];
     }
+    std::string getalpha() {
+        return options_value[OptionKeyword::alphaPar] == "" ? "25" : options_value[OptionKeyword::alphaPar];
+    }
+        std::string getbeta() {
+        return options_value[OptionKeyword::betaPar] == "" ? "500" : options_value[OptionKeyword::betaPar];
+    }
+
 };
 
 

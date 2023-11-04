@@ -17,6 +17,9 @@ struct matching_algo_inputs {
     string engine;
     string eigen;
     ui* order_pointer;
+    string alpha;
+    string beta;
+    string thnum;
 };
 
 struct matching_algo_outputs{

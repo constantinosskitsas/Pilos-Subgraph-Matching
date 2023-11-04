@@ -116,7 +116,9 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     std::string input_csr_file_path = command.getCSRFilePath();
     std::string input_iseigen = inputs.eigen;
     std::string input_tops;
-    
+    string alpha=inputs.alpha;
+    string beta=inputs.beta;
+    string thnum=inputs.thnum;
     
     
     matching_algo_outputs outputs;
@@ -159,7 +161,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     float **eigenVD1 = NULL;
     ui dsiz=0;
     if (input_csr_file_path.empty()) {
-        if(inputs.filter=="KF"||inputs.filter=="KFE"||inputs.filter=="KFD"||inputs.filter=="KFR"||inputs.filter=="KFR2"){
+        if(inputs.filter=="KF"||inputs.filter=="KFE"||inputs.filter=="KFD"||inputs.filter=="KFR"||inputs.filter=="PL"){
             data_graph->loadGraphFromFile(input_data_graph_file);
             data_graph->BuildLabelOffset();
             dsiz= data_graph->getVerticesCount();
@@ -235,27 +237,14 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     TreeNode* dpiso_tree = NULL;
     TreeNode* ceci_tree = NULL;
     ui* ceci_order = NULL;
-    
     std::vector<std::unordered_map<VertexID, std::vector<VertexID >>> TE_Candidates;
     std::vector<std::vector<std::unordered_map<VertexID, std::vector<VertexID>>>> NTE_Candidates;
     if (input_filter_type == "LDF") {
         FilterVertices::LDFFilter(data_graph, query_graph, candidates, candidates_count,isEigenCheck,top_s);
     } else if(input_filter_type=="PL"){
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight,eigenVD1);
-
-    }
-    else if(input_filter_type=="PLA"){
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 1,candidates,candidates_count,EWeight,eigenVD1);
-    }
-    else if(input_filter_type=="PLB"){
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 2,candidates,candidates_count,EWeight,eigenVD1);
-
-    }
-        else if(input_filter_type=="PLC"){
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 3,candidates,candidates_count,EWeight,eigenVD1);
-
-    } else if(input_filter_type=="PLD"){
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 4,candidates,candidates_count,EWeight,eigenVD1);
+        int alpha1=stoi(alpha);
+        cout<<alpha1<<" ,"<<beta<<endl;
+        SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight,eigenVD1,alpha1);
     }
     else if (input_filter_type == "NLF") {
         FilterVertices::NLFFilter(data_graph, query_graph, candidates, candidates_count,false,top_s);

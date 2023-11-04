@@ -25,6 +25,8 @@ MatchingCommand::MatchingCommand(const int argc, char **argv) : CommandParser(ar
     options_key[OptionKeyword::QuerySize] = "-qsize";
     options_key[OptionKeyword::QueryNumber] = "-qnumber";
     options_key[OptionKeyword::QueryProperty] = "-qprop";
+    options_key[OptionKeyword::alphaPar] = "-alpha";
+    options_key[OptionKeyword::betaPar] = "-beta";
     processOptions();
 };
 
@@ -88,4 +90,9 @@ void MatchingCommand::processOptions() {
 
     // CSR file path
     options_value[OptionKeyword::CSRFilePath] = getCommandOption(options_key[OptionKeyword::CSRFilePath]);
+
+    options_value[OptionKeyword::alphaPar] = getCommandOption(options_key[OptionKeyword::alphaPar]);
+    options_value[OptionKeyword::betaPar] = getCommandOption(options_key[OptionKeyword::betaPar]);
+
+
 }

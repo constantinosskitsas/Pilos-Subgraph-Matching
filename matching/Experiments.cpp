@@ -173,7 +173,7 @@ void Experiments::experiment2(string data_graph_path,string query_graph_path,str
 }
 
 //This experiment compare the overall performance of each algorithm with and without eigen value enhanced filter.
-matching_algo_outputs Experiments::experiment3(const string data_graph_path,const string query_graph_path,const string filter,const string eigen,ui* order_pointer) {
+matching_algo_outputs Experiments::experiment3(const string data_graph_path,const string query_graph_path,const string filter,const string eigen,ui* order_pointer,string alpha,string beta, string thnum) {
 
 //    string filters[6] = {"LDF","NLF","GQL","TSO","CFL","DPiso"};
 //PL->Pilos
@@ -183,6 +183,9 @@ matching_algo_outputs Experiments::experiment3(const string data_graph_path,cons
     inputs.qgraph_path = query_graph_path;
     inputs.filter = filter;
     inputs.order = "GQL";
+    inputs.alpha= alpha;
+    inputs.beta=beta;
+    inputs.thnum=thnum;
     if(inputs.filter!="CECI")
     inputs.engine = "LFTJ";
     else{

@@ -673,8 +673,6 @@ void EdgesCSBasicSet(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_g
 */ 
 void Vertices(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, Graph *query_graph, float **&eigenVq1, vector<map<ui, int>> &QueryNlabel,float **&eigenVD1)
 {
-
-    
     VectorXd devalues;
     VectorXd qevalues;
     bool con = true;
@@ -732,9 +730,9 @@ void Vertices(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, G
                 
                 //Eigen Value Pruning up to pruneEs value
                 for (kk = 0; kk < prunES; kk++)
-                {      //quick termination with qsiz
-                    //if(eigenVq1[i][kk]<=-1)
-                    //    break;
+                {      
+                    if(eigenVq1[i][kk]<=-1)
+                        break;
                     if (eigenVD1[data_vertex][kk] < eigenVq1[i][kk])
                     //Rounding errors for eigenvalue
                         if ((eigenVq1[i][kk] - eigenVD1[data_vertex][kk]) > 0.0001)
@@ -792,11 +790,11 @@ void VerticesMT2(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph
         bool con=false;
 
         for (int j = 0; j < labelsNum[reverseLab[label]]; ++j)
-        {//cout<<"in1"<<endl;
+        {
             VertexID data_vertex = labelData[reverseLab[label]][j];
-            //
+            
             if (data_graph->getVertexDegree(data_vertex) >= degree)
-            {//cout<<"in2"<<endl;
+            {
 
                 con = true;
                 for (int kk = 0; kk < prunES; kk++)
@@ -811,7 +809,7 @@ void VerticesMT2(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph
                         }
                 } // con=true;
                 if (con)
-                {//cout<<"in4"<<endl;
+                {
 
                     for (auto it = QueryNlabel[i].begin(); it != QueryNlabel[i].end(); ++it)
                     {
@@ -1071,7 +1069,7 @@ inline void removeVertexAndEgjesFKNP(vector<vector<CSV>> &FCS, int i, int deli)
 /* 
     Loads the query graph, 
     Calculates the eigenvalues for the query
-*/
+
 int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1)
 {
     ui** candidates1 = NULL;
@@ -1102,7 +1100,7 @@ int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file,
     }
         return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1);
 }
-
+*/
 int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha)
 {
     ui** candidates1 = NULL;
@@ -1131,8 +1129,6 @@ int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file,
             eigenQ[i][j] = eigenVq1(i, j);
         }
     }
-    
-    //cout<<CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates1, candidates_count1,EWeight,eigenVD1)<<endl;
     return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1,alpha);
 }
 
@@ -1302,7 +1298,7 @@ void fillENMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph,int thnum)
    ** Can be added together again however there is real no runtime cost.
    **clearWrong() Removes nodes.
 *
-*/
+
 int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1)
 {   
     int qsiz = query_graph->getVerticesCount();
@@ -1327,7 +1323,6 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
 
      
     Vertices(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1);
-    //VerticesMT2(FCS1, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1);
     for (int aa=0;aa<qsiz;aa++)
     FCS.emplace_back(FCS1[aa]);
     
@@ -1356,32 +1351,13 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
         while (ReverseRefinementNOTESN(NLabel,
                                   FCS, qsiz, query_graph, GDegree))
        clearWrong(FCS);
-      
-      
-   /*   bool st=true;
- st= ReverseRefinementNOTESNMT(NLabel,
-                                  FCS, qsiz, query_graph, GDegree);
-                                  clearWrong(FCS);
-   // int ct=0;
-    while (st==true){
-                                   st= ReverseRefinementNOTESN(NLabel,
-                              FCS, qsiz, query_graph, GDegree);
-                                    clearWrong(FCS);
-                                    
-                                  }
-        
-                        
-                                        
-            */                      
+                      
        
     //Not used Anymore-without the one degree rule
 
 
         ui mc=0;
-      //if (twohop<=1)
          mc=3;
-         //2nd hop and EigenPruning
-     
        while (RefinementEigen(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop)&&mc<5)
        //while (RefinementEigenMT2(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop)&&mc<5)
        
@@ -1417,16 +1393,13 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
     }
     return totalCand;
 }
-
+*/
 int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha)
 {   
     int qsiz = query_graph->getVerticesCount();
     int dsiz = data_graph->getVerticesCount();
     vector<vector<CSV>> FCS; //candidate space
     FCS.reserve(qsiz);
-    vector<vector<CSV>> FCS1(qsiz);
-    //    vector<vector<CSV>> FCS1; //candidate space
-    //FCS1.reserve(qsiz);
     vector<ui> DegreeK; //Discovered nodes for 2 hop
     vector<vector<pair<ui, int>>> QueryNlabel; 
     vector<map<ui, int>> NLabel; //Number of Labels 1hop
@@ -1440,26 +1413,17 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
 
     //Initial Pruning add remaining Candidate Vertices to Candidate Space
 
-     
     Vertices(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1);
-    //VerticesMT2(FCS1, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1);
-    for (int aa=0;aa<qsiz;aa++)
-    FCS.emplace_back(FCS1[aa]);
-    
     int count = 0;
     int Tcount = 0;
-   
+   cout<<FCS[0].size()<<endl;
     //Add Edges between nodes in candidate space 
-    EdgesCSBasicSet(FCS, qsiz, dsiz, data_graph, query_graph);
-    //EdgesCSBasicSetMT(FCS, qsiz, dsiz, data_graph, query_graph);
-   
-  
+    EdgesCSBasicSet(FCS, qsiz, dsiz, data_graph, query_graph);   
+
     // Get candidate nodes neigborhood information for fast pruning¨
     //Initial Pruning on Candidate Space
     while (InitPrunTCSR(FCS, qsiz, query_graph))     
     clearWrong(FCS);
-    //while (InitPrunTCSRMT(FCS, qsiz, query_graph))     
-    //clearWrong(FCS);
 
     fillEN(FCS, qsiz, query_graph);
     //fillENMT(FCS, qsiz, query_graph);
@@ -1471,31 +1435,9 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
         while (ReverseRefinementNOTESN(NLabel,
                                   FCS, qsiz, query_graph, GDegree))
        clearWrong(FCS);
-      
-      
-   /*   bool st=true;
- st= ReverseRefinementNOTESNMT(NLabel,
-                                  FCS, qsiz, query_graph, GDegree);
-                                  clearWrong(FCS);
-   // int ct=0;
-    while (st==true){
-                                   st= ReverseRefinementNOTESN(NLabel,
-                              FCS, qsiz, query_graph, GDegree);
-                                    clearWrong(FCS);
-                                    
-                                  }
-        
-                        
-                                        
-            */                      
-       
-    //Not used Anymore-without the one degree rule
-
-
+   
         ui mc=0;
-      //if (twohop<=1)
          mc=3;
-         //2nd hop and EigenPruning
      
        while (RefinementEigen(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop,alpha)&&mc<5)       
         { 
@@ -1504,8 +1446,6 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
             while (ReverseRefinementNOTESN(NLabel, FCS, qsiz, query_graph, GDegree))
                 clearWrong(FCS);
         }
-    //allocateBufferFCS(FCS, query_graph, candidates, candidates_count);
-    //ADD the candidates to the format That In-Memory Paper has everything.
     allocateBufferFCS1(FCS, query_graph, candidates, candidates_count,EWeight);
 
     for (int i = 0; i < qsiz; i++)
@@ -1525,7 +1465,6 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
     int totalCand = 0;
     for (int i = 0; i < query_graph->getVerticesCount(); i++)
     {
-        // cout<<"C(i) "<<candidates_count[i]<<",";
         totalCand = candidates_count[i] + totalCand;
     }
     return totalCand;
@@ -2059,7 +1998,7 @@ bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, 
                     }
 
                     if (tripletList.size() == IDDLC[0] * IDDLC[0])
-                    {//cout<<"hi"<<endl;
+                    {
                         evalues.resize(Eprun);
 
                         for (ui ss = 0; ss < Eprun; ss++)

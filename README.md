@@ -71,4 +71,5 @@ Paper under submission
 ## 
 ## Note
 The code is under refactor. Expected to be available 15-11-23.
-
+#### To-do
+Change Subgraph Matching code to acommodate alpha,beta,MT from parameters

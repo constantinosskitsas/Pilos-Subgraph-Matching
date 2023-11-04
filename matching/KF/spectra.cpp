@@ -423,7 +423,7 @@ bool InitPrunTCSR(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph)
     return ret;
 }
 
-bool InitPrunTCSRMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph)
+bool InitPrunTCSRMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph,int thnum)
 {   
     auto IPMT = [](Graph *query_graph,vector<vector<CSV>> &FCS,int start,int qsiz,int *pos,bool *res){
     int jj = 0;
@@ -486,7 +486,7 @@ bool InitPrunTCSRMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph)
     };
     bool ret = false;
     bool *ret1=&ret;
-        int Tnum=5;
+        int Tnum=thnum;
     thread th[Tnum];
     int pos=Tnum-1;
     int *pos1=&pos;
@@ -503,7 +503,7 @@ bool InitPrunTCSRMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph)
 }
 
 
-void EdgesCSBasicSetMT(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, Graph *query_graph)
+void EdgesCSBasicSetMT(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, Graph *query_graph,int thnum)
 {
 
     auto EDMT = [](Graph *data_graph,Graph *query_graph,vector<unordered_map<ui, ui>> &s,vector<vector<CSV>> &FCS,int start,int qsiz,int *pos)
@@ -576,7 +576,7 @@ void EdgesCSBasicSetMT(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data
     }
     // for CS. for every node of the CS(i)
 
-    int Tnum=5;
+    int Tnum=thnum;
     thread th[Tnum];
     int pos=Tnum-1;
     int *pos1=&pos;
@@ -771,7 +771,7 @@ void Vertices(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, G
     }
 }
 
-void VerticesMT2(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, Graph *query_graph, float **&eigenVq1 , vector<map<ui, int>> &QueryNlabel,float **&eigenVD1)
+void VerticesMT2(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, Graph *query_graph, float **&eigenVq1 , vector<map<ui, int>> &QueryNlabel,float **&eigenVD1,int thnum)
 {   
     auto MTVert = [](int *pos,int i,int qsiz,ui* labelsNum,const ui** labelData,Graph *data_graph,Graph *query_graph,float **eigenVD1, float **eigenVq1,vector<map<ui, int>> &QueryNlabel,vector<vector<CSV>> &FCS,ui *reverseLab )
     {
@@ -887,7 +887,7 @@ labelData = (const ui **)malloc(copies * sizeof(const ui *));
     int prunES = 5;
     prunES = qsiz - 3;
     prunES=30;
-    int Tnum=5;
+    int Tnum=thnum;
     thread th[Tnum];
     pos=Tnum-1;
     int *pos1=&pos;
@@ -1100,12 +1100,10 @@ int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file,
             eigenQ[i][j] = eigenVq1(i, j);
         }
     }
-    
-    //cout<<CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates1, candidates_count1,EWeight,eigenVD1)<<endl;
-    return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1);
+        return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1);
 }
 
-int SpectralMatchingMT(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1)
+int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha)
 {
     ui** candidates1 = NULL;
     
@@ -1135,7 +1133,40 @@ int SpectralMatchingMT(int sizd, Graph *data_graph, string input_query_graph_fil
     }
     
     //cout<<CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates1, candidates_count1,EWeight,eigenVD1)<<endl;
-    return CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1);
+    return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1,alpha);
+}
+
+int SpectralMatchingMT(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha,int thnum)
+{
+    ui** candidates1 = NULL;
+    
+    ui* candidates_count1 = NULL;
+    
+    Graph *query_graph = new Graph(true);
+    query_graph->loadGraphFromFile(input_query_graph_file);
+    
+    int sizq = query_graph->getVerticesCount();
+    ui Eprun = sizq - 3;
+    Eprun=30;
+
+    MatrixXd eigenVq1(sizq, Eprun);
+    int oMax=sizq*3;
+    oMax=300;
+    MTcalc12(query_graph, query_graph->getGraphMaxDegree(), eigenVq1, true, Eprun,oMax);
+    float **eigenQ = NULL;
+    eigenQ = new float *[sizq];
+    
+    for (ui i = 0; i < sizq; ++i)
+    {
+        eigenQ[i] = new float[Eprun];
+        for (ui j = 0; j < Eprun; j++)
+        {
+            eigenQ[i][j] = eigenVq1(i, j);
+        }
+    }
+    
+    //cout<<CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates1, candidates_count1,EWeight,eigenVD1)<<endl;
+    return CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1,alpha, thnum);
 }
 
 
@@ -1210,7 +1241,7 @@ void fillEN(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph)
 }
 
 
-void fillENMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph)
+void fillENMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph,int thnum)
 {
     auto ENMT = [](Graph *query_graph,vector<vector<CSV>> &FCS,int start,int qsiz,int *pos){
    int i=start;
@@ -1250,7 +1281,7 @@ void fillENMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph)
             memset(FCS[i][j].Nedge, 0, sizeof(int) * qsiz);
         }
     }
-        int Tnum=5;
+        int Tnum=thnum;
     thread th[Tnum];
     int pos=Tnum-1;
     int *pos1=&pos;
@@ -1387,7 +1418,7 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
     return totalCand;
 }
 
-int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1)
+int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha)
 {   
     int qsiz = query_graph->getVerticesCount();
     int dsiz = data_graph->getVerticesCount();
@@ -1400,61 +1431,49 @@ int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twoho
     vector<vector<pair<ui, int>>> QueryNlabel; 
     vector<map<ui, int>> NLabel; //Number of Labels 1hop
     vector<map<ui, int>> NLabel2; //Number of Labels 2hop 
-    //DegreeK[i]= sum(NLabel2[i])
+    
 
     //Exctract 1hop label information for query graph
     ExtractNImap(NLabel, query_graph, qsiz);
     //Extract 2hop label information for query graph
     ExtractUI2h(DegreeK, NLabel2, query_graph, qsiz);
-    //auto stop4 = high_resolution_clock::now();
-    //auto duration4 = duration_cast<milliseconds>(stop4 - start4);
-    //cout << "Extract Query Info " << duration4.count() << endl;
+
     //Initial Pruning add remaining Candidate Vertices to Candidate Space
-    // start4 = high_resolution_clock::now();
+
      
-    //Vertices(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1);
-    VerticesMT2(FCS1, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1);
+    Vertices(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1);
+    //VerticesMT2(FCS1, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1);
     for (int aa=0;aa<qsiz;aa++)
     FCS.emplace_back(FCS1[aa]);
     
-     //stop4 = high_resolution_clock::now();
-     //duration4 = duration_cast<milliseconds>(stop4 - start4);
-    //cout << "Vertices Pruning" << duration4.count() << endl;
     int count = 0;
     int Tcount = 0;
-   // start4 = high_resolution_clock::now();
+   
     //Add Edges between nodes in candidate space 
-    //EdgesCSBasicSet(FCS, qsiz, dsiz, data_graph, query_graph);
-    EdgesCSBasicSetMT(FCS, qsiz, dsiz, data_graph, query_graph);
-     //   stop4 = high_resolution_clock::now();
-     //duration4 = duration_cast<milliseconds>(stop4 - start4);
-    //cout << "Edges CS " << duration4.count() << endl;
+    EdgesCSBasicSet(FCS, qsiz, dsiz, data_graph, query_graph);
+    //EdgesCSBasicSetMT(FCS, qsiz, dsiz, data_graph, query_graph);
+   
+  
     // Get candidate nodes neigborhood information for fast pruning¨
-   // start4 = high_resolution_clock::now();
     //Initial Pruning on Candidate Space
-    //while (InitPrunTCSR(FCS, qsiz, query_graph))     
-    //clearWrong(FCS);
-    while (InitPrunTCSRMT(FCS, qsiz, query_graph))     
+    while (InitPrunTCSR(FCS, qsiz, query_graph))     
     clearWrong(FCS);
-    // stop4 = high_resolution_clock::now();
-    // duration4 = duration_cast<milliseconds>(stop4 - start4);
-   // cout << "IP " << duration4.count() << endl;
-  //  start4 = high_resolution_clock::now();
-    //fillEN(FCS, qsiz, query_graph);
-    fillENMT(FCS, qsiz, query_graph);
-   // stop4 = high_resolution_clock::now();
-  //   duration4 = duration_cast<milliseconds>(stop4 - start4);
-  //  cout << "fill EN " << duration4.count() << endl;
+    //while (InitPrunTCSRMT(FCS, qsiz, query_graph))     
+    //clearWrong(FCS);
+
+    fillEN(FCS, qsiz, query_graph);
+    //fillENMT(FCS, qsiz, query_graph);
+
     int GDegree = query_graph->getGraphMaxDegree();
     //Neigborhood Pruning
-  //  start4 = high_resolution_clock::now();
+
     int cc=0;
-    //while (ReverseRefinementNOTESN(NLabel,
-     //                             FCS, qsiz, query_graph, GDegree))
-    //   clearWrong(FCS);
+        while (ReverseRefinementNOTESN(NLabel,
+                                  FCS, qsiz, query_graph, GDegree))
+       clearWrong(FCS);
       
       
-      bool st=true;
+   /*   bool st=true;
  st= ReverseRefinementNOTESNMT(NLabel,
                                   FCS, qsiz, query_graph, GDegree);
                                   clearWrong(FCS);
@@ -1468,23 +1487,23 @@ int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twoho
         
                         
                                         
-                                
+            */                      
+       
+    //Not used Anymore-without the one degree rule
+
 
         ui mc=0;
+      //if (twohop<=1)
          mc=3;
+         //2nd hop and EigenPruning
      
-       //while (RefinementEigen(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop)&&mc<5)
-       while (RefinementEigenMT2(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop)&&mc<5)
-       
+       while (RefinementEigen(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop,alpha)&&mc<5)       
         { 
             mc++;
             clearWrong(FCS);
             while (ReverseRefinementNOTESN(NLabel, FCS, qsiz, query_graph, GDegree))
                 clearWrong(FCS);
         }
-  //  stop4 = high_resolution_clock::now();
-  //   duration4 = duration_cast<milliseconds>(stop4 - start4);
-  //  cout << "Twohop " << duration4.count() << endl;
     //allocateBufferFCS(FCS, query_graph, candidates, candidates_count);
     //ADD the candidates to the format That In-Memory Paper has everything.
     allocateBufferFCS1(FCS, query_graph, candidates, candidates_count,EWeight);
@@ -1507,6 +1526,85 @@ int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twoho
     for (int i = 0; i < query_graph->getVerticesCount(); i++)
     {
         // cout<<"C(i) "<<candidates_count[i]<<",";
+        totalCand = candidates_count[i] + totalCand;
+    }
+    return totalCand;
+}
+
+int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha,int thnum)
+{   
+    int qsiz = query_graph->getVerticesCount();
+    int dsiz = data_graph->getVerticesCount();
+    vector<vector<CSV>> FCS; //candidate space
+    FCS.reserve(qsiz);
+    vector<vector<CSV>> FCS1(qsiz);
+    //    vector<vector<CSV>> FCS1; //candidate space
+    //FCS1.reserve(qsiz);
+    vector<ui> DegreeK; //Discovered nodes for 2 hop
+    vector<vector<pair<ui, int>>> QueryNlabel; 
+    vector<map<ui, int>> NLabel; //Number of Labels 1hop
+    vector<map<ui, int>> NLabel2; //Number of Labels 2hop 
+    //DegreeK[i]= sum(NLabel2[i])
+
+    //Exctract 1hop label information for query graph
+    ExtractNImap(NLabel, query_graph, qsiz);
+    //Extract 2hop label information for query graph
+    ExtractUI2h(DegreeK, NLabel2, query_graph, qsiz);
+    VerticesMT2(FCS1, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1,thnum);
+    for (int aa=0;aa<qsiz;aa++)
+    FCS.emplace_back(FCS1[aa]);
+    int count = 0;
+    int Tcount = 0;
+    EdgesCSBasicSetMT(FCS, qsiz, dsiz, data_graph, query_graph,thnum);
+
+    while (InitPrunTCSRMT(FCS, qsiz, query_graph,thnum))     
+    clearWrong(FCS);
+
+    fillENMT(FCS, qsiz, query_graph,thnum);
+
+    int GDegree = query_graph->getGraphMaxDegree();
+  
+    int cc=0;
+      bool st=true;
+ st= ReverseRefinementNOTESNMT(NLabel,
+                                  FCS, qsiz, query_graph, GDegree,thnum);
+                                  clearWrong(FCS);
+    while (st==true){
+                                   st= ReverseRefinementNOTESN(NLabel,
+                              FCS, qsiz, query_graph, GDegree);
+                                    clearWrong(FCS);
+                                    
+                                  }
+
+        ui mc=0;
+         mc=3;
+            while (RefinementEigenMT2(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop,alpha, thnum)&&mc<5)
+       
+        { 
+            mc++;
+            clearWrong(FCS);
+            while (ReverseRefinementNOTESN(NLabel, FCS, qsiz, query_graph, GDegree))
+                clearWrong(FCS);
+        }
+    allocateBufferFCS1(FCS, query_graph, candidates, candidates_count,EWeight);
+
+    for (int i = 0; i < qsiz; i++)
+    {
+        for (int j = 0; j < FCS[i].size(); j++){
+            candidates[i][j] = FCS[i][j].ID;
+
+            //ED is for Eigen Ordering -> Not used.
+           EWeight[i][j]=FCS[i][j].ED;
+            //EWeight[i][j]=FCS[i][j].edges.size();
+            
+        }
+
+        candidates_count[i] = FCS[i].size();
+    }
+
+    int totalCand = 0;
+    for (int i = 0; i < query_graph->getVerticesCount(); i++)
+    {
         totalCand = candidates_count[i] + totalCand;
     }
     return totalCand;
@@ -1627,7 +1725,7 @@ bool ReverseRefinementNOTESN(vector<map<ui, int>> NLabel, vector<vector<CSV>> &F
     return returnhere;
 }
 
-bool ReverseRefinementNOTESNMT(vector<map<ui, int>> &NLabel, vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph, ui GDegree)
+bool ReverseRefinementNOTESNMT(vector<map<ui, int>> &NLabel, vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph, ui GDegree,int thnum)
 {
     
     auto ROH = [](int *pos1,vector<vector<CSV>> &FCS,int i, int siz,vector<map<ui, int>> &NLabel, 
@@ -1736,7 +1834,7 @@ bool ReverseRefinementNOTESNMT(vector<map<ui, int>> &NLabel, vector<vector<CSV>>
     
     
     bool *ret1=&returnhere;
-        int Tnum=5;
+        int Tnum=thnum;
 
     
     ui num=10;
@@ -1745,7 +1843,7 @@ bool ReverseRefinementNOTESNMT(vector<map<ui, int>> &NLabel, vector<vector<CSV>>
     
     for (int i=0;i<qsiz;i++){
         int siz =  FCS[i].size();
-        int Tnum=5;
+        int Tnum=thnum;
         if(Tnum*num>siz){
         
         Tnum=int(siz/num);
@@ -1777,6 +1875,7 @@ bool ReverseRefinementNOTESNMT(vector<map<ui, int>> &NLabel, vector<vector<CSV>>
 ** We store the edges as triplets nd create a sparse Eigen MatrixXD
 ** We calculate eigenValues only if it passed the second pruning rule and the size of Matrix is less than oMax
 */
+
 bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vector<CSV>> &FCS,
  int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> DM, int twohop)
 {
@@ -2034,8 +2133,210 @@ bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, 
     return returnhere;
 }
 
+bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vector<CSV>> &FCS,
+ int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> DM, int twohop,int alpha)
+{
+    vector<T> tripletList;
+    std::map<int, int> count_uniques;
+    std::set<std::pair<int, int>> seen;
+    std::vector<Triplet<double>> unique_triplets;
+    unordered_map<ui, ui> SID; //number of unique nodes visited
+    unordered_set<ui> SIDD;   //number of unique query nodes (q) visited 
+    //SIDD.reserve(qsiz);
+
+    int IDDLC[3] = {0, 0, 0};
+    bool returnhere = false;
+    VertexID vertex = 0;
+    vector<VertexID> temp2;
+    vector<pair<VertexID, VertexID>> q_curr;
+
+    int Eprun = qsiz - 3;
+    Eprun=30;
+    VertexID vertexDegree = 0;
+    VertexID vertexlabel = 0;
+    ui SIDDSize = 0;
+    bool continueE = false;
+    bool con = true;
+    ui oMax;
+    ui oMax2;
+    oMax = alpha;
+            float** LM = new float*[oMax+1];
+    ui* SIDN = new ui[qsiz];
+    for (int i = 0; i <= oMax; i++) {
+        LM[i] = new float[oMax+1];
+        memset(LM[i], 0, oMax+1 * oMax+1 * sizeof(float));
+    }
+
+    VectorXd evalues(Eprun);
+    ui i;
+    ui j;
+    float sumD = 0;
+    map<ui, int> NLabelT;
+    map<ui, int> NLabelT1;
+
+    for (int dd = 0; dd < qsiz; dd++)
+    {   i=dd;
+        ui NDL=query_graph->getVertexDegree(i);
+        
+        for (j = 0; j < FCS[i].size(); j++)
+        {
+            if (FCS[i][j].deleted == true || FCS[i][j].change == false)
+                continue;
+            if (!FCS[i][j].NedgeC)
+            {
+                tripletList.clear();
+                q_curr.clear();
+                SID.clear();
+                IDDLC[0] = 0;
+                NLabelT = NLabel2[i];
+                NLabelT1 = NLabel[i];
+                IDDLC[1] = NLabel2[i].size();
+                IDDLC[2] = NLabel[i].size();
+
+                for (int aa=0;aa<oMax;aa++){
+                    for (int bb=0;bb<oMax;bb++){
+                        LM[aa][bb]=0;
+                    }
+                }
+                for (int aa=0;aa<qsiz;aa++)
+                SIDN[aa]=0;
+                SIDN[i]=1;
+                SIDDSize=0;
+
+                OneHopEigenPM(FCS[i][j], SID, SIDN, IDDLC, LM, NLabelT,NLabelT1,
+                                 query_graph, q_curr, oMax); 
+
+                if (IDDLC[0] <= oMax||(twohop==100 &&IDDLC[0] <= oMax2))
+               
+                {
+
+                    
+                        SecHopEigenLM(q_curr, SID, SIDN, NLabelT, IDDLC, FCS, LM, query_graph, oMax, i,FCS[i][j]);
+                      for (int aa=0;aa<qsiz;aa++)
+                        if(SIDN[aa]==1)
+                            SIDDSize ++; }
+                if (IDDLC[0] <= oMax )
+                
+                    if (IDDLC[0] < DM[i] || IDDLC[1] > 0 || SIDDSize < DM[i] || (IDDLC[2] > 0))
+                    {
+                        removeVertexAndEgjesFK(FCS, i, j);
+                        returnhere = true;
+                        //continue;
+                        IDDLC[0] = oMax + 1;
+                    }
+
+                if (IDDLC[0] <= oMax)
+                {   
+                    if(false){
+                                            count_uniques.clear();
+                    seen.clear();
+                    unique_triplets.clear();
+                    for (auto t : tripletList)
+                    {
+                        if (seen.count({t.row(), t.col()}) == 0)
+                        {
+                            unique_triplets.push_back(Triplet<double>(t.row(), t.col(), -1));
+                            seen.insert({t.row(), t.col()});
+                            count_uniques[t.row()]++;
+                        }
+                    }
+                    for (auto it : count_uniques)
+                    {
+                        unique_triplets.push_back(Triplet<double>(it.first, it.first, it.second));
+                    }
+                    tripletList = unique_triplets;
+                    }else{
+                        ui cunt=0;
+                        for (int wish=0;wish<IDDLC[0];wish++){
+                             cunt=0;
+                            for (int best=0;best<IDDLC[0];best++){
+                                if (LM[wish][best]==-1){
+                                    cunt++;
+                                    tripletList.emplace_back(T(wish, best, -1));
+                                }
+                            }
+                            tripletList.emplace_back(T(wish, wish, cunt));
+                        }
+                    }
+
+                    if (tripletList.size() == IDDLC[0] * IDDLC[0])
+                    {
+                        evalues.resize(Eprun);
+
+                        for (ui ss = 0; ss < Eprun; ss++)
+                        {
+                            if (ss < IDDLC[0]){
+                                evalues(ss) = IDDLC[0] ;
+                            }
+                                
+                            else if (ss == IDDLC[0]-1)
+                                evalues(ss) = 0;
+                            else
+                                //evalues(ss) = -1;
+                                evalues(ss) = 0;
+                        }
+                    }
+                    else
+                    {
+                        SparseMatrix<double> M(IDDLC[0], IDDLC[0]);
+                        M.setFromTriplets(tripletList.begin(), tripletList.end(), [](double a, double b)
+                                          { return b; });
+                                           M.makeCompressed();
+                                            //if(!isLaplacianMatrix(M))
+                                            //cout<<"help";
+                        calcEigens1(M, Eprun, evalues, IDDLC[0]);
+                        //calcEigensEigenLib(M,Eprun,evalues,IDDLC[0]);
+                    }
+                    con = true;
+                    sumD = 0;
+                    for (int dd = 0; dd < Eprun; dd++)
+                    {
+                        if (eigenVq1[i][dd] <= -1) 
+                            break;
+                        if (evalues[dd] < eigenVq1[i][dd])
+                        {
+                            if ((eigenVq1[i][dd] - evalues[dd]) > 0.0001)
+                            {
+                                con = false;
+                                break;
+                            }
+                        }
+                        //Eigen Ordering If we want to eigenvalues uncomment.
+                        //Add the values up 
+                        else
+                            sumD += (evalues[dd] - eigenVq1[i][dd]);
+                    }
+                    if (!con)
+                    {
+                        removeVertexAndEgjesFK(FCS, i, j);
+                        returnhere = true;
+                    }
+
+                    else
+                    {
+                        FCS[i][j].change = false;
+                        //Eigen Ordering
+                        FCS[i][j].ED = sumD;
+                    }
+                }
+                else
+                {
+                    FCS[i][j].change = false;
+                }
+            }
+            else
+            {
+                removeVertexAndEgjesFK(FCS, i, j);
+                returnhere = true;
+            }
+        }
+    }
+    return returnhere;
+}
+
+
 bool RefinementEigenMT2(vector<map<ui, int>> &NLabel, vector<map<ui, int>> &NLabel2, vector<vector<CSV>> &FCS,
- int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> &DM, int twohop)
+ int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> &DM, int twohop,int alpha,int thnum)
 {
 
         auto AdJAdl1 = [](int *pos,vector<vector<CSV>> &FCS,int i, VertexID d, VertexID siz,vector<map<ui, int>> &NLabel, vector<map<ui, int>> &NLabel2,
@@ -2224,20 +2525,7 @@ bool RefinementEigenMT2(vector<map<ui, int>> &NLabel, vector<map<ui, int>> &NLab
     bool *ret=&returnhere;
     ui oMax;
     ui oMax2;
-    oMax = 150;
-
-    if (twohop==0){
-    oMax = 25;   
-    }
-    else if (twohop==1){
-    oMax = 50;   
-    }else if (twohop==2){
-    oMax = 75;   
-    }else if (twohop==3){
-    oMax = 100;   
-    }else if (twohop==4){
-    oMax = 125;   
-    }
+    oMax = alpha;
     ui i;
     ui j;
     float sumD = 0;
@@ -2246,7 +2534,7 @@ bool RefinementEigenMT2(vector<map<ui, int>> &NLabel, vector<map<ui, int>> &NLab
     
         
     ui NDL=query_graph->getVertexDegree(i);
-    int Tnum=5;
+    int Tnum=thnum;
     ui num=10;
     int siz =  FCS[i].size();
     if(Tnum*num>siz){

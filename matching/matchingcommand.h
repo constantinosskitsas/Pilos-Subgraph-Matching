@@ -131,7 +131,7 @@ public:
         return options_value[OptionKeyword::alphaPar] == "" ? "25" : options_value[OptionKeyword::alphaPar];
     }
         std::string getbeta() {
-        return options_value[OptionKeyword::betaPar] == "" ? "500" : options_value[OptionKeyword::betaPar];
+        return options_value[OptionKeyword::betaPar] == "" ? "0" : options_value[OptionKeyword::betaPar];
     }
 
 };

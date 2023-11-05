@@ -243,14 +243,14 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         FilterVertices::LDFFilter(data_graph, query_graph, candidates, candidates_count,isEigenCheck,top_s);
     } else if(input_filter_type=="PL"){
         int alpha1=stoi(alpha);
-        cout<<alpha1<<" ,"<<beta<<endl;
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight,eigenVD1,alpha1);
+        int beta1=stoi(beta);
+        SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight,eigenVD1,alpha1,beta1);
     }
     else if(input_filter_type=="PLMT"){
         int alpha1=stoi(alpha);
         int thnum1=stoi(thnum);
-        cout<<alpha1<<" ,"<<beta<<endl;
-        SpectralMatchingMT(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight,eigenVD1,alpha1,thnum1);
+        int beta1=stoi(beta);
+        SpectralMatchingMT(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight,eigenVD1,alpha1,thnum1,beta1);
     }
     else if (input_filter_type == "NLF") {
         FilterVertices::NLFFilter(data_graph, query_graph, candidates, candidates_count,false,top_s);

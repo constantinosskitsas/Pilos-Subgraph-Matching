@@ -86,11 +86,78 @@ inline bool SecHopEigenLM(vector<pair<VertexID, VertexID>> &q_curr, unordered_ma
     vector<ui> tempx;
     ui counter=0;
     kk=0;
-    ui omaxUP=500;
     while (kk < q_curr.size())
     {
         temp1 = q_curr[kk];
         //tempxx=tempx[kk];
+        kk++;
+        if (temp1.first == 1000000){
+            continue;
+        }
+            
+        // SID.insert(temp1.first);
+        tempxx = findIndBS(FCS, temp1.second, temp1.first);
+        vx1 = ID[FCS[temp1.first][tempxx].ID];
+        for (int i = 0; i < FCS[temp1.first][tempxx].edges.size(); i++)
+        {
+
+             if (FCS[temp1.first][tempxx].edges[i].first == 1000000|| FCS[temp1.first][tempxx].edges[i].first == qID)
+                continue;
+            SID[FCS[temp1.first][tempxx].edges[i].first]=1;
+            vtemp = FCS[temp1.first][tempxx].edges[i].second;
+            auto [it1, success] = ID.try_emplace(vtemp, IDDLC[0]);
+
+            if (success)
+            {
+                vx2 = IDDLC[0];
+                IDDLC[0]++;
+                if (IDDLC[1] > 0)
+                {
+                    labela = query_graph->getVertexLabel(FCS[temp1.first][tempxx].edges[i].first);
+                    EvalNeigb2[labela]--;
+                    if (EvalNeigb2[labela] == 0)
+                        IDDLC[1]--;
+                }
+                if (IDDLC[0] > Omax )
+
+                {  
+                    return true;
+                }
+
+            }
+            else
+            {
+                vx2 = ID[vtemp];
+                
+            }
+            LM[vx1][vx2]=-1;
+            LM[vx2][vx1]=-1;  
+        }
+    }
+    q_curr.clear();
+    return (true);
+}
+
+inline bool SecHopEigenLMbeta(vector<pair<VertexID, VertexID>> &q_curr, unordered_map<ui, ui> &ID, ui *&SID,map<ui, int> &EvalNeigb2,
+                               int *IDDLC, vector<vector<CSV>> &FCS, float **&LM, Graph *query_graph, ui Omax, int qID,CSV &cvertex,int beta)
+{
+    pair<VertexID, VertexID> temp1;
+    VertexID tempxx = 0;
+    vector<VertexID> temp2;
+    VertexID vx1 = 0;
+    VertexID vx2 = 0;
+    VertexID DN = 0;
+    unordered_set<ui> EdgeF;
+    int kk = 0;
+    ui labela = 0;
+    VertexID vtemp = 0;
+    vector<ui> tempx;
+    ui counter=0;
+    kk=0;
+    ui omaxUP=beta;
+    while (kk < q_curr.size())
+    {
+        temp1 = q_curr[kk];
         kk++;
 
         // QN = ;
@@ -99,7 +166,6 @@ inline bool SecHopEigenLM(vector<pair<VertexID, VertexID>> &q_curr, unordered_ma
             continue;
         }
             
-        // SID.insert(temp1.first);
         tempxx = findIndBS(FCS, temp1.second, temp1.first);
         
         vx1 = ID[FCS[temp1.first][tempxx].ID];
@@ -125,9 +191,7 @@ inline bool SecHopEigenLM(vector<pair<VertexID, VertexID>> &q_curr, unordered_ma
                 }
                 if (IDDLC[0] > Omax )
 
-                {  // if (counter>1000)
-                    //cout<<"Exited counter "<<counter<<endl;
-                    
+                {  
                     return true;
                 }
 
@@ -146,8 +210,6 @@ inline bool SecHopEigenLM(vector<pair<VertexID, VertexID>> &q_curr, unordered_ma
         }
     }
     q_curr.clear();
-    //if (counter>1000)
-    //cout<<"Non Exited counter "<<counter<<endl;
     return (true);
 }
 
@@ -1101,7 +1163,7 @@ int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file,
         return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1);
 }
 */
-int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha)
+int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha,int beta)
 {
     ui** candidates1 = NULL;
     
@@ -1129,10 +1191,10 @@ int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file,
             eigenQ[i][j] = eigenVq1(i, j);
         }
     }
-    return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1,alpha);
+    return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1,alpha,beta);
 }
 
-int SpectralMatchingMT(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha,int thnum)
+int SpectralMatchingMT(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha,int thnum,int beta)
 {
     ui** candidates1 = NULL;
     
@@ -1160,7 +1222,7 @@ int SpectralMatchingMT(int sizd, Graph *data_graph, string input_query_graph_fil
             eigenQ[i][j] = eigenVq1(i, j);
         }
     }
-    return CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1,alpha, thnum);
+    return CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1,alpha, thnum,beta);
 }
 
 
@@ -1392,7 +1454,7 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
     return totalCand;
 }
 */
-int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha)
+int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha,int beta)
 {   
     int qsiz = query_graph->getVerticesCount();
     int dsiz = data_graph->getVerticesCount();
@@ -1437,7 +1499,7 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
         ui mc=0;
          mc=3;
      
-       while (RefinementEigen(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop,alpha)&&mc<5)       
+       while (RefinementEigen(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop,alpha,beta)&&mc<5)       
         { 
             mc++;
             clearWrong(FCS);
@@ -1468,7 +1530,7 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
     return totalCand;
 }
 
-int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha,int thnum)
+int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1,int alpha,int thnum,int beta)
 {   
     int qsiz = query_graph->getVerticesCount();
     int dsiz = data_graph->getVerticesCount();
@@ -1515,7 +1577,7 @@ int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twoho
 
         ui mc=0;
          mc=3;
-            while (RefinementEigenMT2(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop,alpha, thnum)&&mc<5)
+            while (RefinementEigenMT2(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop,alpha, thnum,beta)&&mc<5)
        
         { 
             mc++;
@@ -2071,7 +2133,7 @@ bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, 
 }
 
 bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vector<CSV>> &FCS,
- int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> DM, int twohop,int alpha)
+ int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> DM, int twohop,int alpha,int beta)
 {
     vector<T> tripletList;
     std::map<int, int> count_uniques;
@@ -2147,8 +2209,10 @@ bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, 
                
                 {
 
-                    
-                        SecHopEigenLM(q_curr, SID, SIDN, NLabelT, IDDLC, FCS, LM, query_graph, oMax, i,FCS[i][j]);
+                if (beta==0)    
+                SecHopEigenLM(q_curr, SID, SIDN, NLabelT, IDDLC, FCS, LM, query_graph, oMax, i,FCS[i][j]);
+                else
+                SecHopEigenLMbeta(q_curr, SID, SIDN, NLabelT, IDDLC, FCS, LM, query_graph, oMax, i,FCS[i][j],beta);      
                       for (int aa=0;aa<qsiz;aa++)
                         if(SIDN[aa]==1)
                             SIDDSize ++; }
@@ -2273,7 +2337,7 @@ bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, 
 
 
 bool RefinementEigenMT2(vector<map<ui, int>> &NLabel, vector<map<ui, int>> &NLabel2, vector<vector<CSV>> &FCS,
- int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> &DM, int twohop,int alpha,int thnum)
+ int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> &DM, int twohop,int alpha,int thnum,int beta)
 {
 
         auto AdJAdl1 = [](int *pos,vector<vector<CSV>> &FCS,int i, VertexID d, VertexID siz,vector<map<ui, int>> &NLabel, vector<map<ui, int>> &NLabel2,
@@ -2345,7 +2409,10 @@ bool RefinementEigenMT2(vector<map<ui, int>> &NLabel, vector<map<ui, int>> &NLab
                 if (IDDLC[0] <= oMax||(twohop==100 &&IDDLC[0] <= oMax2))
                 
                 {
+                if (oMax2==0)    
                 SecHopEigenLM(q_curr, SID, SIDN, NLabelT, IDDLC, FCS, LM, query_graph, oMax, i,FCS[i][j]);
+                else
+                SecHopEigenLMbeta(q_curr, SID, SIDN, NLabelT, IDDLC, FCS, LM, query_graph, oMax, i,FCS[i][j],oMax2);
                       for (int aa=0;aa<qsiz;aa++)
                         if(SIDN[aa]==1)
                             SIDDSize ++; }
@@ -2489,7 +2556,7 @@ bool RefinementEigenMT2(vector<map<ui, int>> &NLabel, vector<map<ui, int>> &NLab
     //cout<<"ID i= "<<i<<"siz"<<siz<<endl;
     for (int d = 0; d < Tnum; d++)
     {//cout<< div * d<<" to - "<<div * (d + 1)<<endl;
-        th[d] = thread(AdJAdl1,pos1, ref(FCS), i,d, siz, ref(NLabel), ref(NLabel2), query_graph,eigenVq1,ref(DM),twohop,oMax,qsiz,oMax2,ret);
+        th[d] = thread(AdJAdl1,pos1, ref(FCS), i,d, siz, ref(NLabel), ref(NLabel2), query_graph,eigenVq1,ref(DM),twohop,oMax,qsiz,beta,ret);
     }
     //cout<< div * (Tnum - 1)<<" to - "<<siz<<endl;
     for (int d = 0; d < Tnum; d++)

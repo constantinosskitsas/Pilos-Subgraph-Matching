@@ -26,7 +26,6 @@ void GenerateFilteringPlan::generateCFLFilterPlan(Graph *data_graph, Graph *quer
     ui query_vertices_num = query_graph->getVerticesCount();
     VertexID start_vertex = selectCFLFilterStartVertex(data_graph, query_graph,isEigenCheck,top_s);
     GraphOperations::bfsTraversal(query_graph, start_vertex, tree, order);
-    cout<<"hi2"<<endl;
     std::vector<ui> order_index(query_vertices_num);
     for (ui i = 0; i < query_vertices_num; ++i) {
         VertexID query_vertex = order[i];

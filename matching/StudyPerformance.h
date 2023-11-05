@@ -20,6 +20,7 @@ struct matching_algo_inputs {
     string alpha;
     string beta;
     string thnum;
+    string embcount;
 };
 
 struct matching_algo_outputs{

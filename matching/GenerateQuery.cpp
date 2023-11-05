@@ -251,7 +251,6 @@ bool GenerateQueryS(ui QS,const Graph *data_graph,ui MinDen,int dd,bool stop,str
         }
     }
     if (((ED*2)/QS)>MinDen&&stop){
-        cout<<"hi"<<endl;
         randomRemoval(a,countS,(2*ED-(MinDen*QS))/2,QS);
         ED=MinDen*QS;
     }

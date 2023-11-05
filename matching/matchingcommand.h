@@ -109,7 +109,9 @@ public:
     std::string getMaximumEmbeddingNum() {
         return options_value[OptionKeyword::MaxOutputEmbeddingNum] == "" ? "MAX" : options_value[OptionKeyword::MaxOutputEmbeddingNum];
     }
-
+    std::string getMaximumEmbeddingNum1() {
+        return options_value[OptionKeyword::MaxOutputEmbeddingNum] == "" ? "100000" : options_value[OptionKeyword::MaxOutputEmbeddingNum];
+    }
     std::string getTimeLimit() {
         return options_value[OptionKeyword::SpectrumAnalysisTimeLimit] == "" ? "60" : options_value[OptionKeyword::SpectrumAnalysisTimeLimit];
     }

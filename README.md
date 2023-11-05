@@ -26,8 +26,8 @@ We build our algorithm on top of SIGMOD'2020 paper "In-Memory Subgraph Matching:
 We kept all the functionalities of the framework and for mospecific details we refer to [Code](https://github.com/RapidsAtHKUST/SubgraphMatching).
 
 ## Additional Techniques Supported
-|Pilos| the filtering method of Pilos |
-|PilosMT| the filtering method of Pilos multi-thread |
+|Pilos| the filtering method of Pilos | PL
+|PilosMT| the filtering method of Pilos multi-thread | PLMT
 
 ## Compile
 Under the root directory of the project, execute the following commands to compile the source code.
@@ -41,14 +41,19 @@ make
 
 ## Execute
 
--dataset the dataset, -qsize query size, -qnumber, -qprop query name , -filter filter algorithm
+-dataset the dataset, -qsize query size, -qnumber, -qprop query name , -filter filter algorithm, -alpha alpha parameter, -beta beta parameter
 PL for alpha=25,PLA alpha 50,PLB alpha 75,PLA alpha 100,PLA alpha 125,
 PL to be changed to accept alpha as parameter.
 beta will be added also.
 MT to be added by parameter also.
 ```zsh
-timeout 3600s ./SubgraphMatching.out -dataset $t -qsize $j -qnumber $i -qprop G -filter PL
+timeout 3600s ./SubgraphMatching.out -dataset $t -qsize $j -qnumber $i -qprop G -filter PL -alpha $alpha -beta 0 -n 5 -num 100000
 ```
+Example
+```zsh
+timeout 3600s ./SubgraphMatching.out -dataset dblp -qsize 32 -qnumber 1 -qprop G -filter PL -alpha 125 
+```
+
 ### Query Generation
 To create queries use -qnumber for the number of queries, -qprop the name of the queries you want -dataset the name of the dataset and -filter GQ.
 For example, to generate 400 queries for dblp
@@ -72,4 +77,5 @@ Paper under submission
 ## Note
 The code is under refactor. Expected to be available 15-11-23.
 #### To-do
-Change Subgraph Matching code to acommodate alpha,beta,MT from parameters
+Change Subgraph Matching code to acommodate beta from parameters
+Separate Eigenvalues for GQL-DP-iso and CFL.

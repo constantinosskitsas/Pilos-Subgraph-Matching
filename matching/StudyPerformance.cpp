@@ -119,7 +119,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     string alpha=inputs.alpha;
     string beta=inputs.beta;
     string thnum=inputs.thnum;
-    
+    string embdcount=inputs.embcount;
     
     matching_algo_outputs outputs;
     /**
@@ -161,7 +161,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     float **eigenVD1 = NULL;
     ui dsiz=0;
     if (input_csr_file_path.empty()) {
-        if(inputs.filter=="KF"||inputs.filter=="KFE"||inputs.filter=="KFD"||inputs.filter=="KFR"||inputs.filter=="PL"){
+        if(inputs.filter=="KF"||inputs.filter=="KFE"||inputs.filter=="KFD"||inputs.filter=="PLMT"||inputs.filter=="PL"){
             data_graph->loadGraphFromFile(input_data_graph_file);
             data_graph->BuildLabelOffset();
             dsiz= data_graph->getVerticesCount();
@@ -246,6 +246,12 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         cout<<alpha1<<" ,"<<beta<<endl;
         SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight,eigenVD1,alpha1);
     }
+    else if(input_filter_type=="PLMT"){
+        int alpha1=stoi(alpha);
+        int thnum1=stoi(thnum);
+        cout<<alpha1<<" ,"<<beta<<endl;
+        SpectralMatchingMT(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0,candidates,candidates_count,EWeight,eigenVD1,alpha1,thnum1);
+    }
     else if (input_filter_type == "NLF") {
         FilterVertices::NLFFilter(data_graph, query_graph, candidates, candidates_count,false,top_s);
     }else if (input_filter_type == "NLFE") {
@@ -255,9 +261,9 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     } else if (input_filter_type == "TSO") {
         FilterVertices::TSOFilter(data_graph, query_graph, candidates, candidates_count, tso_order, tso_tree,isEigenCheck,top_s);
     } else if (input_filter_type == "CFL") {
-        cout<<"hi1"<<endl;
+        
         FilterVertices::CFLFilter(data_graph, query_graph, candidates, candidates_count, cfl_order, cfl_tree,isEigenCheck,top_s);
-        cout<<"hi2"<<endl;
+        
      }else if (input_filter_type == "DPiso") {
 
         FilterVertices::DPisoFilter(data_graph, query_graph, candidates, candidates_count, dpiso_order, dpiso_tree,false,top_s);
@@ -378,14 +384,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
                     ED[d]=ED[d]+EWeight[d][k];
                     if(EWeight[d][k]>maxED)
                         maxED=EWeight[d][k];
-                }
-            //ED[d]=ED[d]+count1*(maxED+qsiz);
-            //if(ED[d]>maxEDW)
-            //    maxEDW=ED[d];
-            //if(maxCan<candidates_count[d])
-            //    maxCan=candidates_count[d];
-            //maxED=0;
-           // count1=0;                
+                }             
         }
         int aa=0.5;
         if(maxED==0)
@@ -473,7 +472,7 @@ GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph,ED, matching_or
      else if (input_order_type == "GQL") {
 
         if (inputs.order_pointer == NULL){
-            cout<<"hi2"<<endl;
+            
             GenerateQueryPlan::generateGQLQueryPlan(data_graph, query_graph, candidates_count, matching_order, pivots);
 
         }
@@ -565,11 +564,6 @@ GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph,ED, matching_or
         }
         outputs.matching_order_string.pop_back();
     }
-
-
-
-
-
     size_t output_limit = 0;
     size_t embedding_count = 0;
     if (input_max_embedding_num == "MAX") {
@@ -578,10 +572,8 @@ GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph,ED, matching_or
     else {
         sscanf(input_max_embedding_num.c_str(), "%zu", &output_limit);
     }
-    output_limit=100000;
-    //output_limit=0;
-    //output_limit=1;
-
+    //int embdcountaa=stoi(inputs.embcount);
+    output_limit=stoi(inputs.embcount);;
 #if ENABLE_QFLITER == 1
     EvaluateQuery::qfliter_bsr_graph_ = BuildTable::qfliter_bsr_graph_;
 #endif
@@ -590,7 +582,6 @@ GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph,ED, matching_or
     size_t time_limit = 0;
      if(input_filter_type == "NLF"){
         output_limit=0;
-        cout<<"BUT ALL MY LOVE"<<endl;
     }
     sscanf(input_time_limit.c_str(), "%zu", &time_limit);
 
@@ -601,30 +592,30 @@ GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph,ED, matching_or
         embedding_count = EvaluateQuery::exploreGraph(data_graph, query_graph, edge_matrix, candidates,
                                                       candidates_count, matching_order, pivots, output_limit, call_count);
     }
+         else if (input_engine_type == "LFTJ"&& output_limit==0) {
+        embedding_count = 0;
+        outputs.call_count = 0;
+        s.embedding_cnt=0;
+
+    }
      else if (input_engine_type == "LFTJ") {
         
-        /*
+        
         if(inputs.order_pointer == NULL){
             s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                     matching_order, output_limit, call_count);
-           embedding_count=0;
+           //embedding_count=0;
         } 
             
         else{
             cout<<"hi3"<<endl;
             s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                     inputs.order_pointer, output_limit, call_count);
-        }
-
-        
+        }       
         embedding_count = s.embedding_cnt;
         outputs.call_count = call_count;
-        */
-        embedding_count = 0;
-        outputs.call_count = 0;
-        s.embedding_cnt=0;
-
-    }else if(input_engine_type=="LFTJA"){
+    }
+    else if(input_engine_type=="LFTJA"){
         s = EvaluateQuery::LFTJA(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                     matching_order, output_limit, call_count,EWeight);
         embedding_count = s.embedding_cnt;

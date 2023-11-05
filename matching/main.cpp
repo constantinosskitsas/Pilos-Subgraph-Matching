@@ -19,25 +19,25 @@
 
 
 pair<matching_algo_outputs,matching_algo_outputs> fakeMatchingWrapper(queryMeta meta,string filter){
-    matching_algo_outputs original = Experiments::experiment3(meta.data_graph_path,meta.query_path,filter,"0",NULL,"alpha","beta","thnum");
+    matching_algo_outputs original = Experiments::experiment3(meta.data_graph_path,meta.query_path,filter,"0",NULL,"alpha","beta","thnum","10000");
     ui* fake_pointer = new ui[stoi(meta.query_size)];
     for (int i =0; i<stoi(meta.query_size);i++){
         ui order = original.matching_order[i];
         *&fake_pointer[i] = order;
     }
-    matching_algo_outputs enhanced = Experiments::experiment3(meta.data_graph_path,meta.query_path,filter,"1",fake_pointer,"alpha","beta","thnum");
+    matching_algo_outputs enhanced = Experiments::experiment3(meta.data_graph_path,meta.query_path,filter,"1",fake_pointer,"alpha","beta","thnum","10000");
     delete[] fake_pointer;
     return pair(original,enhanced);
 }
 
 pair<matching_algo_outputs,matching_algo_outputs> MatchingWrapper(string datagraph,string querygraph,string filter){
-    matching_algo_outputs original = Experiments::experiment3(datagraph,querygraph,filter,"0",NULL,"alpha","beta","thnum");
-    matching_algo_outputs enhanced = Experiments::experiment3(datagraph,querygraph,filter,"1",NULL,"alpha","beta","thnum");
+    matching_algo_outputs original = Experiments::experiment3(datagraph,querygraph,filter,"0",NULL,"alpha","beta","thnum","10000");
+    matching_algo_outputs enhanced = Experiments::experiment3(datagraph,querygraph,filter,"1",NULL,"alpha","beta","thnum","10000");
     return pair(original,enhanced);
 }
 pair<matching_algo_outputs,matching_algo_outputs> MatchingWrapperN(string datagraph,string querygraph,string filter){
-    matching_algo_outputs original = Experiments::experiment3(datagraph,querygraph,filter,"0",NULL,"alpha","beta","thnum");
-    matching_algo_outputs enhanced = Experiments::experiment3(datagraph,querygraph,filter,"1",NULL,"alpha","beta","thnum");
+    matching_algo_outputs original = Experiments::experiment3(datagraph,querygraph,filter,"0",NULL,"alpha","beta","thnum","10000");
+    matching_algo_outputs enhanced = Experiments::experiment3(datagraph,querygraph,filter,"1",NULL,"alpha","beta","thnum","10000");
     return pair(original,enhanced);
 }
 
@@ -68,7 +68,7 @@ void exact_eval(string dataset,string querysize,string querynumber,string proper
     pair <matching_algo_outputs,matching_algo_outputs> TSOF = fakeMatchingWrapper(meta,"TSO");
     pair <matching_algo_outputs,matching_algo_outputs> CFL = fakeMatchingWrapper(meta,"CFL");
     pair <matching_algo_outputs,matching_algo_outputs> DPiso = fakeMatchingWrapper(meta,"DPiso");
-    matching_algo_outputs KF = Experiments::experiment3(meta.data_graph_path,meta.query_path,"KF","0",NULL,"25","500","5");
+    matching_algo_outputs KF = Experiments::experiment3(meta.data_graph_path,meta.query_path,"KF","0",NULL,"25","500","5","10000");
 
     vector<pair<matching_algo_outputs,matching_algo_outputs>> evaluations;
     evaluations.push_back(LDF);
@@ -198,6 +198,7 @@ int main(int argc, char** argv) {
     string alpha=command.getalpha();
     string beta=command.getbeta();
     string thnum=command.getThreadCount();
+    string embeddingcount=command.getMaximumEmbeddingNum1();
      string datagraph ="../../dataset/"+dataset_name+"/data_graph/"+dataset_name+".graph";
      Graph* data_graph = new Graph(true);
      data_graph->loadGraphFromFile(datagraph);
@@ -230,7 +231,7 @@ int main(int argc, char** argv) {
      datagraph ="../../dataset/"+dataset_name+"/data_graph/"+dataset_name+".graph";
     string querygraph = "../../dataset/"+dataset_name+"/query_graph/query_"+query_property+"_"+query_size+"_"+query_number+".graph";
     //pair <matching_algo_outputs,matching_algo_outputs> KFE = MatchingWrapper(datagraph,querygraph,"KFE");
-    matching_algo_outputs KF = Experiments::experiment3(datagraph,querygraph,query_filter,"0",NULL,alpha,beta,thnum);
+    matching_algo_outputs KF = Experiments::experiment3(datagraph,querygraph,query_filter,"0",NULL,alpha,beta,thnum,embeddingcount);
 
     vector<pair<matching_algo_outputs,matching_algo_outputs>> evaluations;
     /*

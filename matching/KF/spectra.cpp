@@ -1160,8 +1160,6 @@ int SpectralMatchingMT(int sizd, Graph *data_graph, string input_query_graph_fil
             eigenQ[i][j] = eigenVq1(i, j);
         }
     }
-    
-    //cout<<CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates1, candidates_count1,EWeight,eigenVD1)<<endl;
     return CSInitMT(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1,alpha, thnum);
 }
 

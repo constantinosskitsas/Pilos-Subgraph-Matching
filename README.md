@@ -41,8 +41,8 @@ make
 
 ## Execute
 
--dataset the dataset, -qsize query size, -qnumber, -qprop query name , -filter filter algorithm, -alpha alpha parameter, -beta beta parameter
-PL for alpha=25,PLA alpha 50,PLB alpha 75,PLA alpha 100,PLA alpha 125,
+-dataset the dataset, -qsize query size, -qnumber, -qprop query name , -filter filter algorithm, -alpha (alpha parameter), -beta (beta parameter) -n number of threads -num number of matchings
+
 PL to be changed to accept alpha as parameter.
 beta will be added also.
 MT to be added by parameter also.
@@ -76,6 +76,7 @@ Paper under submission
 ## 
 ## Note
 The code is under refactor. Expected to be available 15-11-23.
+## Reproducability
+To repeat the experiments on the paper we propose to use the scrips we provide.
 #### To-do
-Change Subgraph Matching code to acommodate beta from parameters
 Separate Eigenvalues for GQL-DP-iso and CFL.

@@ -30,6 +30,7 @@ enum OptionKeyword {
     QueryNumber = 20,
     alphaPar=21, //-alpha
     betaPar=22,  //-beta
+    outputF=23, //-SF
 };
 
 class MatchingCommand : public CommandParser{
@@ -133,6 +134,11 @@ public:
         std::string getbeta() {
         return options_value[OptionKeyword::betaPar] == "" ? "0" : options_value[OptionKeyword::betaPar];
     }
+
+    std::string getStoreFile() {
+        return options_key[OptionKeyword::outputF] == "" ? "ExperimentResults" : options_value[OptionKeyword::outputF];
+    }
+    
 
 };
 

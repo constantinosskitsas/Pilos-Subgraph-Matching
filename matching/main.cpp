@@ -202,9 +202,12 @@ int main(int argc, char** argv) {
      string datagraph ="../../dataset/"+dataset_name+"/data_graph/"+dataset_name+".graph";
      Graph* data_graph = new Graph(true);
      data_graph->loadGraphFromFile(datagraph);
+     string StoreFile=command.getStoreFile();
     cout <<alpha<<endl;
     cout<<beta<<endl;
     cout<<thnum<<endl;
+    cout<<embeddingcount<<endl;
+    cout<<StoreFile<<endl;
     int aa[5]={32,64,96,128,256};
     
     if(query_filter=="GQ"){
@@ -294,7 +297,9 @@ int main(int argc, char** argv) {
     cout<<var<<endl;
 
     string file_path = "";
-    file_path = "performance_experiment/MultiThreading"+query_filter+"_emb100000_"+dataset_name+"_"+query_property+query_size+".csv";
+    
+    file_path = "performance_experiment/"+StoreFile+"_"+query_filter+"_"+embeddingcount+"_"+dataset_name+"_"+query_property+query_size+".csv";
+    //file_path = "performance_experiment/MultiThreading"+query_filter+"_emb100000_"+dataset_name+"_"+query_property+query_size+".csv";
     std::ofstream myfile;
     myfile.open (file_path,std::ios_base::app);
     myfile<<var<<"\n";

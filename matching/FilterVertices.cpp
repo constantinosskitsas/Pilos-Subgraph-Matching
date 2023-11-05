@@ -141,12 +141,8 @@ FilterVertices::NLFFilter(Graph *data_graph, Graph *query_graph, ui **&candidate
 bool
 FilterVertices::GQLFilter(Graph *data_graph, Graph *query_graph, ui **&candidates, ui *&candidates_count, bool isEigenCheck,int top_s) {
     // Local refinement.
-    auto GQL1 = high_resolution_clock::now();
     if (!NLFFilter(data_graph, query_graph, candidates, candidates_count,false,top_s))
         return false;
-    auto GQL2 = high_resolution_clock::now();
-    auto duration3 = duration_cast<milliseconds>(GQL2 - GQL1);
-    cout << "SM-0 " << duration3.count() << endl;
     // Allocate buffer.
     ui query_vertex_num = query_graph->getVerticesCount();
     ui data_vertex_num = data_graph->getVerticesCount();

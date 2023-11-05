@@ -27,6 +27,7 @@ MatchingCommand::MatchingCommand(const int argc, char **argv) : CommandParser(ar
     options_key[OptionKeyword::QueryProperty] = "-qprop";
     options_key[OptionKeyword::alphaPar] = "-alpha";
     options_key[OptionKeyword::betaPar] = "-beta";
+    options_key[OptionKeyword::outputF] = "-SF";
     processOptions();
 };
 
@@ -93,6 +94,6 @@ void MatchingCommand::processOptions() {
 
     options_value[OptionKeyword::alphaPar] = getCommandOption(options_key[OptionKeyword::alphaPar]);
     options_value[OptionKeyword::betaPar] = getCommandOption(options_key[OptionKeyword::betaPar]);
-
+    options_value[OptionKeyword::outputF] = getCommandOption(options_key[OptionKeyword::outputF]);
 
 }

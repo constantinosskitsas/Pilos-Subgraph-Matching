@@ -52,17 +52,19 @@ timeout 600s ./SubgraphMatching.out -dataset dblp -qsize 32 -qnumber 1 -qprop G 
 ## General Parameters
 |Execution code|Description|
 |:--------:|:------------:|
-|-dataset | dataset name
-|-qsize | query size
-|-qnumber | query number
-|-filter | filter algorithm ,GQL,CFL,DPiso,PL,PLMT 
-|-num | number of matchings
-|-SF | Save file name
+|-dataset | dataset name|
+|-qsize | query size|
+|-qnumber | query number|
+|-filter | filter algorithm ,GQL,CFL,DPiso,PL,PLMT |
+|-num | number of matchings|
+|-SF | Save file name|
 
-## Parameters
-|-alpha | 
-|-beta | 
-|-n | number of threads for PLMT
+## PL Parameters
+|Execution code|Description|
+|:--------:|:------------:|
+|-alpha | alpha parameter |
+|-beta | beta parameter|
+|-n | number of threads for PLMT|
 
 ### Query Generation
 To create queries use -qnumber for the number of queries, -qprop the name of the queries you want -dataset the name of the dataset and -filter GQ.

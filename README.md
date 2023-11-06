@@ -26,8 +26,10 @@ We build our algorithm on top of SIGMOD'2020 paper "In-Memory Subgraph Matching:
 We kept all the functionalities of the framework and for mospecific details we refer to [Code](https://github.com/RapidsAtHKUST/SubgraphMatching).
 
 ## Additional Techniques Supported
-|Pilos| the filtering method of Pilos | PL
-|PilosMT| the filtering method of Pilos multi-thread | PLMT
+|Algorithm|Description|Exetution code|
+|:--------:|:------------:|:------------:|
+|Pilos| the filtering method of Pilos | PL|
+|PilosMT| the filtering method of Pilos multi-thread | PLMT|
 
 ## Compile
 Under the root directory of the project, execute the following commands to compile the source code.

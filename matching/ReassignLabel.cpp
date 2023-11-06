@@ -11,7 +11,8 @@
 #include <random>
 using namespace std;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     string input_vertex_num(argv[1]);
     string input_label_num(argv[2]);
     string output_file_path(argv[3]);
@@ -25,7 +26,8 @@ int main(int argc, char *argv[]) {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, label_num - 1);
 
-    for (int i = 0; i < vertex_num; ++i) {
+    for (int i = 0; i < vertex_num; ++i)
+    {
         labels[i] = dis(gen);
     }
 

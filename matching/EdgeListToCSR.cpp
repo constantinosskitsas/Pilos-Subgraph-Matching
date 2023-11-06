@@ -10,24 +10,28 @@
 #include <random>
 using namespace std;
 
-vector<pair<int, int>> GetEdgeList(string &input_file_path, int &max_ele) {
+vector<pair<int, int>> GetEdgeList(string &input_file_path, int &max_ele)
+{
     vector<pair<int, int>> lines;
 
     ifstream ifs(input_file_path);
 
-    while (ifs.good()) {
+    while (ifs.good())
+    {
         string tmp_str;
         stringstream ss;
         std::getline(ifs, tmp_str);
         if (!ifs.good())
             break;
-        if (tmp_str[0] != '#') {
+        if (tmp_str[0] != '#')
+        {
             ss.clear();
             ss << tmp_str;
             int first, second;
             ss >> first >> second;
 
-            if (first > second) {
+            if (first > second)
+            {
                 swap(first, second);
             }
             // 1st case first == second: skip these self loop, (i,i)
@@ -39,34 +43,43 @@ vector<pair<int, int>> GetEdgeList(string &input_file_path, int &max_ele) {
             lines.emplace_back(first, second);
         }
     }
-    sort(lines.begin(), lines.end(), [](const pair<int, int> &left, const pair<int, int> &right) {
+    sort(lines.begin(), lines.end(), [](const pair<int, int> &left, const pair<int, int> &right)
+         {
         if (left.first == right.first) {
             return left.second < right.second;
         }
-        return left.first < right.first;
-    });
+        return left.first < right.first; });
     return lines;
 };
 
-bool IsAlreadyCSROrder(vector<pair<int, int>> &lines) {
+bool IsAlreadyCSROrder(vector<pair<int, int>> &lines)
+{
     int cur_src_vertex = -1;
     int prev_dst_val = -1;
     auto line_count = 0u;
-    for (const auto &line : lines) {
+    for (const auto &line : lines)
+    {
         int src, dst;
         std::tie(src, dst) = line;
-        if (src >= dst) {
-            cout << "src >= dst" << "\n";
+        if (src >= dst)
+        {
+            cout << "src >= dst"
+                 << "\n";
             return false;
         }
 
-        if (src == cur_src_vertex) {
-            if (dst < prev_dst_val) {
-                cout << "dst < prev_dst_val" << "\n";
+        if (src == cur_src_vertex)
+        {
+            if (dst < prev_dst_val)
+            {
+                cout << "dst < prev_dst_val"
+                     << "\n";
                 cout << "cur line:" << line_count << "\n";
                 return false;
             }
-        } else {
+        }
+        else
+        {
             cur_src_vertex = src;
         }
         prev_dst_val = dst;
@@ -75,8 +88,9 @@ bool IsAlreadyCSROrder(vector<pair<int, int>> &lines) {
     return true;
 }
 
-void WriteToOutputFiles(string &deg_output_file, string &adj_output_file, string& label_output_file, int num_labels,
-                        vector<pair<int, int>> &lines, int max_ele) {
+void WriteToOutputFiles(string &deg_output_file, string &adj_output_file, string &label_output_file, int num_labels,
+                        vector<pair<int, int>> &lines, int max_ele)
+{
     auto vertex_num = static_cast<unsigned long>(max_ele + 1);
     auto edge_num = lines.size();
     vector<int> degree_arr(vertex_num, 0);
@@ -84,7 +98,8 @@ void WriteToOutputFiles(string &deg_output_file, string &adj_output_file, string
 
     ofstream deg_ofs(deg_output_file, ios::binary);
 
-    for (const auto &line : lines) {
+    for (const auto &line : lines)
+    {
         int src, dst;
         std::tie(src, dst) = line;
         degree_arr[src]++;
@@ -102,7 +117,8 @@ void WriteToOutputFiles(string &deg_output_file, string &adj_output_file, string
 
     cout << "finish degree write..." << endl;
     ofstream adj_ofs(adj_output_file, ios::binary);
-    for (auto &adj_arr: matrix) {
+    for (auto &adj_arr : matrix)
+    {
         adj_ofs.write(reinterpret_cast<const char *>(&adj_arr.front()), adj_arr.size() * 4);
     }
     cout << "finish edge write..." << endl;
@@ -112,7 +128,8 @@ void WriteToOutputFiles(string &deg_output_file, string &adj_output_file, string
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, num_labels - 1);
 
-    for (int i = 0; i < vertex_num; ++i) {
+    for (int i = 0; i < vertex_num; ++i)
+    {
         labels[i] = dis(gen);
     }
     assert(labels.size() == degree_arr.size());
@@ -121,7 +138,8 @@ void WriteToOutputFiles(string &deg_output_file, string &adj_output_file, string
     cout << "finish write..." << std::endl;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     string input_file_path(argv[1]);
     string output_file_path(argv[2]);
     string num_labels(argv[3]);
@@ -153,8 +171,10 @@ int main(int argc, char *argv[]) {
     cout << "number of edges:" << lines.size() << "\n";
 
     auto check_start = high_resolution_clock::now();
-    if (IsAlreadyCSROrder(lines)) {
-        cout << "already csr" << "\n";
+    if (IsAlreadyCSROrder(lines))
+    {
+        cout << "already csr"
+             << "\n";
         auto check_end = high_resolution_clock::now();
         cout << "2nd, check csr representation cost:" << duration_cast<milliseconds>(check_end - check_start).count()
              << " ms\n";
@@ -163,6 +183,4 @@ int main(int argc, char *argv[]) {
         cout << "3rd, construct csr and write file cost:" << duration_cast<milliseconds>(write_end - check_end).count()
              << " ms\n";
     }
-
-
 }

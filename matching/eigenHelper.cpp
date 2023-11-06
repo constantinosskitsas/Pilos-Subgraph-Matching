@@ -20,68 +20,75 @@ using namespace Eigen;
 using namespace std;
 using namespace Spectra;
 
-
 void calcEigensEigenLib(SparseMatrix<double> M, int k, VectorXd &evalues, int count)
-{   
-    int sizek = k*2;
+{
+    int sizek = k * 2;
     int dek = k;
     MatrixXd dMat;
-    dMat=M;
-    //SelfAdjointEigenSolver<SparseMatrix<double>> eigensolver(M);
-    //SelfAdjointEigenSolver<MatrixXd<double>> eigensolver(dMat);
+    dMat = M;
+    // SelfAdjointEigenSolver<SparseMatrix<double>> eigensolver(M);
+    // SelfAdjointEigenSolver<MatrixXd<double>> eigensolver(dMat);
     SelfAdjointEigenSolver<MatrixXd> eigensolver(dMat);
-    //setNbThreads(4);
-    if (eigensolver.info() != Success) {
+    // setNbThreads(4);
+    if (eigensolver.info() != Success)
+    {
         std::cerr << "Eigenvalue computation failed!" << std::endl;
-        while(true)
-        cout<<"jjjj"<<endl;
-        return ;
+        while (true)
+            cout << "jjjj" << endl;
+        return;
     }
     VectorXd eigenvalues = eigensolver.eigenvalues();
 
-        if (eigenvalues.size() < k)
-    {   
+    if (eigenvalues.size() < k)
+    {
         evalues = eigenvalues.tail(eigenvalues.size()).reverse();
         int sz = evalues.size();
         evalues.conservativeResize(dek);
         evalues(sz) = 0;
         sz++;
         for (int i = sz; i < dek; i++)
-            //evalues(i) = -1;
+            // evalues(i) = -1;
             evalues(i) = 0;
     }
-    else{
+    else
+    {
         evalues = eigenvalues.tail(k).reverse();
-        
     }
 }
-bool isLaplacianMatrix(const Eigen::SparseMatrix<double>& matrix) {
-    if (matrix.rows() != matrix.cols()) {
-        cout<<"not square"<<endl;
-        return false;  // Matrix should be square
+bool isLaplacianMatrix(const Eigen::SparseMatrix<double> &matrix)
+{
+    if (matrix.rows() != matrix.cols())
+    {
+        cout << "not square" << endl;
+        return false; // Matrix should be square
     }
 
     int size = matrix.rows();
 
     // Check if the matrix is symmetric
-    if (!(matrix.transpose().isApprox(matrix))) {
-        cout<<"not symmetric"<<endl;
+    if (!(matrix.transpose().isApprox(matrix)))
+    {
+        cout << "not symmetric" << endl;
         return false;
     }
 
     // Check if the matrix satisfies the Laplacian properties
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i)
+    {
         double diagonal = matrix.coeff(i, i);
         double sumOfRow = 0.0;
 
-        for (Eigen::SparseMatrix<double>::InnerIterator it(matrix, i); it; ++it) {
-            if (it.row() != it.col()) {
+        for (Eigen::SparseMatrix<double>::InnerIterator it(matrix, i); it; ++it)
+        {
+            if (it.row() != it.col())
+            {
                 sumOfRow += it.value();
-            } 
+            }
         }
 
-        if (diagonal != abs(sumOfRow)) {
-            cout<<"Wrong Sum"<<endl;
+        if (diagonal != abs(sumOfRow))
+        {
+            cout << "Wrong Sum" << endl;
             return false;
         }
     }
@@ -115,7 +122,7 @@ bool checkM(SparseMatrix<double> mat)
         }
         if (count != 0)
         {
-//            "Problem";
+            //            "Problem";
             return true;
         }
     }
@@ -286,41 +293,44 @@ void ExtractAdL(SparseMatrix<double> &M, Graph *data_graph, int degree, int dept
     }
 }
 
-void calcEigens1(SparseMatrix<double> M, int k, VectorXd &evalues, int count){
-    int sizek = k*2;
+void calcEigens1(SparseMatrix<double> M, int k, VectorXd &evalues, int count)
+{
+    int sizek = k * 2;
     int dek = k;
-   // 
+    //
     M.makeCompressed();
-    //if(!M.isApprox(M.transpose()))
-    //cout<<"really?"<<endl;
+    // if(!M.isApprox(M.transpose()))
+    // cout<<"really?"<<endl;
     SelfAdjointEigenSolver<SparseMatrix<double>> eigensolver(M);
-    //EigenSolver<SparseMatrix<double>> eigensolver(M);
-    if (eigensolver.info() != Success) {
+    // EigenSolver<SparseMatrix<double>> eigensolver(M);
+    if (eigensolver.info() != Success)
+    {
         std::cerr << "Eigenvalue computation failed!" << std::endl;
-        return ;
+        return;
     }
     VectorXd eigenvalues = eigensolver.eigenvalues();
 
     if (eigenvalues.size() < k)
     {
-        ui ts=eigenvalues.size() ;
+        ui ts = eigenvalues.size();
         evalues = eigenvalues.tail(eigenvalues.size()).reverse();
-        //cout<<evalues<<endl;
-        //cout<<"count "<<count<<" NE "<<evalues.size();
+        // cout<<evalues<<endl;
+        // cout<<"count "<<count<<" NE "<<evalues.size();
         int sz = evalues.size();
         evalues.conservativeResize(dek);
-        if (ts==count)
-        evalues(sz) = -1;
-        else evalues(sz) = 0;
+        if (ts == count)
+            evalues(sz) = -1;
+        else
+            evalues(sz) = 0;
         sz++;
         for (int i = sz; i < dek; i++)
             evalues(i) = -1;
-            //evalues(i) = 0;
-        //cout<<evalues<<endl;
+        // evalues(i) = 0;
+        // cout<<evalues<<endl;
     }
-    else{
+    else
+    {
         evalues = eigenvalues.tail(k).reverse();
-
     }
 }
 
@@ -447,8 +457,8 @@ void CompactADLEIGSet(Graph *data_graph, int degree, VectorXd &evalues, VertexID
     M.setFromTriplets(tripletList.begin(), tripletList.end(), [](double a, double b)
                       { return b; });
     M.makeCompressed();
-    if(!isLaplacianMatrix(M))
-     cout<<"wrong Laplacian Matrix-Malakas"<<endl;
+    if (!isLaplacianMatrix(M))
+        cout << "wrong Laplacian Matrix-Malakas" << endl;
     /*if(checkM(M)){
                    cout<<"wrong Laplacian Matrix-Malakas"<<endl;
                }
@@ -466,28 +476,29 @@ void CompactADLEIGSet(Graph *data_graph, int degree, VectorXd &evalues, VertexID
     // delete[]
     // delete[] u_nbrs;
 }
-void CompactADLEIGNV(Graph *data_graph, int degree, VectorXd &evalues, VertexID vertex, int depth, int Eprun,int oMax)
+void CompactADLEIGNV(Graph *data_graph, int degree, VectorXd &evalues, VertexID vertex, int depth, int Eprun, int oMax)
 {
     vector<T> tripletList;
-    //vector<VertexID> ID; // add size then resize
+    // vector<VertexID> ID; // add size then resize
     vector<VertexID> IDD;
     vector<VertexID> IDL;
     VertexID *neighbors_;
     VertexID vx1;
     VertexID vx2;
-    unordered_map<int,int> ID;
+    unordered_map<int, int> ID;
     VertexID vertexpair;
     VertexID vertexprint;
     vertexprint = vertex;
     int count = 0;
-    int qsiz=data_graph->getVerticesCount();
+    int qsiz = data_graph->getVerticesCount();
     ui u_nbrs_count;
     ui u_nbrs_count1;
     const VertexID *u_nbrs = data_graph->getVertexNeighbors(vertex, u_nbrs_count);
     int k = 30;
-    float** LM = new float*[qsiz];
-    ui* SIDN = new ui[qsiz];
-    for (int i = 0; i < oMax; i++) {
+    float **LM = new float *[qsiz];
+    ui *SIDN = new ui[qsiz];
+    for (int i = 0; i < oMax; i++)
+    {
         LM[i] = new float[oMax];
         memset(LM[i], 0, oMax * oMax * sizeof(float));
     }
@@ -498,15 +509,14 @@ void CompactADLEIGNV(Graph *data_graph, int degree, VectorXd &evalues, VertexID 
     queue<VertexID> q_next;
     queue<VertexID> q_temp;
 
-    
     for (int j = 0; j < u_nbrs_count; ++j)
     {
         if (u_nbrs[j] == vertex)
             cout << "error :" << vertex << endl;
-        
-        LM[0][count]=-1;
-        LM[count][0]=-1;
-        ID.insert({u_nbrs[j],count});
+
+        LM[0][count] = -1;
+        LM[count][0] = -1;
+        ID.insert({u_nbrs[j], count});
         q_curr.push(u_nbrs[j]);
         count++;
     }
@@ -518,30 +528,30 @@ void CompactADLEIGNV(Graph *data_graph, int degree, VectorXd &evalues, VertexID 
             vertex = q_curr.front();
             q_curr.pop();
             u_nbrs = data_graph->getVertexNeighbors(vertex, u_nbrs_count);
-            //vx1 = checkANX(ID, vertex);
-            vx1=ID[vertex];
-            
-            
+            // vx1 = checkANX(ID, vertex);
+            vx1 = ID[vertex];
+
             for (ui j = 0; j < u_nbrs_count; ++j)
             {
-                
+
                 vertexpair = u_nbrs[j];
                 if (vertexpair == vertex)
                     cout << "problem again!!" << endl;
                 auto result = ID.insert({vertexpair, count});
-                
+
                 if (result.second)
                 {
-                    
+
                     vx2 = count;
-            	    LM[vx1][vx2]=-1;
-                    LM[vx2][vx1]=-1;
+                    LM[vx1][vx2] = -1;
+                    LM[vx2][vx1] = -1;
                     count++;
                 }
                 else
-                {   vx2=ID[vertexpair];
-            	    LM[vx1][vx2]=-1;
-                    LM[vx2][vx1]=-1;
+                {
+                    vx2 = ID[vertexpair];
+                    LM[vx1][vx2] = -1;
+                    LM[vx2][vx1] = -1;
                 }
             }
         }
@@ -553,31 +563,34 @@ void CompactADLEIGNV(Graph *data_graph, int degree, VectorXd &evalues, VertexID 
         }
     }
 
-                          ui cunt=0;
-                        for (int wish=0;wish<qsiz;wish++){
-                             cunt=0;
-                            for (int best=0;best<qsiz;best++){
-                                if (LM[wish][best]==-1){
-                                    cunt++;
-                                    tripletList.emplace_back(T(wish, best, -1));
-                                }
-                            }
-                            tripletList.emplace_back(T(wish, wish, cunt));
-                        }
+    ui cunt = 0;
+    for (int wish = 0; wish < qsiz; wish++)
+    {
+        cunt = 0;
+        for (int best = 0; best < qsiz; best++)
+        {
+            if (LM[wish][best] == -1)
+            {
+                cunt++;
+                tripletList.emplace_back(T(wish, best, -1));
+            }
+        }
+        tripletList.emplace_back(T(wish, wish, cunt));
+    }
     if (tripletList.size() == count * count)
     {
         evalues.resize(k);
 
         for (int ss = 0; ss < k; ss++)
-        {       //count-1 or count?
+        { // count-1 or count?
             if (ss < count)
                 evalues(ss) = count;
-                //evalues(ss) = count - 1;
+            // evalues(ss) = count - 1;
             else if (ss == count)
                 evalues(ss) = 0;
             else
                 //
-            //evalues(ss) = -1;
+                // evalues(ss) = -1;
                 evalues(ss) = 0;
         }
     }
@@ -730,10 +743,10 @@ void CompactADLEIGImpro(Graph *data_graph, int degree, VectorXd &evalues, Vertex
     IDL.clear();
 }
 
-void MTcalc12(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Eprun,int oMax)
+void MTcalc12(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Eprun, int oMax)
 {
 
-    auto AdJAdl1 = [](Graph *data_graph, int degree, VertexID svertex, VertexID evertex, MatrixXd &eigenVD, bool LE, int Eprun,int oMax)
+    auto AdJAdl1 = [](Graph *data_graph, int degree, VertexID svertex, VertexID evertex, MatrixXd &eigenVD, bool LE, int Eprun, int oMax)
     {
         VectorXd evalues;
         int depth = 2;
@@ -741,8 +754,8 @@ void MTcalc12(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Epr
         {
 
             if (LE)
-                CompactADLEIG(data_graph, degree, evalues, i, depth, Eprun,oMax);
-                //CompactADLEIGNV(data_graph, degree, evalues, i, depth, Eprun,oMax);
+                CompactADLEIG(data_graph, degree, evalues, i, depth, Eprun, oMax);
+            // CompactADLEIGNV(data_graph, degree, evalues, i, depth, Eprun,oMax);
 
             else
                 CompactADJEIG(data_graph, degree, evalues, i, depth);
@@ -754,25 +767,28 @@ void MTcalc12(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Epr
     VectorXd evalues;
     int Tnum = 5;
     int siz = data_graph->getVerticesCount();
-    if (Tnum==1){
-        
+    if (Tnum == 1)
+    {
+
         for (int i = 0; i < siz; i++)
         {
-        CompactADLEIG(data_graph, degree, evalues, i, 2, Eprun,oMax);
+            CompactADLEIG(data_graph, degree, evalues, i, 2, Eprun, oMax);
             eigenVD.row(i) = evalues;
             evalues.setZero();
         }
     }
-    else{
-    int div = (int)(siz / Tnum);
-    thread th[Tnum];
-    for (int d = 0; d < Tnum - 1; d++)
+    else
     {
-        th[d] = thread(AdJAdl1, data_graph, degree, div * d, div * (d + 1), ref(eigenVD), LE, Eprun,oMax);
+        int div = (int)(siz / Tnum);
+        thread th[Tnum];
+        for (int d = 0; d < Tnum - 1; d++)
+        {
+            th[d] = thread(AdJAdl1, data_graph, degree, div * d, div * (d + 1), ref(eigenVD), LE, Eprun, oMax);
+        }
+        th[Tnum - 1] = thread(AdJAdl1, data_graph, degree, div * (Tnum - 1), siz, ref(eigenVD), LE, Eprun, oMax);
+        for (int d = 0; d < Tnum; d++)
+            th[d].join();
     }
-    th[Tnum - 1] = thread(AdJAdl1, data_graph, degree, div * (Tnum - 1), siz, ref(eigenVD), LE, Eprun,oMax);
-    for (int d = 0; d < Tnum; d++)
-        th[d].join();}
 }
 
 void CompactADJEIG(Graph *data_graph, int degree, VectorXd &evalues, VertexID vertex, int depth)
@@ -862,7 +878,7 @@ void CompactADJEIG(Graph *data_graph, int degree, VectorXd &evalues, VertexID ve
     delete[] ID;
     delete[] IDL;
 }
-void CompactADLEIG(Graph *data_graph, int degree, VectorXd &evalues, VertexID vertex, int depth, int Eprun,int oMax)
+void CompactADLEIG(Graph *data_graph, int degree, VectorXd &evalues, VertexID vertex, int depth, int Eprun, int oMax)
 {
     vector<T> tripletList;
     vector<VertexID> ID; // add size then resize
@@ -980,42 +996,45 @@ void CompactADLEIG(Graph *data_graph, int degree, VectorXd &evalues, VertexID ve
         vx1 = checkANX(ID, vertex);
         tripletList.push_back(T(vx1, vx1, IDL[vx1]));
     }
-    count++; 
-                     map<int, int> count_uniques;
-                     set<pair<int, int>> seen;
-                     vector<Triplet<double>> unique_triplets;
-                     for (auto t : tripletList)
-                     {
-                         if (seen.count({t.row(), t.col()}) == 0)
-                         {
-                             unique_triplets.push_back(Triplet<double>(t.row(), t.col(), t.value()));
-                             seen.insert({t.row(), t.col()});
-                             count_uniques[t.row()]++;
-                         }
-                     }
-    tripletList=unique_triplets;
-    if(tripletList.size()==count*count){
-        cout<<"MEga prob"<<endl;
-    evalues.resize(k);
-
-    for (int ss=0;ss<k;ss++){
-        if (ss<count)
-        //evalues(ss)=count-1;
-        evalues(ss)=count;
-        else if (ss==count)
-        evalues(ss)=0;
-        else //evalues(ss)=-1;
-        evalues(ss)=0;
-    }
-        
+    count++;
+    map<int, int> count_uniques;
+    set<pair<int, int>> seen;
+    vector<Triplet<double>> unique_triplets;
+    for (auto t : tripletList)
+    {
+        if (seen.count({t.row(), t.col()}) == 0)
+        {
+            unique_triplets.push_back(Triplet<double>(t.row(), t.col(), t.value()));
+            seen.insert({t.row(), t.col()});
+            count_uniques[t.row()]++;
         }
-        else{
-    SparseMatrix<double> M(count, count);
-    M.setFromTriplets(tripletList.begin(), tripletList.end(), [](double a, double b)
-                      { return b; });
-    // checkM(M);
-    
-    calcEigens1(M, k, evalues, count);}
+    }
+    tripletList = unique_triplets;
+    if (tripletList.size() == count * count)
+    {
+        cout << "MEga prob" << endl;
+        evalues.resize(k);
+
+        for (int ss = 0; ss < k; ss++)
+        {
+            if (ss < count)
+                // evalues(ss)=count-1;
+                evalues(ss) = count;
+            else if (ss == count)
+                evalues(ss) = 0;
+            else // evalues(ss)=-1;
+                evalues(ss) = 0;
+        }
+    }
+    else
+    {
+        SparseMatrix<double> M(count, count);
+        M.setFromTriplets(tripletList.begin(), tripletList.end(), [](double a, double b)
+                          { return b; });
+        // checkM(M);
+
+        calcEigens1(M, k, evalues, count);
+    }
     tripletList.clear();
     ID.clear();
     IDL.clear();

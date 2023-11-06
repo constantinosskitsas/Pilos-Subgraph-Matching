@@ -5,45 +5,47 @@
 
 #include "graph/graph.h"
 #include <vector>
-class GenerateQueryPlan {
+class GenerateQueryPlan
+{
 public:
-    static VertexID selectGQLStartVertexF(const Graph *query_graph, float candidates_count[]) ;
+    static VertexID selectGQLStartVertexF(const Graph *query_graph, float candidates_count[]);
 
     static void generateGQLQueryPlanN(const Graph *data_graph, const Graph *query_graph, float weight[],
-                                             ui *&order, ui *&pivot);
+                                      ui *&order, ui *&pivot);
     static void generateGQLQueryPlan(const Graph *data_graph, const Graph *query_graph, ui *candidates_count,
-                                         ui *&order, ui *&pivot);
+                                     ui *&order, ui *&pivot);
     static void generateQSIQueryPlan(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix,
-                                         ui *&order, ui *&pivot);
+                                     ui *&order, ui *&pivot);
 
-    static void generateRIQueryPlan(const Graph *data_graph, const Graph* query_graph, ui *&order, ui *&pivot);
+    static void generateRIQueryPlan(const Graph *data_graph, const Graph *query_graph, ui *&order, ui *&pivot);
 
-    static void generateVF2PPQueryPlan(const Graph* data_graph, const Graph *query_graph, ui *&order, ui *&pivot);
+    static void generateVF2PPQueryPlan(const Graph *data_graph, const Graph *query_graph, ui *&order, ui *&pivot);
 
-    static void generateOrderSpectrum(const Graph* query_graph, std::vector<std::vector<ui>>& spectrum, ui num_spectrum_limit);
+    static void generateOrderSpectrum(const Graph *query_graph, std::vector<std::vector<ui>> &spectrum, ui num_spectrum_limit);
 
     static void
     generateTSOQueryPlan(const Graph *query_graph, Edges ***edge_matrix, ui *&order, ui *&pivot,
-                             TreeNode *tree, ui *dfs_order);
+                         TreeNode *tree, ui *dfs_order);
 
     static void
     generateCFLQueryPlan(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix,
-                             ui *&order, ui *&pivot, TreeNode *tree, ui *bfs_order, ui *candidates_count);
+                         ui *&order, ui *&pivot, TreeNode *tree, ui *bfs_order, ui *candidates_count);
 
     static void
     generateDSPisoQueryPlan(const Graph *query_graph, Edges ***edge_matrix, ui *&order, ui *&pivot,
-                                TreeNode *tree, ui *bfs_order, ui *candidates_count, ui **&weight_array);
+                            TreeNode *tree, ui *bfs_order, ui *candidates_count, ui **&weight_array);
 
-    static void generateCECIQueryPlan(const Graph* query_graph, TreeNode *tree, ui *bfs_order, ui *&order, ui *&pivot);
-    static void checkQueryPlanCorrectness(const Graph* query_graph, ui* order, ui* pivot);
+    static void generateCECIQueryPlan(const Graph *query_graph, TreeNode *tree, ui *bfs_order, ui *&order, ui *&pivot);
+    static void checkQueryPlanCorrectness(const Graph *query_graph, ui *order, ui *pivot);
 
-    static void checkQueryPlanCorrectness(const Graph* query_graph, ui* order);
+    static void checkQueryPlanCorrectness(const Graph *query_graph, ui *order);
 
-    static void printQueryPlan(const Graph* query_graph, ui* order);
+    static void printQueryPlan(const Graph *query_graph, ui *order);
 
-    static void printSimplifiedQueryPlan(const Graph* query_graph, ui* order);
+    static void printSimplifiedQueryPlan(const Graph *query_graph, ui *order);
 
     static void GQLorderfake(const Graph *data_graph, const Graph *query_graph, ui *candidates_count, ui *&order, ui *&pivot);
+
 private:
     static VertexID selectGQLStartVertex(const Graph *query_graph, ui *candidates_count);
     static std::pair<VertexID, VertexID> selectQSIStartEdge(const Graph *query_graph, Edges ***edge_matrix);
@@ -53,19 +55,16 @@ private:
     static void estimatePathEmbeddsingsNum(std::vector<ui> &path, Edges ***edge_matrix,
                                            std::vector<size_t> &estimated_embeddings_num);
 
-    static void generateCorePaths(const Graph* query_graph, TreeNode* tree_node, VertexID cur_vertex, std::vector<ui> &cur_core_path,
+    static void generateCorePaths(const Graph *query_graph, TreeNode *tree_node, VertexID cur_vertex, std::vector<ui> &cur_core_path,
                                   std::vector<std::vector<ui>> &core_paths);
 
-    static void generateTreePaths(const Graph* query_graph, TreeNode* tree_node, VertexID cur_vertex,
+    static void generateTreePaths(const Graph *query_graph, TreeNode *tree_node, VertexID cur_vertex,
                                   std::vector<ui> &cur_tree_path, std::vector<std::vector<ui>> &tree_paths);
 
-    static void generateLeaves(const Graph* query_graph, std::vector<ui>& leaves);
+    static void generateLeaves(const Graph *query_graph, std::vector<ui> &leaves);
 
     static ui generateNoneTreeEdgesCount(const Graph *query_graph, TreeNode *tree_node, std::vector<ui> &path);
-    static void updateValidVertices(const Graph* query_graph, VertexID query_vertex, std::vector<bool>& visited, std::vector<bool>& adjacent);
-
-
+    static void updateValidVertices(const Graph *query_graph, VertexID query_vertex, std::vector<bool> &visited, std::vector<bool> &adjacent);
 };
 
-
-#endif //SUBGRAPHMATCHING_GENERATEQUERYPLAN_H
+#endif // SUBGRAPHMATCHING_GENERATEQUERYPLAN_H

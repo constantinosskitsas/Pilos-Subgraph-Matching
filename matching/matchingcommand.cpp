@@ -2,7 +2,8 @@
 
 #include "matchingcommand.h"
 
-MatchingCommand::MatchingCommand(const int argc, char **argv) : CommandParser(argc, argv) {
+MatchingCommand::MatchingCommand(const int argc, char **argv) : CommandParser(argc, argv)
+{
     // Initialize options value
     options_key[OptionKeyword::Algorithm] = "-a";
     options_key[OptionKeyword::IndexType] = "-i";
@@ -21,7 +22,7 @@ MatchingCommand::MatchingCommand(const int argc, char **argv) : CommandParser(ar
     options_key[OptionKeyword::CSRFilePath] = "-csr";
     options_key[OptionKeyword::IsEigenCheck] = "-eigen";
     options_key[OptionKeyword::TopSEigen] = "-tops";
-    options_key[OptionKeyword::Dataset] = "-dataset";    //dataset name
+    options_key[OptionKeyword::Dataset] = "-dataset"; // dataset name
     options_key[OptionKeyword::QuerySize] = "-qsize";
     options_key[OptionKeyword::QueryNumber] = "-qnumber";
     options_key[OptionKeyword::QueryProperty] = "-qprop";
@@ -31,7 +32,8 @@ MatchingCommand::MatchingCommand(const int argc, char **argv) : CommandParser(ar
     processOptions();
 };
 
-void MatchingCommand::processOptions() {
+void MatchingCommand::processOptions()
+{
 
     options_value[OptionKeyword::QueryNumber] = getCommandOption(options_key[OptionKeyword::QueryNumber]);
 
@@ -95,5 +97,4 @@ void MatchingCommand::processOptions() {
     options_value[OptionKeyword::alphaPar] = getCommandOption(options_key[OptionKeyword::alphaPar]);
     options_value[OptionKeyword::betaPar] = getCommandOption(options_key[OptionKeyword::betaPar]);
     options_value[OptionKeyword::outputF] = getCommandOption(options_key[OptionKeyword::outputF]);
-
 }

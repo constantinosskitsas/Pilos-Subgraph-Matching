@@ -11,6 +11,6 @@
 
 #include "graph/graph.h"
 #include "IO.h"
- bool GenerateQueryD(ui QS,const Graph *data_graph,ui MinDen,int dd,string Dataset);
- void randomRemoval(int **a,int *countS,int NE,ui QS);
- bool GenerateQueryS(ui QS,const Graph *data_graph,ui MinDen,int dd,bool stop,string Dataset);
+bool GenerateQueryD(ui QS, const Graph *data_graph, ui MinDen, int dd, string Dataset);
+void randomRemoval(int **a, int *countS, int NE, ui QS);
+bool GenerateQueryS(ui QS, const Graph *data_graph, ui MinDen, int dd, bool stop, string Dataset);

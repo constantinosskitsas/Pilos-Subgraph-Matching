@@ -41,18 +41,26 @@ make
 
 ## Execute
 
--dataset the dataset, -qsize query size, -qnumber, -qprop query name , -filter filter algorithm, -alpha (alpha parameter), -beta (beta parameter) -n number of threads -num number of matchings
-
-PL to be changed to accept alpha as parameter.
-beta will be added also.
 MT to be added by parameter also.
 ```zsh
-timeout 3600s ./SubgraphMatching.out -dataset $t -qsize $j -qnumber $i -qprop G -filter PL -alpha $alpha -beta 0 -n 5 -num 100000
+timeout 600s ./SubgraphMatching.out -dataset $t -qsize $j -qnumber $i -qprop G -filter PL -alpha $alpha -beta 0 -n 5 -num 100000
 ```
 Example
 ```zsh
-timeout 3600s ./SubgraphMatching.out -dataset dblp -qsize 32 -qnumber 1 -qprop G -filter PL -alpha 125 
+timeout 600s ./SubgraphMatching.out -dataset dblp -qsize 32 -qnumber 1 -qprop G -filter PL -alpha 125 -SF results
 ```
+## General Parameters
+|-dataset | dataset name
+|-qsize | query size
+|-qnumber | query number
+|-filter | filter algorithm ,GQL,CFL,DPiso,PL,PLMT 
+|-num | number of matchings
+|-SF | Save file name
+
+## Parameters
+|-alpha | 
+|-beta | 
+|-n | number of threads for PLMT
 
 ### Query Generation
 To create queries use -qnumber for the number of queries, -qprop the name of the queries you want -dataset the name of the dataset and -filter GQ.
@@ -73,10 +81,8 @@ Please cite our work in your publications if it helps your research:
 ```
 Paper under submission
 ```
-## 
 ## Note
 The code is under refactor. Expected to be available 15-11-23.
 ## Reproducability
 To repeat the experiments on the paper we propose to use the scrips we provide.
-#### To-do
-Separate Eigenvalues for GQL-DP-iso and CFL.
+

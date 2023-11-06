@@ -199,15 +199,10 @@ int main(int argc, char** argv) {
     string beta=command.getbeta();
     string thnum=command.getThreadCount();
     string embeddingcount=command.getMaximumEmbeddingNum1();
-     string datagraph ="../../dataset/"+dataset_name+"/data_graph/"+dataset_name+".graph";
-     Graph* data_graph = new Graph(true);
-     data_graph->loadGraphFromFile(datagraph);
-     string StoreFile=command.getStoreFile();
-    cout <<alpha<<endl;
-    cout<<beta<<endl;
-    cout<<thnum<<endl;
-    cout<<embeddingcount<<endl;
-    cout<<StoreFile<<endl;
+    string datagraph ="../../dataset/"+dataset_name+"/data_graph/"+dataset_name+".graph";
+    Graph* data_graph = new Graph(true);
+    data_graph->loadGraphFromFile(datagraph);
+    string StoreFile=command.getStoreFile();
     int aa[5]={32,64,96,128,256};
     
     if(query_filter=="GQ"){

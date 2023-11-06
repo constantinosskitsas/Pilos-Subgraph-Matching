@@ -50,6 +50,8 @@ Example
 timeout 600s ./SubgraphMatching.out -dataset dblp -qsize 32 -qnumber 1 -qprop G -filter PL -alpha 125 -SF results
 ```
 ## General Parameters
+|Execution code|Description|
+|:--------:|:------------:|
 |-dataset | dataset name
 |-qsize | query size
 |-qnumber | query number
@@ -84,5 +86,5 @@ Paper under submission
 ## Note
 The code is under refactor. Expected to be available 15-11-23.
 ## Reproducability
-To repeat the experiments on the paper we propose to use the scrips we provide.
+To repeat the experiments on the paper we propose to use the scrips we provide. build/matching/*.sh
 

@@ -413,17 +413,28 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
                         maxED = EWeight[d][k];
                 }
         }
-        int aa = 0.5;
-        if (maxED == 0)
-            maxED = 1;
-        if (input_filter_type == "KF")
-            aa = 1;
+        float sumED=0;
+        float sumCan=0;
+        map <int,int> LB;
         for (int d = 0; d < qsiz; d++)
         {
-            ED[d] = ED[d] / maxED + aa * count1[d] + candidates_count[d];
-            // cout<<ED[d]<<endl;
+            ED[d] = ED[d] +count1[d]*(maxED+1);
+            sumED=sumED+ED[d];
+            cout<<candidates_count[d]<<endl;
+            sumCan=sumCan+candidates_count[d];
         }
-        GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED, matching_order, pivots);
+    float ED1[qsiz];
+        for (int d = 0; d < qsiz; d++)
+        {
+            float CCW=candidates_count[d]/sumCan;
+            float QLW=query_graph->getLabelsFrequency(query_graph->getVertexLabel(d))/(float)qsiz;
+            float EDw=ED[d]/sumED;
+            ED1[d] = 0.2*(EDw)+0.7*(CCW)-(0.10*(QLW));
+           // ED1[d] = 0.7*(ED[d]/sumED)+0.20*(candidates_count[d]/sumCan)-(0.1*(query_graph->getLabelsFrequency(d)/qsiz));
+            cout<<ED1[d]<<"ED: "<<0.25*(EDw)<<", CD : "<<0.5*(CCW)<<", LF : "<<0.25*(QLW)<<endl;
+            cout<<ED[d]<<","<<candidates_count[d]<<","<<query_graph->getLabelsFrequency(query_graph->getVertexLabel(d))<<endl;
+        }
+        GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED1, matching_order, pivots);
     }
     else if (input_order_type == "KFX")
     {
@@ -631,6 +642,8 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     }
     // int embdcountaa=stoi(inputs.embcount);
     output_limit = stoi(inputs.embcount);
+    if (output_limit==-1)
+        output_limit = 2000000000;
     ;
 #if ENABLE_QFLITER == 1
     EvaluateQuery::qfliter_bsr_graph_ = BuildTable::qfliter_bsr_graph_;

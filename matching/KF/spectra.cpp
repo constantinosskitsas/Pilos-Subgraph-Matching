@@ -2005,7 +2005,7 @@ bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, 
                     }
                 }
                 else
-                { // cout<<"i "<<i<<"j "<<j;
+                { 
                     FCS[i][j].change = false;
                 }
             }

@@ -79,6 +79,14 @@
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp",
-        "stdvector": "cpp"
+        "stdvector": "cpp",
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "complex": "cpp",
+        "cstdarg": "cpp",
+        "cwctype": "cpp",
+        "memory_resource": "cpp",
+        "string_view": "cpp",
+        "valarray": "cpp"
     }
 }

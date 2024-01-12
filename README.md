@@ -87,8 +87,6 @@ Please cite our work in your publications if it helps your research:
 ```
 Paper under submission
 ```
-## Note
-The code is under refactor. Expected to be available 15-11-23.
 ## Reproducability
 To repeat the experiments on the paper we propose to use the scrips we provide. build/matching/*.sh
 

@@ -12,7 +12,6 @@
 #include <sstream>
 #include <fstream>
 #include <time.h>
-
 #include "matchingcommand.h"
 #include "graph/graph.h"
 #include "GenerateFilteringPlan.h"
@@ -25,13 +24,43 @@
 #include "Experiments.h"
 #include "StudyPerformance.h"
 #include "KF/spectra.h"
-
+#include <cstring>
 #define NANOSECTOSEC(elapsed_time) ((elapsed_time) / (double)1000000000)
 #define BYTESTOMB(memory_cost) ((memory_cost) / (double)(1024 * 1024))
 // #define PRINT;
 // #define ONLYCOUNTS;
 
 // #define PRINT1 1
+void printEdgesMatrix(Edges ***edge_matrix, ui query_vertices_num)
+{
+    for (ui i = 0; i < query_vertices_num; ++i)
+    {
+        for (ui j = 0; j < query_vertices_num; ++j)
+        {
+            if (edge_matrix[i][j] != nullptr)
+            {
+                std::cout << "Edges between " << i << " and " << j << ":\n";
+                std::cout << "  Vertex count: " << edge_matrix[i][j]->vertex_count_ << "\n";
+                std::cout << "  Edge count: " << edge_matrix[i][j]->edge_count_ << "\n";
+                std::cout << "  Max degree: " << edge_matrix[i][j]->max_degree_ << "\n";
+
+                std::cout << "  Offset array: ";
+                for (ui k = 0; k <= edge_matrix[i][j]->vertex_count_; ++k)
+                {
+                    std::cout << edge_matrix[i][j]->offset_[k] << " ";
+                }
+                std::cout << "\n";
+
+                std::cout << "  Edges array: ";
+                for (ui k = 0; k < edge_matrix[i][j]->edge_count_; ++k)
+                {
+                    std::cout << edge_matrix[i][j]->edge_[k] << " ";
+                }
+                std::cout << "\n";
+            }
+        }
+    }
+}
 size_t StudyPerformance::enumerate(Graph *data_graph, Graph *query_graph, Edges ***edge_matrix, ui **candidates, ui *candidates_count,
                                    ui *matching_order, size_t output_limit)
 {
@@ -121,8 +150,9 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     string beta = inputs.beta;
     string thnum = inputs.thnum;
     string embdcount = inputs.embcount;
-
     matching_algo_outputs outputs;
+    int MemSize = 0;
+
     /**
      * Output the command line information.
      */
@@ -153,6 +183,22 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     auto start = std::chrono::high_resolution_clock::now();
 
     Graph *query_graph = new Graph(true);
+    /*
+    cout<<input_query_graph_file<<endl;
+    cout<<input_data_graph_file<<endl;
+    input_query_graph_file="dataset/hprd/query_graph/query_G_32_93.graph";
+    input_data_graph_file="dataset/hprd/data_graph/hprd.graph";
+    input_filter_type = "PLC";
+    inputs.filter = "PLC";
+    alpha="125";
+    beta="0";
+    input_order_type = "GQL";
+    input_order_type="GQL";
+    embdcount=100000;
+    input_engine_type="LFTJVEQ";
+  */
+    // return outputs;
+
     query_graph->loadGraphFromFile(input_query_graph_file);
     query_graph->buildCoreTable();
     outputs.query_size = query_graph->getVerticesCount();
@@ -162,7 +208,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     ui dsiz = 0;
     if (input_csr_file_path.empty())
     {
-        if (inputs.filter == "KF" || inputs.filter == "KFE" || inputs.filter == "KFD" || inputs.filter == "PLMT" || inputs.filter == "PL")
+        if (inputs.filter == "KF" || inputs.filter == "KFE" || inputs.filter == "KFD" || inputs.filter == "PLMT" || inputs.filter == "PL" || inputs.filter == "PLV" || inputs.filter == "PLC")
         {
             data_graph->loadGraphFromFile(input_data_graph_file);
             data_graph->BuildLabelOffset();
@@ -193,8 +239,8 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 
     auto end = std::chrono::high_resolution_clock::now();
 
-    double load_graphs_time_in_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-
+    double load_graphs_time_in_ns = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
+    cout << "load graph2: " << load_graphs_time_in_ns << endl;
     input_tops = "10";
     if (query_graph->getVerticesCount() == 4)
         input_tops = "4";
@@ -238,6 +284,31 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     TreeNode *dpiso_tree = NULL;
     TreeNode *ceci_tree = NULL;
     ui *ceci_order = NULL;
+    Edges ***edge_matrix1 = NULL;
+    size_t **candidatesHC = NULL;
+    size_t **candidatesHC2 = NULL;
+    size_t **candidatesHC3 = NULL;
+    candidatesHC = new size_t *[query_graph->getVerticesCount()];
+    candidatesHC2 = new size_t *[query_graph->getVerticesCount()];
+    candidatesHC3 = new size_t *[query_graph->getVerticesCount()];
+    size_t *candidatesHCQ = new size_t[query_graph->getVerticesCount()];
+    // size_t **candidatesP2 = NULL;
+    // candidatesP2 = new size_t *[query_graph->getVerticesCount()];
+    unordered_map<size_t, vector<ui>> *idToValues2;
+
+    unordered_map<size_t, vector<ui>> *idToValues3;
+    unordered_map<size_t, vector<ui>> *idToValues4;
+    unordered_map<size_t, vector<ui>> idTovaluesQ;
+    idToValues3 = new unordered_map<size_t, vector<ui>>[query_graph->getVerticesCount()];
+    idToValues4 = new unordered_map<size_t, vector<ui>>[query_graph->getVerticesCount()];
+    float *eigenQS = new float[query_graph->getVerticesCount()];
+    int qsiz = query_graph->getVerticesCount();
+    edge_matrix1 = new Edges **[query_graph->getVerticesCount()];
+    for (ui i = 0; i < query_graph->getVerticesCount(); ++i)
+    {
+        edge_matrix1[i] = new Edges *[query_graph->getVerticesCount()];
+    }
+
     std::vector<std::unordered_map<VertexID, std::vector<VertexID>>> TE_Candidates;
     std::vector<std::vector<std::unordered_map<VertexID, std::vector<VertexID>>>> NTE_Candidates;
     if (input_filter_type == "LDF")
@@ -248,7 +319,24 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1);
+        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+    }
+    else if (input_filter_type == "PLV")
+    {
+        int alpha1 = stoi(alpha);
+        int beta1 = stoi(beta);
+
+        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+        // SpectralMatchingV(query_graph->getVerticesCount(), data_graph, query_graph, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1,edge_matrix1,candidatesHC,idToValues2);
+    }
+    else if (input_filter_type == "PLC")
+    {
+        int alpha1 = stoi(alpha);
+        int beta1 = stoi(beta);
+        if (getValue1() > MemSize)
+            MemSize = getValue1();
+        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+        // SpectralMatchingV(query_graph->getVerticesCount(), data_graph, query_graph, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1,edge_matrix1,candidatesHC,idToValues2);
     }
     else if (input_filter_type == "PLMT")
     {
@@ -293,9 +381,9 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         std::cout << "The specified filter type '" << input_filter_type << "' is not supported." << std::endl;
         exit(-1);
     }
-
     // Sort the candidates to support the set intersections
     // TODO figure out why CECI doesn't work, read the paper.
+
     if (input_filter_type != "CECI")
         FilterVertices::sortCandidates(candidates, candidates_count, query_graph->getVerticesCount());
 
@@ -304,7 +392,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 
     int sum = 0;
     outputs.candidate_count_sum = accumulate(candidates_count, candidates_count + query_graph->getVerticesCount(), sum);
-
 #ifdef ONLYCOUNTS
     return outputs;
 #endif
@@ -336,8 +423,9 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 #endif
 
     start = std::chrono::high_resolution_clock::now();
-
     Edges ***edge_matrix = NULL;
+
+    // if (input_filter_type != "CECI")
     if (input_filter_type != "CECI")
     {
         edge_matrix = new Edges **[query_graph->getVerticesCount()];
@@ -347,12 +435,183 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         }
         BuildTable::buildTables(data_graph, query_graph, candidates, candidates_count, edge_matrix);
     }
+    ui u_nbrs_count;
+    for (ui i = 0; i < qsiz; ++i)
+    {
+        candidatesHC3[i] = new size_t[candidates_count[i]];
+        memset(candidatesHC3[i], 0, sizeof(size_t) * candidates_count[i]);
+        candidatesHC2[i] = new size_t[candidates_count[i]];
+        memset(candidatesHC2[i], 0, sizeof(size_t) * candidates_count[i]);
+    }
 
+    memset(candidatesHCQ, 0, sizeof(size_t) * qsiz);
+    int startC = 1;
+    ui u_nbrs_count1;
+    bool add = true;
+    if (true)
+    {
+        for (ui i = 0; i < qsiz; i++)
+        {
+            if (candidatesHCQ[i] != 0)
+                continue;
+            candidatesHCQ[i] = startC;
+            idTovaluesQ[startC] = {i};
+
+            const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
+            for (ui j = i + 1; j < qsiz; j++)
+            {
+                add = true;
+                const VertexID *u_nbrs1 = query_graph->getVertexNeighbors(j, u_nbrs_count1);
+                if (u_nbrs_count == u_nbrs_count1)
+                {
+                    for (int kk = 0; kk < u_nbrs_count; kk++)
+                    {
+                        if (u_nbrs[kk] != u_nbrs1[kk])
+                        {
+                            add = false;
+                            break;
+                        }
+                    }
+                    if (add == true)
+                    {
+                        candidatesHCQ[j] = startC;
+                        idTovaluesQ[candidatesHCQ[j]].push_back(j);
+                    }
+                }
+            }
+            startC++;
+        }
+    }
+
+    for (int i = 0; i < qsiz; i++)
+    {
+        const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
+        for (int j = 0; j < (u_nbrs_count - 1); j++)
+            if (u_nbrs[j] > u_nbrs[j + 1])
+            {
+                cout << "malakaaaa" << endl;
+            }
+    }
+
+    if (false)
+    {
+        string strd = "";
+        size_t hashValue = hash<string>{}(strd);
+        hash<string> mystdhash;
+
+        std::ostringstream oss1;
+
+        for (int in = 0; in < qsiz; in++)
+        {
+            const VertexID *u_nbrs = query_graph->getVertexNeighbors(in, u_nbrs_count);
+            for (ui ij = 0; ij < candidates_count[in]; ij++)
+            {
+                strd = "";
+                for (int it = 0; it < u_nbrs_count; it++)
+                {
+                    ui QVL = u_nbrs[it];
+                    ui ES = edge_matrix[in][QVL]->offset_[ij];
+                    ui EN = edge_matrix[in][QVL]->offset_[ij + 1];
+                    ui sms = 0;
+
+                    while (ES < EN)
+                    {
+                        // strd += to_string(edge_matrix1[in][u_nbrs[it]]->edge_[ES]) + "," + to_string(QVL) + "-";
+                        strd += to_string(edge_matrix[in][u_nbrs[it]]->edge_[ES]) + ","; // + to_string(QVL) + "-";
+                        ES++;
+                    }
+                    strd += to_string(QVL);
+                    strd += "-";
+                }
+                candidatesHC2[in][ij] = mystdhash(strd);
+                auto it = idToValues3[in].find(candidatesHC2[in][ij]);
+
+                if (it != idToValues3[in].end())
+                {
+
+                    // If the key exists, add the number to the end of the vector associated with that key
+                    it->second.push_back(ij);
+                }
+                else
+                {
+                    // If the key doesn't exist, insert the new key with a vector containing the added number into the map
+                    idToValues3[in][candidatesHC2[in][ij]] = {ij};
+                    // countID++;
+                }
+            }
+        }
+    }
+
+    if (false)
+    {
+        ui EN = 0;
+        int countID = 0;
+        bool add = false;
+        ui count2 = 0;
+        ui ENN;
+        for (int i = 0; i < qsiz; i++)
+        {
+            const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
+            const VertexID *u_nbrs1 = query_graph->getVertexNeighbors(i, u_nbrs_count1);
+            for (ui j = 0; j < candidates_count[i]; j++)
+            {
+                if (candidatesHC3[i][j] != 0)
+                    continue;
+                count2++;
+                candidatesHC3[i][j] = count2;
+                idToValues4[i][candidatesHC3[i][j]] = {j};
+                // check first if it has an ID
+                for (int k = j + 1; k < candidates_count[i]; k++)
+                {
+                    add = true;
+                    if (candidatesHC3[i][k] != 0)
+                        continue;
+                    for (int d = 0; d < u_nbrs_count; d++)
+                    {
+                        ui CVQ = u_nbrs[d];
+                        ui SP = edge_matrix[i][CVQ]->offset_[j];
+                        ui EP = edge_matrix[i][CVQ]->offset_[j + 1];
+                        ui SPC = edge_matrix[i][CVQ]->offset_[k];
+                        ui EPC = edge_matrix[i][CVQ]->offset_[k + 1];
+                        if ((EP - SP) == (EPC - SPC))
+                        {
+                            int Times = EP - SP;
+                            for (int ee = 0; ee < Times; ee++)
+                            {
+                                if (edge_matrix[i][CVQ]->edge_[SP + ee] != edge_matrix[i][CVQ]->edge_[SPC + ee])
+                                {
+                                    add = false;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            add = false;
+                        }
+                        if (add == false)
+                            break;
+                    }
+                    if (add == true)
+                    {
+                        candidatesHC3[i][k] = count2;
+                        idToValues4[i][count2].push_back(k);
+                    }
+                }
+            }
+        }
+        cout << "count2 :" << count2 << endl;
+    }
     end = std::chrono::high_resolution_clock::now();
+    double bns = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     double build_table_time_in_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-
     size_t memory_cost_in_bytes = 0;
-    if (input_filter_type != "CECI")
+    // cout<<(bns)<<"bns"<<endl;
+    if (input_filter_type == "PLV")
+        memory_cost_in_bytes = BuildTable::computeMemoryCostInBytes(query_graph, candidates_count, edge_matrix);
+    else if (input_filter_type == "PL")
+        memory_cost_in_bytes = BuildTable::computeMemoryCostInBytes(query_graph, candidates_count, edge_matrix);
+    else if (input_filter_type != "CECI")
     {
         memory_cost_in_bytes = BuildTable::computeMemoryCostInBytes(query_graph, candidates_count, edge_matrix);
 #ifdef PRINT1
@@ -381,7 +640,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 
     size_t order_num = 0;
     sscanf(input_order_num.c_str(), "%zu", &order_num);
-
     std::vector<std::vector<ui>> spectrum;
     if (input_order_type == "QSI")
     {
@@ -392,49 +650,37 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         ui qsiz = query_graph->getVerticesCount();
         float ED[qsiz];
+        float MAXED[qsiz];
         ui TOO = 0;
         // ui count1=0;
         ui count2 = 0;
-        ui count1[qsiz];
+        ui count1 = 0;
         float maxED = 0;
         float maxEDW = 0;
         ui maxCan = 0;
         for (int d = 0; d < qsiz; d++)
         {
+            maxED = 0;
             ED[d] = 0;
-            count1[d] = 0;
+            count1 = 0;
             for (int k = 0; k < candidates_count[d]; k++)
                 if (EWeight[d][k] == 100000)
-                    count1[d]++;
+                    count1++;
                 else
                 {
                     ED[d] = ED[d] + EWeight[d][k];
                     if (EWeight[d][k] > maxED)
                         maxED = EWeight[d][k];
                 }
+            ED[d] = ED[d] + (count1 * (maxED + eigenQS[d]));
+            ED[d] = ED[d] / eigenQS[d];
         }
-        float sumED=0;
-        float sumCan=0;
-        map <int,int> LB;
         for (int d = 0; d < qsiz; d++)
         {
-            ED[d] = ED[d] +count1[d]*(maxED+1);
-            sumED=sumED+ED[d];
-            cout<<candidates_count[d]<<endl;
-            sumCan=sumCan+candidates_count[d];
+            ; // cout<<ED[d]<<","<<eigenQS[d]<<endl;
         }
-    float ED1[qsiz];
-        for (int d = 0; d < qsiz; d++)
-        {
-            float CCW=candidates_count[d]/sumCan;
-            float QLW=query_graph->getLabelsFrequency(query_graph->getVertexLabel(d))/(float)qsiz;
-            float EDw=ED[d]/sumED;
-            ED1[d] = 0.2*(EDw)+0.7*(CCW)-(0.10*(QLW));
-           // ED1[d] = 0.7*(ED[d]/sumED)+0.20*(candidates_count[d]/sumCan)-(0.1*(query_graph->getLabelsFrequency(d)/qsiz));
-            cout<<ED1[d]<<"ED: "<<0.25*(EDw)<<", CD : "<<0.5*(CCW)<<", LF : "<<0.25*(QLW)<<endl;
-            cout<<ED[d]<<","<<candidates_count[d]<<","<<query_graph->getLabelsFrequency(query_graph->getVertexLabel(d))<<endl;
-        }
-        GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED1, matching_order, pivots);
+
+        GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED, matching_order, pivots);
     }
     else if (input_order_type == "KFX")
     {
@@ -521,7 +767,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 
         if (inputs.order_pointer == NULL)
         {
-
+            // GenerateQueryPlan::generateGQLQueryPlanNEC(data_graph, query_graph, candidates_count, matching_order, pivots,candidatesHCQ,idTovaluesQ);
             GenerateQueryPlan::generateGQLQueryPlan(data_graph, query_graph, candidates_count, matching_order, pivots);
         }
         else
@@ -587,8 +833,8 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 
         if (inputs.order_pointer == NULL)
         {
-            GenerateQueryPlan::printSimplifiedQueryPlan(query_graph, matching_order);
-            GenerateQueryPlan::checkQueryPlanCorrectness(query_graph, matching_order, pivots);
+            // GenerateQueryPlan::printSimplifiedQueryPlan(query_graph, matching_order);
+            // GenerateQueryPlan::checkQueryPlanCorrectness(query_graph, matching_order, pivots);
         }
         else
         {
@@ -610,7 +856,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     std::cout << "-----" << std::endl;
     std::cout << "Enumerate..." << std::endl;
 #endif
-
     // Add the matching order into return struct
     if (inputs.order_pointer == NULL)
     {
@@ -642,13 +887,17 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     }
     // int embdcountaa=stoi(inputs.embcount);
     output_limit = stoi(inputs.embcount);
-    if (output_limit==-1)
-        output_limit = 2000000000;
-    ;
+    if (output_limit == -1 || output_limit == -1)
+        // output_limit = 2000000000;
+        output_limit = std::numeric_limits<size_t>::max();
 #if ENABLE_QFLITER == 1
     EvaluateQuery::qfliter_bsr_graph_ = BuildTable::qfliter_bsr_graph_;
 #endif
 
+     if (input_filter_type=="PL")
+         input_engine_type="LFTJVEQ";
+     else input_engine_type="LFTJ";
+    //input_engine_type = "LFTJVEQ";
     size_t call_count = 0;
     size_t time_limit = 0;
     if (input_filter_type == "NLF")
@@ -671,9 +920,21 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         outputs.call_count = 0;
         s.embedding_cnt = 0;
     }
+    else if (input_engine_type == "LFTJVEQ")
+    {
+        if (getValue1() > MemSize)
+            MemSize = getValue1();
+        s = EvaluateQuery::LFTJVEQ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
+                                   matching_order, output_limit, call_count, candidatesHC3, idToValues4);
+        // s = EvaluateQuery::LFTJVEQL(data_graph, query_graph, edge_matrix, candidates, candidates_count,
+        //                             matching_order, output_limit, call_count,candidatesHC3,idToValues4,idToValues3,candidatesHC2);
+        // s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
+        //                             matching_order, output_limit, call_count);
+        embedding_count = s.embedding_cnt;
+        outputs.call_count = call_count;
+    }
     else if (input_engine_type == "LFTJ")
     {
-
         if (inputs.order_pointer == NULL)
         {
             s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
@@ -683,7 +944,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 
         else
         {
-            cout << "hi3" << endl;
             s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                     inputs.order_pointer, output_limit, call_count);
         }
@@ -766,11 +1026,10 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         std::cout << "The specified engine type '" << input_engine_type << "' is not supported." << std::endl;
         exit(-1);
     }
-
     end = std::chrono::high_resolution_clock::now();
     double enumeration_time_in_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-
     outputs.enumOutput = s;
+
     //    bool isvalid_candidates = Experiments::candidate_set_correctness_check(outputs.candidate,s.candidate_true,query_graph->getVerticesCount());
     //
     //    if(!isvalid_candidates) throw invalid_argument("Invalid candidate set, false negative occurs.");
@@ -788,6 +1047,9 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     /**
      * Release the allocated memories.
      */
+    if (getValue1() > MemSize)
+        MemSize = getValue1();
+    cout << "MemSize" << MemSize / 1000 << endl;
     delete[] candidates_count;
     delete[] tso_order;
     delete[] tso_tree;
@@ -804,7 +1066,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         delete[] candidates[i];
     }
     delete[] candidates;
-
     if (edge_matrix != NULL)
     {
         for (ui i = 0; i < query_graph->getVerticesCount(); ++i)
@@ -825,10 +1086,8 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         }
         delete[] weight_array;
     }
-
     delete query_graph;
     delete data_graph;
-
     /**
      * End.
      */
@@ -855,6 +1114,5 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     printf("Per Call Count Time (nanoseconds): %.4lf\n", enumeration_time_in_ns / (call_count == 0 ? 1 : call_count));
     std::cout << "End." << std::endl;
 #endif
-
     return outputs;
 }

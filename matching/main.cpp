@@ -143,8 +143,10 @@ void generate_datagraph_eigenvector(string data_graph_path, string csvfilename, 
 
     MatrixXd datagraph_eigenvalue(data_graph->getVerticesCount(), size);
     cout << "Start compute eigen value" << endl;
-    MTcalc12(data_graph, data_graph->getGraphMaxDegree(), datagraph_eigenvalue, true, size, 1100);
+
+    MTcalc12A(data_graph, data_graph->getGraphMaxDegree(), datagraph_eigenvalue, true, size, 250);
     saveData(csvfilename, datagraph_eigenvalue);
+    // saveData("test1", datagraph_eigenvalue);
 }
 
 void fixed_order_experiment(int argc, char **argv)
@@ -208,11 +210,16 @@ int main(int argc, char **argv)
     string thnum = command.getThreadCount();
     string embeddingcount = command.getMaximumEmbeddingNum1();
     string datagraph = "../../dataset/" + dataset_name + "/data_graph/" + dataset_name + ".graph";
+    auto start = std::chrono::high_resolution_clock::now();
     Graph *data_graph = new Graph(true);
-    data_graph->loadGraphFromFile(datagraph);
+    // data_graph->loadGraphFromFile(datagraph);
+    auto end = std::chrono::high_resolution_clock::now();
+    double PT = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
+    cout << "G1 read: " << PT << endl;
     string StoreFile = command.getStoreFile();
-    int aa[5] = {32, 64, 96, 128, 256};
-
+    ui aa[5] = {32, 64, 96, 128, 256};
+    srand(time(NULL));
+    // int aa[5] = {8, 12, 16, 20, 24};
     if (query_filter == "GQ")
     {
         bool ck = false;
@@ -223,6 +230,7 @@ int main(int argc, char **argv)
                 ui kk = aa[da];
                 while (!GenerateQueryD(kk, data_graph, 1, di, dataset_name))
                     ;
+                cout << "da " << kk << " di " << di << endl;
                 ck = false;
                 ui cos = 0;
             }
@@ -233,6 +241,7 @@ int main(int argc, char **argv)
     {
         int numeig = stoi(query_number);
         generate_datagraph_eigenvector("../../dataset/" + dataset_name + "/data_graph/" + dataset_name + ".graph", dataset_name + ".csv", numeig);
+        return 0;
     }
 
     Experiments::datagraphEigenMatrix = "../../" + dataset_name + ".csv";
@@ -252,8 +261,8 @@ int main(int argc, char **argv)
     evaluations.push_back(DPiso);
     */
     std::ostringstream oss;
-    oss << query_property << "_" << query_size << "_" << query_number << endl;
-    // ExcelFormat::BasicExcelWorksheet* dataSheet = workbook.GetWorksheet("IT");
+    // oss << query_property << "_" << query_size << "_" << query_number << endl;
+    //  ExcelFormat::BasicExcelWorksheet* dataSheet = workbook.GetWorksheet("IT");
     int row = 0;
     // for(auto &eval : evaluations){
     //     oss<<","<<eval.first.call_count<<","<<eval.second.call_count;
@@ -262,7 +271,7 @@ int main(int argc, char **argv)
     //    row++;
 
     //}
-    oss << "," << KF.call_count << "," << KF.enumOutput.embedding_cnt;
+    oss << query_number << " " << query_size << " " << KF.call_count << " " << KF.enumOutput.embedding_cnt;
     //<<","<<LDF.first.enumOutput.embedding_cnt;
     // dataSheet->Cell(row, 0)->SetDouble(KF.call_count);
     // ExcelFormat::BasicExcelWorksheet* summarySheet = workbook.GetWorksheet("Time");
@@ -275,7 +284,7 @@ int main(int argc, char **argv)
     //    row++;
     // }
     // dataSheet->Cell(row, 0)->SetDouble(KF.total_time);
-    oss << "," << KF.total_time << "," << KF.candidate_count_sum; //<<LDF.first.enumOutput.embedding_cnt;
+    oss << " " << KF.total_time << " " << KF.candidate_count_sum; //<<LDF.first.enumOutput.embedding_cnt;
 
     // workbook.SaveAs("magkas.xlsx");
     /*
@@ -290,11 +299,11 @@ int main(int argc, char **argv)
     // for(auto &eval : evaluations){
     //     oss<<","<<eval.first.preprocessing_time<<","<<eval.second.preprocessing_time;
     // }
-    oss << "," << KF.preprocessing_time;
+    oss << " " << KF.preprocessing_time;
     // for(auto &eval : evaluations){
     //     oss<<","<<eval.first.enumeration_time<<","<<eval.second.enumeration_time;
     // }
-    oss << "," << KF.enumeration_time;
+    oss << " " << KF.enumeration_time;
 
     std::string var = oss.str();
 

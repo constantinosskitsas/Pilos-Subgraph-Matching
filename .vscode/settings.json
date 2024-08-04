@@ -87,6 +87,7 @@
         "cwctype": "cpp",
         "memory_resource": "cpp",
         "string_view": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "core": "cpp"
     }
 }

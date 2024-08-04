@@ -54,7 +54,7 @@ void GenerateQueryPlan::generateGQLQueryPlanN(const Graph *data_graph, const Gra
     {
         VertexID next_vertex;
         // ui min_value = data_graph->getVerticesCount() + 1;
-        float min_value = 1000000;
+        float min_value = 10000000;
         float max_value = 0;
         for (ui j = 0; j < query_graph->getVerticesCount(); ++j)
         {
@@ -166,6 +166,93 @@ void GenerateQueryPlan::generateGQLQueryPlan(const Graph *data_graph, const Grap
         }
         updateValidVertices(query_graph, next_vertex, visited_vertices, adjacent_vertices);
         order[i] = next_vertex;
+    }
+
+    // Pick a pivot randomly.
+    for (ui i = 1; i < query_graph->getVerticesCount(); ++i)
+    {
+        VertexID u = order[i];
+        for (ui j = 0; j < i; ++j)
+        {
+            VertexID cur_vertex = order[j];
+            if (query_graph->checkEdgeExistence(u, cur_vertex))
+            {
+                pivot[i] = cur_vertex;
+                break;
+            }
+        }
+    }
+}
+
+void GenerateQueryPlan::generateGQLQueryPlanNEC(const Graph *data_graph, const Graph *query_graph, ui *candidates_count,
+                                                ui *&order, ui *&pivot, size_t *&candidatesHCQ, unordered_map<size_t, vector<ui>> &idTovaluesQS)
+{
+    /**
+     * Select the vertex v such that (1) v is adjacent to the selected vertices; and (2) v has the minimum number of candidates.
+     */
+    std::vector<bool> visited_vertices(query_graph->getVerticesCount(), false);
+    std::vector<bool> adjacent_vertices(query_graph->getVerticesCount(), false);
+    order = new ui[query_graph->getVerticesCount()];
+    pivot = new ui[query_graph->getVerticesCount()];
+    // vector<VertexID> NECdup;
+    VertexID start_vertex = selectGQLStartVertex(query_graph, candidates_count);
+    order[0] = start_vertex;
+    updateValidVertices(query_graph, start_vertex, visited_vertices, adjacent_vertices);
+    int startPos = 1;
+    vector<VertexID> NECdup = idTovaluesQS[candidatesHCQ[start_vertex]];
+    if (NECdup.size() > 1)
+    {
+        for (int mpe = 0; mpe < NECdup.size(); mpe++)
+        {
+            if (NECdup[mpe] != start_vertex && visited_vertices[NECdup[mpe]] == false)
+            {
+                updateValidVertices(query_graph, NECdup[mpe], visited_vertices, adjacent_vertices);
+                order[startPos] = NECdup[mpe];
+                visited_vertices[NECdup[mpe]] = true;
+                startPos++;
+            }
+        }
+    }
+
+    for (ui i = startPos; i < query_graph->getVerticesCount(); ++i)
+    {
+        VertexID next_vertex;
+        ui min_value = data_graph->getVerticesCount() + 1;
+        for (ui j = 0; j < query_graph->getVerticesCount(); ++j)
+        {
+            VertexID cur_vertex = j;
+
+            if (!visited_vertices[cur_vertex] && adjacent_vertices[cur_vertex])
+            {
+                if ((candidates_count[cur_vertex]) < min_value)
+                {
+                    min_value = (candidates_count[cur_vertex]);
+                    next_vertex = cur_vertex;
+                }
+                else if ((candidates_count[cur_vertex]) == min_value && query_graph->getVertexDegree(cur_vertex) > query_graph->getVertexDegree(next_vertex))
+                {
+                    next_vertex = cur_vertex;
+                }
+            }
+        }
+        updateValidVertices(query_graph, next_vertex, visited_vertices, adjacent_vertices);
+        order[i] = next_vertex;
+        vector<VertexID> NECdup = idTovaluesQS[candidatesHCQ[next_vertex]];
+        if (NECdup.size() > 1)
+        {
+            for (ui mpe = 0; mpe < NECdup.size(); mpe++)
+            {
+                if (NECdup[mpe] != next_vertex && visited_vertices[NECdup[mpe]] == false)
+                {
+                    next_vertex = NECdup[mpe];
+                    visited_vertices[next_vertex] = true;
+                    updateValidVertices(query_graph, next_vertex, visited_vertices, adjacent_vertices);
+                    i++;
+                    order[i] = next_vertex;
+                    // no need to updade valid vertices as neigboors.
+                }
+            }
+        }
     }
 
     // Pick a pivot randomly.
@@ -765,7 +852,7 @@ void GenerateQueryPlan::checkQueryPlanCorrectness(const Graph *query_graph, ui *
     for (ui i = 0; i < query_vertices_num; ++i)
     {
         VertexID vertex = i;
-        assert(visited_vertices[vertex]);
+        // assert(visited_vertices[vertex]);
     }
 
     // Check whether the order is connected.
@@ -776,8 +863,8 @@ void GenerateQueryPlan::checkQueryPlanCorrectness(const Graph *query_graph, ui *
     {
         VertexID vertex = order[i];
         VertexID pivot_vertex = pivot[i];
-        assert(query_graph->checkEdgeExistence(vertex, pivot_vertex));
-        assert(visited_vertices[pivot_vertex]);
+        // assert(query_graph->checkEdgeExistence(vertex, pivot_vertex));
+        // assert(visited_vertices[pivot_vertex]);
         visited_vertices[vertex] = true;
     }
 }

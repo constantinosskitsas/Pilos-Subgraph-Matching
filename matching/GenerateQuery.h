@@ -8,7 +8,6 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
-
 #include "graph/graph.h"
 #include "IO.h"
 bool GenerateQueryD(ui QS, const Graph *data_graph, ui MinDen, int dd, string Dataset);

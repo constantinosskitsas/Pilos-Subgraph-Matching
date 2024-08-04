@@ -8,6 +8,8 @@
 class GenerateQueryPlan
 {
 public:
+    static void generateGQLQueryPlanNEC(const Graph *data_graph, const Graph *query_graph, ui *candidates_count,
+                                        ui *&order, ui *&pivot, size_t *&candidatesHCQ, unordered_map<size_t, vector<ui>> &idTovaluesQS);
     static VertexID selectGQLStartVertexF(const Graph *query_graph, float candidates_count[]);
 
     static void generateGQLQueryPlanN(const Graph *data_graph, const Graph *query_graph, float weight[],

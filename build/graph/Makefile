@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/konstantinos/Pilos-Subgraph_Matching
+CMAKE_SOURCE_DIR = /home/konstantinos/Pilos-Subgraph-Matching
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/konstantinos/Pilos-Subgraph_Matching/build
+CMAKE_BINARY_DIR = /home/konstantinos/Pilos-Subgraph-Matching/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles /home/konstantinos/Pilos-Subgraph_Matching/build/graph/CMakeFiles/progress.marks
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles 0
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles /home/konstantinos/Pilos-Subgraph-Matching/build/graph/CMakeFiles/progress.marks
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/clean
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,22 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/preinstall
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/preinstall
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 graph/CMakeFiles/graph.dir/rule:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/CMakeFiles/graph.dir/rule
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 graph/CMakeFiles/graph.dir/rule
 .PHONY : graph/CMakeFiles/graph.dir/rule
 
 # Convenience name for target.
@@ -122,7 +122,7 @@ graph: graph/CMakeFiles/graph.dir/rule
 
 # fast build rule for target.
 graph/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f graph/CMakeFiles/graph.dir/build.make graph/CMakeFiles/graph.dir/build
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f graph/CMakeFiles/graph.dir/build.make graph/CMakeFiles/graph.dir/build
 .PHONY : graph/fast
 
 graph.o: graph.cpp.o
@@ -131,7 +131,7 @@ graph.o: graph.cpp.o
 
 # target to build an object file
 graph.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f graph/CMakeFiles/graph.dir/build.make graph/CMakeFiles/graph.dir/graph.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f graph/CMakeFiles/graph.dir/build.make graph/CMakeFiles/graph.dir/graph.cpp.o
 .PHONY : graph.cpp.o
 
 graph.i: graph.cpp.i
@@ -140,7 +140,7 @@ graph.i: graph.cpp.i
 
 # target to preprocess a source file
 graph.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f graph/CMakeFiles/graph.dir/build.make graph/CMakeFiles/graph.dir/graph.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f graph/CMakeFiles/graph.dir/build.make graph/CMakeFiles/graph.dir/graph.cpp.i
 .PHONY : graph.cpp.i
 
 graph.s: graph.cpp.s
@@ -149,7 +149,7 @@ graph.s: graph.cpp.s
 
 # target to generate assembly for a file
 graph.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f graph/CMakeFiles/graph.dir/build.make graph/CMakeFiles/graph.dir/graph.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f graph/CMakeFiles/graph.dir/build.make graph/CMakeFiles/graph.dir/graph.cpp.s
 .PHONY : graph.cpp.s
 
 # Help Target
@@ -175,6 +175,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

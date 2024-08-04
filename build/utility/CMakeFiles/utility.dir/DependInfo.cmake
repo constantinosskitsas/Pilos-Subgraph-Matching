@@ -4,12 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/konstantinos/Pilos-Subgraph_Matching/utility/bitsetoperation.cpp" "/home/konstantinos/Pilos-Subgraph_Matching/build/utility/CMakeFiles/utility.dir/bitsetoperation.cpp.o"
-  "/home/konstantinos/Pilos-Subgraph_Matching/utility/commandparser.cpp" "/home/konstantinos/Pilos-Subgraph_Matching/build/utility/CMakeFiles/utility.dir/commandparser.cpp.o"
-  "/home/konstantinos/Pilos-Subgraph_Matching/utility/computesetintersection.cpp" "/home/konstantinos/Pilos-Subgraph_Matching/build/utility/CMakeFiles/utility.dir/computesetintersection.cpp.o"
-  "/home/konstantinos/Pilos-Subgraph_Matching/utility/graphoperations.cpp" "/home/konstantinos/Pilos-Subgraph_Matching/build/utility/CMakeFiles/utility.dir/graphoperations.cpp.o"
-  "/home/konstantinos/Pilos-Subgraph_Matching/utility/han/intersection_algos.cpp" "/home/konstantinos/Pilos-Subgraph_Matching/build/utility/CMakeFiles/utility.dir/han/intersection_algos.cpp.o"
-  "/home/konstantinos/Pilos-Subgraph_Matching/utility/han/utils/util.cpp" "/home/konstantinos/Pilos-Subgraph_Matching/build/utility/CMakeFiles/utility.dir/han/utils/util.cpp.o"
+  "/home/konstantinos/Pilos-Subgraph-Matching/utility/bitsetoperation.cpp" "/home/konstantinos/Pilos-Subgraph-Matching/build/utility/CMakeFiles/utility.dir/bitsetoperation.cpp.o"
+  "/home/konstantinos/Pilos-Subgraph-Matching/utility/commandparser.cpp" "/home/konstantinos/Pilos-Subgraph-Matching/build/utility/CMakeFiles/utility.dir/commandparser.cpp.o"
+  "/home/konstantinos/Pilos-Subgraph-Matching/utility/computesetintersection.cpp" "/home/konstantinos/Pilos-Subgraph-Matching/build/utility/CMakeFiles/utility.dir/computesetintersection.cpp.o"
+  "/home/konstantinos/Pilos-Subgraph-Matching/utility/graphoperations.cpp" "/home/konstantinos/Pilos-Subgraph-Matching/build/utility/CMakeFiles/utility.dir/graphoperations.cpp.o"
+  "/home/konstantinos/Pilos-Subgraph-Matching/utility/han/intersection_algos.cpp" "/home/konstantinos/Pilos-Subgraph-Matching/build/utility/CMakeFiles/utility.dir/han/intersection_algos.cpp.o"
+  "/home/konstantinos/Pilos-Subgraph-Matching/utility/han/utils/util.cpp" "/home/konstantinos/Pilos-Subgraph-Matching/build/utility/CMakeFiles/utility.dir/han/utils/util.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

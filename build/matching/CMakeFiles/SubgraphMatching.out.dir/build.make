@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/konstantinos/Pilos-Subgraph_Matching
+CMAKE_SOURCE_DIR = /home/konstantinos/Pilos-Subgraph-Matching
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/konstantinos/Pilos-Subgraph_Matching/build
+CMAKE_BINARY_DIR = /home/konstantinos/Pilos-Subgraph-Matching/build
 
 # Include any dependencies generated for this target.
 include matching/CMakeFiles/SubgraphMatching.out.dir/depend.make
@@ -59,16 +59,16 @@ include matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: ../matching/KF/spectra.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/KF/spectra.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/KF/spectra.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/KF/spectra.cpp > CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/KF/spectra.cpp > CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/KF/spectra.cpp -o CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/KF/spectra.cpp -o CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o.requires:
 
@@ -83,16 +83,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o.provides.build: ma
 
 matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o: ../matching/Experiments.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/Experiments.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/Experiments.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/Experiments.cpp > CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/Experiments.cpp > CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/Experiments.cpp -o CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/Experiments.cpp -o CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o.requires:
 
@@ -107,16 +107,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o.provides.build: m
 
 matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o: ../matching/IO.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/IO.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/IO.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/IO.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/IO.cpp > CMakeFiles/SubgraphMatching.out.dir/IO.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/IO.cpp > CMakeFiles/SubgraphMatching.out.dir/IO.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/IO.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/IO.cpp -o CMakeFiles/SubgraphMatching.out.dir/IO.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/IO.cpp -o CMakeFiles/SubgraphMatching.out.dir/IO.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o.requires:
 
@@ -131,16 +131,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o.provides.build: matching/C
 
 matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o: ../matching/eigenHelper.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/eigenHelper.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/eigenHelper.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/eigenHelper.cpp > CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/eigenHelper.cpp > CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/eigenHelper.cpp -o CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/eigenHelper.cpp -o CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o.requires:
 
@@ -155,16 +155,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o.provides.build: m
 
 matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o: ../matching/matchingcommand.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/matchingcommand.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/matchingcommand.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/matchingcommand.cpp > CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/matchingcommand.cpp > CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/matchingcommand.cpp -o CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/matchingcommand.cpp -o CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o.requires:
 
@@ -179,16 +179,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o.provides.buil
 
 matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o: ../matching/FilterVertices.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/FilterVertices.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/FilterVertices.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/FilterVertices.cpp > CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/FilterVertices.cpp > CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/FilterVertices.cpp -o CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/FilterVertices.cpp -o CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o.requires:
 
@@ -203,16 +203,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o.provides.build
 
 matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o: ../matching/BuildTable.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/BuildTable.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/BuildTable.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/BuildTable.cpp > CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/BuildTable.cpp > CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/BuildTable.cpp -o CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/BuildTable.cpp -o CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o.requires:
 
@@ -227,16 +227,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o.provides.build: ma
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o: ../matching/GenerateQueryPlan.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/GenerateQueryPlan.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/GenerateQueryPlan.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/GenerateQueryPlan.cpp > CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/GenerateQueryPlan.cpp > CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/GenerateQueryPlan.cpp -o CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/GenerateQueryPlan.cpp -o CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o.requires:
 
@@ -251,16 +251,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o.provides.bu
 
 matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o: ../matching/EvaluateQuery.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/EvaluateQuery.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/EvaluateQuery.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/EvaluateQuery.cpp > CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/EvaluateQuery.cpp > CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/EvaluateQuery.cpp -o CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/EvaluateQuery.cpp -o CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o.requires:
 
@@ -275,16 +275,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o.provides.build:
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o: ../matching/GenerateFilteringPlan.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/GenerateFilteringPlan.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/GenerateFilteringPlan.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/GenerateFilteringPlan.cpp > CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/GenerateFilteringPlan.cpp > CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/GenerateFilteringPlan.cpp -o CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/GenerateFilteringPlan.cpp -o CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o.requires:
 
@@ -299,16 +299,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o.provide
 
 matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o: ../matching/StudyPerformance.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/StudyPerformance.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/StudyPerformance.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/StudyPerformance.cpp > CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/StudyPerformance.cpp > CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/StudyPerformance.cpp -o CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/StudyPerformance.cpp -o CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o.requires:
 
@@ -323,16 +323,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o.provides.bui
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o: ../matching/GenerateQuery.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/GenerateQuery.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/GenerateQuery.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/GenerateQuery.cpp > CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/GenerateQuery.cpp > CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/GenerateQuery.cpp -o CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/GenerateQuery.cpp -o CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o.requires:
 
@@ -347,16 +347,16 @@ matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o.provides.build:
 
 matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.o: matching/CMakeFiles/SubgraphMatching.out.dir/flags.make
 matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.o: ../matching/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.o"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/main.cpp.o -c /home/konstantinos/Pilos-Subgraph_Matching/matching/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.o"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SubgraphMatching.out.dir/main.cpp.o -c /home/konstantinos/Pilos-Subgraph-Matching/matching/main.cpp
 
 matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SubgraphMatching.out.dir/main.cpp.i"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph_Matching/matching/main.cpp > CMakeFiles/SubgraphMatching.out.dir/main.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/konstantinos/Pilos-Subgraph-Matching/matching/main.cpp > CMakeFiles/SubgraphMatching.out.dir/main.cpp.i
 
 matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SubgraphMatching.out.dir/main.cpp.s"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && /home/konstantinos/miniconda3/bin/x86_64-conda_cos6-linux-gnu-c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph_Matching/matching/main.cpp -o CMakeFiles/SubgraphMatching.out.dir/main.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/konstantinos/Pilos-Subgraph-Matching/matching/main.cpp -o CMakeFiles/SubgraphMatching.out.dir/main.cpp.s
 
 matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.o.requires:
 
@@ -405,8 +405,8 @@ matching/SubgraphMatching.out: matching/CMakeFiles/SubgraphMatching.out.dir/buil
 matching/SubgraphMatching.out: graph/libgraph.so
 matching/SubgraphMatching.out: utility/libutility.so
 matching/SubgraphMatching.out: matching/CMakeFiles/SubgraphMatching.out.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable SubgraphMatching.out"
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/SubgraphMatching.out.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable SubgraphMatching.out"
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/SubgraphMatching.out.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 matching/CMakeFiles/SubgraphMatching.out.dir/build: matching/SubgraphMatching.out
@@ -430,10 +430,10 @@ matching/CMakeFiles/SubgraphMatching.out.dir/requires: matching/CMakeFiles/Subgr
 .PHONY : matching/CMakeFiles/SubgraphMatching.out.dir/requires
 
 matching/CMakeFiles/SubgraphMatching.out.dir/clean:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build/matching && $(CMAKE_COMMAND) -P CMakeFiles/SubgraphMatching.out.dir/cmake_clean.cmake
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build/matching && $(CMAKE_COMMAND) -P CMakeFiles/SubgraphMatching.out.dir/cmake_clean.cmake
 .PHONY : matching/CMakeFiles/SubgraphMatching.out.dir/clean
 
 matching/CMakeFiles/SubgraphMatching.out.dir/depend:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/konstantinos/Pilos-Subgraph_Matching /home/konstantinos/Pilos-Subgraph_Matching/matching /home/konstantinos/Pilos-Subgraph_Matching/build /home/konstantinos/Pilos-Subgraph_Matching/build/matching /home/konstantinos/Pilos-Subgraph_Matching/build/matching/CMakeFiles/SubgraphMatching.out.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/konstantinos/Pilos-Subgraph-Matching /home/konstantinos/Pilos-Subgraph-Matching/matching /home/konstantinos/Pilos-Subgraph-Matching/build /home/konstantinos/Pilos-Subgraph-Matching/build/matching /home/konstantinos/Pilos-Subgraph-Matching/build/matching/CMakeFiles/SubgraphMatching.out.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : matching/CMakeFiles/SubgraphMatching.out.dir/depend
 

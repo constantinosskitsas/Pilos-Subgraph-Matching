@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/konstantinos/Pilos-Subgraph_Matching
+CMAKE_SOURCE_DIR = /home/konstantinos/Pilos-Subgraph-Matching
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/konstantinos/Pilos-Subgraph_Matching/build
+CMAKE_BINARY_DIR = /home/konstantinos/Pilos-Subgraph-Matching/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles /home/konstantinos/Pilos-Subgraph_Matching/build/matching/CMakeFiles/progress.marks
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles 0
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles /home/konstantinos/Pilos-Subgraph-Matching/build/matching/CMakeFiles/progress.marks
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/clean
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,22 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/preinstall
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/preinstall
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 matching/CMakeFiles/GraphConverter.out.dir/rule:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/GraphConverter.out.dir/rule
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/GraphConverter.out.dir/rule
 .PHONY : matching/CMakeFiles/GraphConverter.out.dir/rule
 
 # Convenience name for target.
@@ -122,12 +122,12 @@ GraphConverter.out: matching/CMakeFiles/GraphConverter.out.dir/rule
 
 # fast build rule for target.
 GraphConverter.out/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/GraphConverter.out.dir/build.make matching/CMakeFiles/GraphConverter.out.dir/build
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/GraphConverter.out.dir/build.make matching/CMakeFiles/GraphConverter.out.dir/build
 .PHONY : GraphConverter.out/fast
 
 # Convenience name for target.
 matching/CMakeFiles/SubgraphMatching.out.dir/rule:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/SubgraphMatching.out.dir/rule
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/SubgraphMatching.out.dir/rule
 .PHONY : matching/CMakeFiles/SubgraphMatching.out.dir/rule
 
 # Convenience name for target.
@@ -137,12 +137,12 @@ SubgraphMatching.out: matching/CMakeFiles/SubgraphMatching.out.dir/rule
 
 # fast build rule for target.
 SubgraphMatching.out/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/build
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/build
 .PHONY : SubgraphMatching.out/fast
 
 # Convenience name for target.
 matching/CMakeFiles/EdgeListConverter.out.dir/rule:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/EdgeListConverter.out.dir/rule
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/EdgeListConverter.out.dir/rule
 .PHONY : matching/CMakeFiles/EdgeListConverter.out.dir/rule
 
 # Convenience name for target.
@@ -152,12 +152,12 @@ EdgeListConverter.out: matching/CMakeFiles/EdgeListConverter.out.dir/rule
 
 # fast build rule for target.
 EdgeListConverter.out/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/EdgeListConverter.out.dir/build.make matching/CMakeFiles/EdgeListConverter.out.dir/build
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/EdgeListConverter.out.dir/build.make matching/CMakeFiles/EdgeListConverter.out.dir/build
 .PHONY : EdgeListConverter.out/fast
 
 # Convenience name for target.
 matching/CMakeFiles/ReassignLabel.dir/rule:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/ReassignLabel.dir/rule
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/ReassignLabel.dir/rule
 .PHONY : matching/CMakeFiles/ReassignLabel.dir/rule
 
 # Convenience name for target.
@@ -167,12 +167,12 @@ ReassignLabel: matching/CMakeFiles/ReassignLabel.dir/rule
 
 # fast build rule for target.
 ReassignLabel/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/ReassignLabel.dir/build.make matching/CMakeFiles/ReassignLabel.dir/build
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/ReassignLabel.dir/build.make matching/CMakeFiles/ReassignLabel.dir/build
 .PHONY : ReassignLabel/fast
 
 # Convenience name for target.
 matching/CMakeFiles/SelectEdge.dir/rule:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/SelectEdge.dir/rule
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 matching/CMakeFiles/SelectEdge.dir/rule
 .PHONY : matching/CMakeFiles/SelectEdge.dir/rule
 
 # Convenience name for target.
@@ -182,7 +182,7 @@ SelectEdge: matching/CMakeFiles/SelectEdge.dir/rule
 
 # fast build rule for target.
 SelectEdge/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SelectEdge.dir/build.make matching/CMakeFiles/SelectEdge.dir/build
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SelectEdge.dir/build.make matching/CMakeFiles/SelectEdge.dir/build
 .PHONY : SelectEdge/fast
 
 BuildTable.o: BuildTable.cpp.o
@@ -191,7 +191,7 @@ BuildTable.o: BuildTable.cpp.o
 
 # target to build an object file
 BuildTable.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.o
 .PHONY : BuildTable.cpp.o
 
 BuildTable.i: BuildTable.cpp.i
@@ -200,7 +200,7 @@ BuildTable.i: BuildTable.cpp.i
 
 # target to preprocess a source file
 BuildTable.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.i
 .PHONY : BuildTable.cpp.i
 
 BuildTable.s: BuildTable.cpp.s
@@ -209,7 +209,7 @@ BuildTable.s: BuildTable.cpp.s
 
 # target to generate assembly for a file
 BuildTable.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/BuildTable.cpp.s
 .PHONY : BuildTable.cpp.s
 
 EdgeListToCSR.o: EdgeListToCSR.cpp.o
@@ -218,7 +218,7 @@ EdgeListToCSR.o: EdgeListToCSR.cpp.o
 
 # target to build an object file
 EdgeListToCSR.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/EdgeListConverter.out.dir/build.make matching/CMakeFiles/EdgeListConverter.out.dir/EdgeListToCSR.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/EdgeListConverter.out.dir/build.make matching/CMakeFiles/EdgeListConverter.out.dir/EdgeListToCSR.cpp.o
 .PHONY : EdgeListToCSR.cpp.o
 
 EdgeListToCSR.i: EdgeListToCSR.cpp.i
@@ -227,7 +227,7 @@ EdgeListToCSR.i: EdgeListToCSR.cpp.i
 
 # target to preprocess a source file
 EdgeListToCSR.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/EdgeListConverter.out.dir/build.make matching/CMakeFiles/EdgeListConverter.out.dir/EdgeListToCSR.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/EdgeListConverter.out.dir/build.make matching/CMakeFiles/EdgeListConverter.out.dir/EdgeListToCSR.cpp.i
 .PHONY : EdgeListToCSR.cpp.i
 
 EdgeListToCSR.s: EdgeListToCSR.cpp.s
@@ -236,7 +236,7 @@ EdgeListToCSR.s: EdgeListToCSR.cpp.s
 
 # target to generate assembly for a file
 EdgeListToCSR.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/EdgeListConverter.out.dir/build.make matching/CMakeFiles/EdgeListConverter.out.dir/EdgeListToCSR.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/EdgeListConverter.out.dir/build.make matching/CMakeFiles/EdgeListConverter.out.dir/EdgeListToCSR.cpp.s
 .PHONY : EdgeListToCSR.cpp.s
 
 EvaluateQuery.o: EvaluateQuery.cpp.o
@@ -245,7 +245,7 @@ EvaluateQuery.o: EvaluateQuery.cpp.o
 
 # target to build an object file
 EvaluateQuery.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.o
 .PHONY : EvaluateQuery.cpp.o
 
 EvaluateQuery.i: EvaluateQuery.cpp.i
@@ -254,7 +254,7 @@ EvaluateQuery.i: EvaluateQuery.cpp.i
 
 # target to preprocess a source file
 EvaluateQuery.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.i
 .PHONY : EvaluateQuery.cpp.i
 
 EvaluateQuery.s: EvaluateQuery.cpp.s
@@ -263,7 +263,7 @@ EvaluateQuery.s: EvaluateQuery.cpp.s
 
 # target to generate assembly for a file
 EvaluateQuery.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/EvaluateQuery.cpp.s
 .PHONY : EvaluateQuery.cpp.s
 
 Experiments.o: Experiments.cpp.o
@@ -272,7 +272,7 @@ Experiments.o: Experiments.cpp.o
 
 # target to build an object file
 Experiments.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.o
 .PHONY : Experiments.cpp.o
 
 Experiments.i: Experiments.cpp.i
@@ -281,7 +281,7 @@ Experiments.i: Experiments.cpp.i
 
 # target to preprocess a source file
 Experiments.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.i
 .PHONY : Experiments.cpp.i
 
 Experiments.s: Experiments.cpp.s
@@ -290,7 +290,7 @@ Experiments.s: Experiments.cpp.s
 
 # target to generate assembly for a file
 Experiments.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/Experiments.cpp.s
 .PHONY : Experiments.cpp.s
 
 FilterVertices.o: FilterVertices.cpp.o
@@ -299,7 +299,7 @@ FilterVertices.o: FilterVertices.cpp.o
 
 # target to build an object file
 FilterVertices.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.o
 .PHONY : FilterVertices.cpp.o
 
 FilterVertices.i: FilterVertices.cpp.i
@@ -308,7 +308,7 @@ FilterVertices.i: FilterVertices.cpp.i
 
 # target to preprocess a source file
 FilterVertices.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.i
 .PHONY : FilterVertices.cpp.i
 
 FilterVertices.s: FilterVertices.cpp.s
@@ -317,7 +317,7 @@ FilterVertices.s: FilterVertices.cpp.s
 
 # target to generate assembly for a file
 FilterVertices.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/FilterVertices.cpp.s
 .PHONY : FilterVertices.cpp.s
 
 GenerateFilteringPlan.o: GenerateFilteringPlan.cpp.o
@@ -326,7 +326,7 @@ GenerateFilteringPlan.o: GenerateFilteringPlan.cpp.o
 
 # target to build an object file
 GenerateFilteringPlan.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.o
 .PHONY : GenerateFilteringPlan.cpp.o
 
 GenerateFilteringPlan.i: GenerateFilteringPlan.cpp.i
@@ -335,7 +335,7 @@ GenerateFilteringPlan.i: GenerateFilteringPlan.cpp.i
 
 # target to preprocess a source file
 GenerateFilteringPlan.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.i
 .PHONY : GenerateFilteringPlan.cpp.i
 
 GenerateFilteringPlan.s: GenerateFilteringPlan.cpp.s
@@ -344,7 +344,7 @@ GenerateFilteringPlan.s: GenerateFilteringPlan.cpp.s
 
 # target to generate assembly for a file
 GenerateFilteringPlan.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateFilteringPlan.cpp.s
 .PHONY : GenerateFilteringPlan.cpp.s
 
 GenerateQuery.o: GenerateQuery.cpp.o
@@ -353,7 +353,7 @@ GenerateQuery.o: GenerateQuery.cpp.o
 
 # target to build an object file
 GenerateQuery.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.o
 .PHONY : GenerateQuery.cpp.o
 
 GenerateQuery.i: GenerateQuery.cpp.i
@@ -362,7 +362,7 @@ GenerateQuery.i: GenerateQuery.cpp.i
 
 # target to preprocess a source file
 GenerateQuery.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.i
 .PHONY : GenerateQuery.cpp.i
 
 GenerateQuery.s: GenerateQuery.cpp.s
@@ -371,7 +371,7 @@ GenerateQuery.s: GenerateQuery.cpp.s
 
 # target to generate assembly for a file
 GenerateQuery.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQuery.cpp.s
 .PHONY : GenerateQuery.cpp.s
 
 GenerateQueryPlan.o: GenerateQueryPlan.cpp.o
@@ -380,7 +380,7 @@ GenerateQueryPlan.o: GenerateQueryPlan.cpp.o
 
 # target to build an object file
 GenerateQueryPlan.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.o
 .PHONY : GenerateQueryPlan.cpp.o
 
 GenerateQueryPlan.i: GenerateQueryPlan.cpp.i
@@ -389,7 +389,7 @@ GenerateQueryPlan.i: GenerateQueryPlan.cpp.i
 
 # target to preprocess a source file
 GenerateQueryPlan.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.i
 .PHONY : GenerateQueryPlan.cpp.i
 
 GenerateQueryPlan.s: GenerateQueryPlan.cpp.s
@@ -398,7 +398,7 @@ GenerateQueryPlan.s: GenerateQueryPlan.cpp.s
 
 # target to generate assembly for a file
 GenerateQueryPlan.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/GenerateQueryPlan.cpp.s
 .PHONY : GenerateQueryPlan.cpp.s
 
 GraphConverter.o: GraphConverter.cpp.o
@@ -407,7 +407,7 @@ GraphConverter.o: GraphConverter.cpp.o
 
 # target to build an object file
 GraphConverter.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/GraphConverter.out.dir/build.make matching/CMakeFiles/GraphConverter.out.dir/GraphConverter.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/GraphConverter.out.dir/build.make matching/CMakeFiles/GraphConverter.out.dir/GraphConverter.cpp.o
 .PHONY : GraphConverter.cpp.o
 
 GraphConverter.i: GraphConverter.cpp.i
@@ -416,7 +416,7 @@ GraphConverter.i: GraphConverter.cpp.i
 
 # target to preprocess a source file
 GraphConverter.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/GraphConverter.out.dir/build.make matching/CMakeFiles/GraphConverter.out.dir/GraphConverter.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/GraphConverter.out.dir/build.make matching/CMakeFiles/GraphConverter.out.dir/GraphConverter.cpp.i
 .PHONY : GraphConverter.cpp.i
 
 GraphConverter.s: GraphConverter.cpp.s
@@ -425,7 +425,7 @@ GraphConverter.s: GraphConverter.cpp.s
 
 # target to generate assembly for a file
 GraphConverter.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/GraphConverter.out.dir/build.make matching/CMakeFiles/GraphConverter.out.dir/GraphConverter.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/GraphConverter.out.dir/build.make matching/CMakeFiles/GraphConverter.out.dir/GraphConverter.cpp.s
 .PHONY : GraphConverter.cpp.s
 
 IO.o: IO.cpp.o
@@ -434,7 +434,7 @@ IO.o: IO.cpp.o
 
 # target to build an object file
 IO.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.o
 .PHONY : IO.cpp.o
 
 IO.i: IO.cpp.i
@@ -443,7 +443,7 @@ IO.i: IO.cpp.i
 
 # target to preprocess a source file
 IO.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.i
 .PHONY : IO.cpp.i
 
 IO.s: IO.cpp.s
@@ -452,7 +452,7 @@ IO.s: IO.cpp.s
 
 # target to generate assembly for a file
 IO.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/IO.cpp.s
 .PHONY : IO.cpp.s
 
 KF/spectra.o: KF/spectra.cpp.o
@@ -461,7 +461,7 @@ KF/spectra.o: KF/spectra.cpp.o
 
 # target to build an object file
 KF/spectra.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o
 .PHONY : KF/spectra.cpp.o
 
 KF/spectra.i: KF/spectra.cpp.i
@@ -470,7 +470,7 @@ KF/spectra.i: KF/spectra.cpp.i
 
 # target to preprocess a source file
 KF/spectra.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.i
 .PHONY : KF/spectra.cpp.i
 
 KF/spectra.s: KF/spectra.cpp.s
@@ -479,7 +479,7 @@ KF/spectra.s: KF/spectra.cpp.s
 
 # target to generate assembly for a file
 KF/spectra.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.s
 .PHONY : KF/spectra.cpp.s
 
 ReassignLabel.o: ReassignLabel.cpp.o
@@ -488,7 +488,7 @@ ReassignLabel.o: ReassignLabel.cpp.o
 
 # target to build an object file
 ReassignLabel.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/ReassignLabel.dir/build.make matching/CMakeFiles/ReassignLabel.dir/ReassignLabel.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/ReassignLabel.dir/build.make matching/CMakeFiles/ReassignLabel.dir/ReassignLabel.cpp.o
 .PHONY : ReassignLabel.cpp.o
 
 ReassignLabel.i: ReassignLabel.cpp.i
@@ -497,7 +497,7 @@ ReassignLabel.i: ReassignLabel.cpp.i
 
 # target to preprocess a source file
 ReassignLabel.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/ReassignLabel.dir/build.make matching/CMakeFiles/ReassignLabel.dir/ReassignLabel.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/ReassignLabel.dir/build.make matching/CMakeFiles/ReassignLabel.dir/ReassignLabel.cpp.i
 .PHONY : ReassignLabel.cpp.i
 
 ReassignLabel.s: ReassignLabel.cpp.s
@@ -506,7 +506,7 @@ ReassignLabel.s: ReassignLabel.cpp.s
 
 # target to generate assembly for a file
 ReassignLabel.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/ReassignLabel.dir/build.make matching/CMakeFiles/ReassignLabel.dir/ReassignLabel.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/ReassignLabel.dir/build.make matching/CMakeFiles/ReassignLabel.dir/ReassignLabel.cpp.s
 .PHONY : ReassignLabel.cpp.s
 
 SelectEdge.o: SelectEdge.cpp.o
@@ -515,7 +515,7 @@ SelectEdge.o: SelectEdge.cpp.o
 
 # target to build an object file
 SelectEdge.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SelectEdge.dir/build.make matching/CMakeFiles/SelectEdge.dir/SelectEdge.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SelectEdge.dir/build.make matching/CMakeFiles/SelectEdge.dir/SelectEdge.cpp.o
 .PHONY : SelectEdge.cpp.o
 
 SelectEdge.i: SelectEdge.cpp.i
@@ -524,7 +524,7 @@ SelectEdge.i: SelectEdge.cpp.i
 
 # target to preprocess a source file
 SelectEdge.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SelectEdge.dir/build.make matching/CMakeFiles/SelectEdge.dir/SelectEdge.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SelectEdge.dir/build.make matching/CMakeFiles/SelectEdge.dir/SelectEdge.cpp.i
 .PHONY : SelectEdge.cpp.i
 
 SelectEdge.s: SelectEdge.cpp.s
@@ -533,7 +533,7 @@ SelectEdge.s: SelectEdge.cpp.s
 
 # target to generate assembly for a file
 SelectEdge.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SelectEdge.dir/build.make matching/CMakeFiles/SelectEdge.dir/SelectEdge.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SelectEdge.dir/build.make matching/CMakeFiles/SelectEdge.dir/SelectEdge.cpp.s
 .PHONY : SelectEdge.cpp.s
 
 StudyPerformance.o: StudyPerformance.cpp.o
@@ -542,7 +542,7 @@ StudyPerformance.o: StudyPerformance.cpp.o
 
 # target to build an object file
 StudyPerformance.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.o
 .PHONY : StudyPerformance.cpp.o
 
 StudyPerformance.i: StudyPerformance.cpp.i
@@ -551,7 +551,7 @@ StudyPerformance.i: StudyPerformance.cpp.i
 
 # target to preprocess a source file
 StudyPerformance.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.i
 .PHONY : StudyPerformance.cpp.i
 
 StudyPerformance.s: StudyPerformance.cpp.s
@@ -560,7 +560,7 @@ StudyPerformance.s: StudyPerformance.cpp.s
 
 # target to generate assembly for a file
 StudyPerformance.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/StudyPerformance.cpp.s
 .PHONY : StudyPerformance.cpp.s
 
 eigenHelper.o: eigenHelper.cpp.o
@@ -569,7 +569,7 @@ eigenHelper.o: eigenHelper.cpp.o
 
 # target to build an object file
 eigenHelper.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.o
 .PHONY : eigenHelper.cpp.o
 
 eigenHelper.i: eigenHelper.cpp.i
@@ -578,7 +578,7 @@ eigenHelper.i: eigenHelper.cpp.i
 
 # target to preprocess a source file
 eigenHelper.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.i
 .PHONY : eigenHelper.cpp.i
 
 eigenHelper.s: eigenHelper.cpp.s
@@ -587,7 +587,7 @@ eigenHelper.s: eigenHelper.cpp.s
 
 # target to generate assembly for a file
 eigenHelper.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/eigenHelper.cpp.s
 .PHONY : eigenHelper.cpp.s
 
 main.o: main.cpp.o
@@ -596,7 +596,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -605,7 +605,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -614,7 +614,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 matchingcommand.o: matchingcommand.cpp.o
@@ -623,7 +623,7 @@ matchingcommand.o: matchingcommand.cpp.o
 
 # target to build an object file
 matchingcommand.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.o
 .PHONY : matchingcommand.cpp.o
 
 matchingcommand.i: matchingcommand.cpp.i
@@ -632,7 +632,7 @@ matchingcommand.i: matchingcommand.cpp.i
 
 # target to preprocess a source file
 matchingcommand.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.i
 .PHONY : matchingcommand.cpp.i
 
 matchingcommand.s: matchingcommand.cpp.s
@@ -641,7 +641,7 @@ matchingcommand.s: matchingcommand.cpp.s
 
 # target to generate assembly for a file
 matchingcommand.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f matching/CMakeFiles/SubgraphMatching.out.dir/build.make matching/CMakeFiles/SubgraphMatching.out.dir/matchingcommand.cpp.s
 .PHONY : matchingcommand.cpp.s
 
 # Help Target
@@ -719,6 +719,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

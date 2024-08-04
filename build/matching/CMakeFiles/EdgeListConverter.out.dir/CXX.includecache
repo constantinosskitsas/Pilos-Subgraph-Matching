@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/konstantinos/Pilos-Subgraph_Matching/matching/EdgeListToCSR.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/matching/EdgeListToCSR.cpp
 cassert
 -
 algorithm

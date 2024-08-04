@@ -1230,9 +1230,9 @@ EvaluateQuery::LFTJ(const Graph *data_graph, const Graph *query_graph, Edges ***
                 call_count += 1;
                 cur_depth += 1;     // next depth
                 idx[cur_depth] = 0; // set the element to 0
-                // generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
-                //                            bn_count, order, temp_buffer);
-                // get the candidates for next depth
+                                    // generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
+                                    //                            bn_count, order, temp_buffer);
+                                    // get the candidates for next depth
 
 #ifdef ENABLE_FAILING_SET
                 if (idx_count[cur_depth] == 0)
@@ -1412,9 +1412,9 @@ EvaluateQuery::LFTJSS(const Graph *data_graph, const Graph *query_graph, Edges *
                 call_count += 1;
                 cur_depth += 1;     // next depth
                 idx[cur_depth] = 0; // set the element to 0
-                //  generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
-                //                              bn_count, order, temp_buffer);
-                // get the candidates for next depth
+                                    //  generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
+                                    //                              bn_count, order, temp_buffer);
+                                    // get the candidates for next depth
 
 #ifdef ENABLE_FAILING_SET
                 if (idx_count[cur_depth] == 0)
@@ -2016,9 +2016,9 @@ EvaluateQuery::LFTJVEQL(const Graph *data_graph, const Graph *query_graph, Edges
                 call_count += 1;
                 cur_depth += 1;     // next depth
                 idx[cur_depth] = 0; // set the element to 0
-                // generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
-                //                            bn_count, order, temp_buffer);
-                // get the candidates for next depth
+                                    // generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
+                                    //                            bn_count, order, temp_buffer);
+                                    // get the candidates for next depth
 
 #ifdef ENABLE_FAILING_SET
                 if (idx_count[cur_depth] == 0)

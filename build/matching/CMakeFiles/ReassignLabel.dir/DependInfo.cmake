@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/konstantinos/Pilos-Subgraph_Matching/matching/ReassignLabel.cpp" "/home/konstantinos/Pilos-Subgraph_Matching/build/matching/CMakeFiles/ReassignLabel.dir/ReassignLabel.cpp.o"
+  "/home/konstantinos/Pilos-Subgraph-Matching/matching/ReassignLabel.cpp" "/home/konstantinos/Pilos-Subgraph-Matching/build/matching/CMakeFiles/ReassignLabel.dir/ReassignLabel.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

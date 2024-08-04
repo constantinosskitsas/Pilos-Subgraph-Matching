@@ -1413,6 +1413,7 @@ matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: ../Eigen/src/Core
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: ../configuration/config.h
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: ../graph/graph.h
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: ../utility/QFliter.h
+matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: ../utility/graphoperations.h
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: ../Eigen/Cholesky
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: ../Eigen/Core
 matching/CMakeFiles/SubgraphMatching.out.dir/KF/spectra.cpp.o: ../Eigen/Eigenvalues

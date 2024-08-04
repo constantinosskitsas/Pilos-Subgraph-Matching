@@ -1,4 +1,4 @@
-# Install script for directory: /home/konstantinos/Pilos-Subgraph_Matching/utility
+# Install script for directory: /home/konstantinos/Pilos-Subgraph-Matching/utility
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

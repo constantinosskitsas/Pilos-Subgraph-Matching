@@ -24,7 +24,7 @@ cstdint
 stdlib.h
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/matching/GraphConverter.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/matching/GraphConverter.cpp
 graph/graph.h
-/home/konstantinos/Pilos-Subgraph_Matching/matching/graph/graph.h
+/home/konstantinos/Pilos-Subgraph-Matching/matching/graph/graph.h
 

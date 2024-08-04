@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/konstantinos/Pilos-Subgraph_Matching/matching/SelectEdge.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/matching/SelectEdge.cpp
 cassert
 -
 algorithm

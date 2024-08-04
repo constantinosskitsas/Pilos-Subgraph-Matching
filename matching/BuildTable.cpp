@@ -39,27 +39,29 @@ void BuildTable::buildTables(const Graph *data_graph, const Graph *query_graph, 
 
     std::vector<ui> temp_edges(data_graph->getEdgesCount() * 2);
 
-    for (auto u : build_table_order)
+    for (auto u : build_table_order) // for every query vertex QV
     {
         ui u_nbrs_count;
         const VertexID *u_nbrs = query_graph->getVertexNeighbors(u, u_nbrs_count);
 
         ui updated_flag_count = 0;
 
-        for (ui i = 0; i < u_nbrs_count; ++i)
+        for (ui i = 0; i < u_nbrs_count; ++i) // for every query vertex neigboor QVN
         {
             VertexID u_nbr = u_nbrs[i];
 
             if (edge_matrix[u][u_nbr] != NULL)
                 continue;
 
-            if (updated_flag_count == 0)
+            if (updated_flag_count == 0) // initialize candidates of querey vertex QV
             {
                 for (ui j = 0; j < candidates_count[u]; ++j)
                 {
                     VertexID v = candidates[u][j];
-                    flag[v] = j + 1;
-                    updated_flag[updated_flag_count++] = v;
+                    flag[v] = j + 1; // flag[CID]=candidates[X]
+                    // given data graph ID you get the position on candidateMatrix+1
+                    updated_flag[updated_flag_count++] = v; // revese with flag
+                    // given the position in the candidateMatrix you get the ID
                 }
             }
 
@@ -75,7 +77,7 @@ void BuildTable::buildTables(const Graph *data_graph, const Graph *query_graph, 
             ui local_edge_count = 0;
             ui local_max_degree = 0;
 
-            for (ui j = 0; j < candidates_count[u_nbr]; ++j)
+            for (ui j = 0; j < candidates_count[u_nbr]; ++j) // for every candidate of QVN
             {
                 VertexID v = candidates[u_nbr][j];
                 edge_matrix[u_nbr][u]->offset_[j] = local_edge_count;
@@ -84,12 +86,10 @@ void BuildTable::buildTables(const Graph *data_graph, const Graph *query_graph, 
                 const VertexID *v_nbrs = data_graph->getVertexNeighbors(v, v_nbrs_count);
 
                 ui local_degree = 0;
-
                 for (ui k = 0; k < v_nbrs_count; ++k)
                 {
                     VertexID v_nbr = v_nbrs[k];
-
-                    if (flag[v_nbr] != 0)
+                    if (flag[v_nbr] != 0) // check if it a neigboor of u
                     {
                         ui position = flag[v_nbr] - 1;
                         temp_edges[local_edge_count++] = position;

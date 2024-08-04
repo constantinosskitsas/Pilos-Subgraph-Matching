@@ -24,19 +24,19 @@ cstdint
 stdlib.h
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/bitsetoperation.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/bitsetoperation.cpp
 bitsetoperation.h
-/home/konstantinos/Pilos-Subgraph_Matching/utility/bitsetoperation.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/bitsetoperation.h
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/bitsetoperation.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/bitsetoperation.h
 cstdint
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/commandparser.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/commandparser.cpp
 commandparser.h
-/home/konstantinos/Pilos-Subgraph_Matching/utility/commandparser.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/commandparser.h
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/commandparser.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/commandparser.h
 string
 -
 algorithm
@@ -44,55 +44,55 @@ algorithm
 vector
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/computesetintersection.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/computesetintersection.cpp
 computesetintersection.h
-/home/konstantinos/Pilos-Subgraph_Matching/utility/computesetintersection.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/computesetintersection.h
 cstdint
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/computesetintersection.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/computesetintersection.h
 configuration/types.h
-/home/konstantinos/Pilos-Subgraph_Matching/utility/configuration/types.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/configuration/types.h
 configuration/config.h
-/home/konstantinos/Pilos-Subgraph_Matching/utility/configuration/config.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/configuration/config.h
 immintrin.h
 -
 x86intrin.h
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/configuration/config.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/configuration/config.h
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/configuration/types.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/configuration/types.h
 cstdint
 -
 stdlib.h
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/graphoperations.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/graphoperations.cpp
 graphoperations.h
-/home/konstantinos/Pilos-Subgraph_Matching/utility/graphoperations.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/graphoperations.h
 memory.h
 -
 queue
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/graphoperations.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/graphoperations.h
 graph/graph.h
-/home/konstantinos/Pilos-Subgraph_Matching/utility/graph/graph.h
+/home/konstantinos/Pilos-Subgraph-Matching/utility/graph/graph.h
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/han/intersection_algos.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/han/intersection_algos.cpp
 intersection_algos.hpp
-/home/konstantinos/Pilos-Subgraph_Matching/utility/han/intersection_algos.hpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/han/intersection_algos.hpp
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/han/intersection_algos.hpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/han/intersection_algos.hpp
 utils/util.hpp
-/home/konstantinos/Pilos-Subgraph_Matching/utility/han/utils/util.hpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/han/utils/util.hpp
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/han/utils/util.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/han/utils/util.cpp
 util.hpp
-/home/konstantinos/Pilos-Subgraph_Matching/utility/han/utils/util.hpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/han/utils/util.hpp
 
-/home/konstantinos/Pilos-Subgraph_Matching/utility/han/utils/util.hpp
+/home/konstantinos/Pilos-Subgraph-Matching/utility/han/utils/util.hpp
 cstdio
 -
 iostream

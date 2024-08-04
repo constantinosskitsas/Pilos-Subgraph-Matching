@@ -319,14 +319,14 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
     }
     else if (input_filter_type == "PLV")
     {
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
 
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 1, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
         // SpectralMatchingV(query_graph->getVerticesCount(), data_graph, query_graph, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1,edge_matrix1,candidatesHC,idToValues2);
     }
     else if (input_filter_type == "PLC")
@@ -448,7 +448,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     int startC = 1;
     ui u_nbrs_count1;
     bool add = true;
-    if (false)
+    if (true)
     {
         for (ui i = 0; i < qsiz; i++)
         {
@@ -489,7 +489,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         for (int j = 0; j < (u_nbrs_count - 1); j++)
             if (u_nbrs[j] > u_nbrs[j + 1])
             {
-                cout << "wc" << endl;
+                cout << "malakaaaa" << endl;
             }
     }
 
@@ -894,10 +894,10 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     EvaluateQuery::qfliter_bsr_graph_ = BuildTable::qfliter_bsr_graph_;
 #endif
 
-     if (input_filter_type=="PL")
-         input_engine_type="LFTJVEQ";
-     else input_engine_type="LFTJ";
-    //input_engine_type = "LFTJVEQ";
+    // if (input_filter_type=="PLC")
+    //     input_engine_type="LFTJVEQ";
+    // else input_engine_type="LFTJ";
+    input_engine_type = "LFTJVEQ";
     size_t call_count = 0;
     size_t time_limit = 0;
     if (input_filter_type == "NLF")

@@ -4,7 +4,7 @@
 graph/CMakeFiles/graph.dir/graph.cpp.o
  ..//graph/graph.h
  ..//utility/graphoperations.h
- /home/konstantinos/Pilos-Subgraph_Matching/configuration/config.h
- /home/konstantinos/Pilos-Subgraph_Matching/configuration/types.h
- /home/konstantinos/Pilos-Subgraph_Matching/graph/graph.cpp
- /home/konstantinos/Pilos-Subgraph_Matching/graph/graph.h
+ /home/konstantinos/Pilos-Subgraph-Matching/configuration/config.h
+ /home/konstantinos/Pilos-Subgraph-Matching/configuration/types.h
+ /home/konstantinos/Pilos-Subgraph-Matching/graph/graph.cpp
+ /home/konstantinos/Pilos-Subgraph-Matching/graph/graph.h

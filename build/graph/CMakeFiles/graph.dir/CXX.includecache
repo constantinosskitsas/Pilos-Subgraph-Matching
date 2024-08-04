@@ -20,17 +20,17 @@ iostream
 graph/graph.h
 ../utility/graph/graph.h
 
-/home/konstantinos/Pilos-Subgraph_Matching/configuration/config.h
+/home/konstantinos/Pilos-Subgraph-Matching/configuration/config.h
 
-/home/konstantinos/Pilos-Subgraph_Matching/configuration/types.h
+/home/konstantinos/Pilos-Subgraph-Matching/configuration/types.h
 cstdint
 -
 stdlib.h
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/graph/graph.cpp
+/home/konstantinos/Pilos-Subgraph-Matching/graph/graph.cpp
 graph.h
-/home/konstantinos/Pilos-Subgraph_Matching/graph/graph.h
+/home/konstantinos/Pilos-Subgraph-Matching/graph/graph.h
 fstream
 -
 vector
@@ -42,13 +42,13 @@ chrono
 utility/graphoperations.h
 -
 
-/home/konstantinos/Pilos-Subgraph_Matching/graph/graph.h
+/home/konstantinos/Pilos-Subgraph-Matching/graph/graph.h
 unordered_map
 -
 iostream
 -
 ../configuration/types.h
-/home/konstantinos/Pilos-Subgraph_Matching/configuration/types.h
+/home/konstantinos/Pilos-Subgraph-Matching/configuration/types.h
 ../configuration/config.h
-/home/konstantinos/Pilos-Subgraph_Matching/configuration/config.h
+/home/konstantinos/Pilos-Subgraph-Matching/configuration/config.h
 

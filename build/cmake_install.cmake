@@ -1,4 +1,4 @@
-# Install script for directory: /home/konstantinos/Pilos-Subgraph_Matching
+# Install script for directory: /home/konstantinos/Pilos-Subgraph-Matching
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,9 +39,9 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/konstantinos/Pilos-Subgraph_Matching/build/graph/cmake_install.cmake")
-  include("/home/konstantinos/Pilos-Subgraph_Matching/build/matching/cmake_install.cmake")
-  include("/home/konstantinos/Pilos-Subgraph_Matching/build/utility/cmake_install.cmake")
+  include("/home/konstantinos/Pilos-Subgraph-Matching/build/graph/cmake_install.cmake")
+  include("/home/konstantinos/Pilos-Subgraph-Matching/build/matching/cmake_install.cmake")
+  include("/home/konstantinos/Pilos-Subgraph-Matching/build/utility/cmake_install.cmake")
 
 endif()
 
@@ -53,5 +53,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/konstantinos/Pilos-Subgraph_Matching/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/konstantinos/Pilos-Subgraph-Matching/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

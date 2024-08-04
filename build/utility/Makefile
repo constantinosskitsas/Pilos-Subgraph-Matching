@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/konstantinos/Pilos-Subgraph_Matching
+CMAKE_SOURCE_DIR = /home/konstantinos/Pilos-Subgraph-Matching
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/konstantinos/Pilos-Subgraph_Matching/build
+CMAKE_BINARY_DIR = /home/konstantinos/Pilos-Subgraph-Matching/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles /home/konstantinos/Pilos-Subgraph_Matching/build/utility/CMakeFiles/progress.marks
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph_Matching/build/CMakeFiles 0
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles /home/konstantinos/Pilos-Subgraph-Matching/build/utility/CMakeFiles/progress.marks
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/konstantinos/Pilos-Subgraph-Matching/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/clean
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,22 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/preinstall
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/preinstall
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 utility/CMakeFiles/utility.dir/rule:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/CMakeFiles/utility.dir/rule
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f CMakeFiles/Makefile2 utility/CMakeFiles/utility.dir/rule
 .PHONY : utility/CMakeFiles/utility.dir/rule
 
 # Convenience name for target.
@@ -122,7 +122,7 @@ utility: utility/CMakeFiles/utility.dir/rule
 
 # fast build rule for target.
 utility/fast:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/build
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/build
 .PHONY : utility/fast
 
 bitsetoperation.o: bitsetoperation.cpp.o
@@ -131,7 +131,7 @@ bitsetoperation.o: bitsetoperation.cpp.o
 
 # target to build an object file
 bitsetoperation.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/bitsetoperation.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/bitsetoperation.cpp.o
 .PHONY : bitsetoperation.cpp.o
 
 bitsetoperation.i: bitsetoperation.cpp.i
@@ -140,7 +140,7 @@ bitsetoperation.i: bitsetoperation.cpp.i
 
 # target to preprocess a source file
 bitsetoperation.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/bitsetoperation.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/bitsetoperation.cpp.i
 .PHONY : bitsetoperation.cpp.i
 
 bitsetoperation.s: bitsetoperation.cpp.s
@@ -149,7 +149,7 @@ bitsetoperation.s: bitsetoperation.cpp.s
 
 # target to generate assembly for a file
 bitsetoperation.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/bitsetoperation.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/bitsetoperation.cpp.s
 .PHONY : bitsetoperation.cpp.s
 
 commandparser.o: commandparser.cpp.o
@@ -158,7 +158,7 @@ commandparser.o: commandparser.cpp.o
 
 # target to build an object file
 commandparser.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/commandparser.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/commandparser.cpp.o
 .PHONY : commandparser.cpp.o
 
 commandparser.i: commandparser.cpp.i
@@ -167,7 +167,7 @@ commandparser.i: commandparser.cpp.i
 
 # target to preprocess a source file
 commandparser.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/commandparser.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/commandparser.cpp.i
 .PHONY : commandparser.cpp.i
 
 commandparser.s: commandparser.cpp.s
@@ -176,7 +176,7 @@ commandparser.s: commandparser.cpp.s
 
 # target to generate assembly for a file
 commandparser.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/commandparser.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/commandparser.cpp.s
 .PHONY : commandparser.cpp.s
 
 computesetintersection.o: computesetintersection.cpp.o
@@ -185,7 +185,7 @@ computesetintersection.o: computesetintersection.cpp.o
 
 # target to build an object file
 computesetintersection.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/computesetintersection.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/computesetintersection.cpp.o
 .PHONY : computesetintersection.cpp.o
 
 computesetintersection.i: computesetintersection.cpp.i
@@ -194,7 +194,7 @@ computesetintersection.i: computesetintersection.cpp.i
 
 # target to preprocess a source file
 computesetintersection.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/computesetintersection.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/computesetintersection.cpp.i
 .PHONY : computesetintersection.cpp.i
 
 computesetintersection.s: computesetintersection.cpp.s
@@ -203,7 +203,7 @@ computesetintersection.s: computesetintersection.cpp.s
 
 # target to generate assembly for a file
 computesetintersection.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/computesetintersection.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/computesetintersection.cpp.s
 .PHONY : computesetintersection.cpp.s
 
 graphoperations.o: graphoperations.cpp.o
@@ -212,7 +212,7 @@ graphoperations.o: graphoperations.cpp.o
 
 # target to build an object file
 graphoperations.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/graphoperations.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/graphoperations.cpp.o
 .PHONY : graphoperations.cpp.o
 
 graphoperations.i: graphoperations.cpp.i
@@ -221,7 +221,7 @@ graphoperations.i: graphoperations.cpp.i
 
 # target to preprocess a source file
 graphoperations.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/graphoperations.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/graphoperations.cpp.i
 .PHONY : graphoperations.cpp.i
 
 graphoperations.s: graphoperations.cpp.s
@@ -230,7 +230,7 @@ graphoperations.s: graphoperations.cpp.s
 
 # target to generate assembly for a file
 graphoperations.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/graphoperations.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/graphoperations.cpp.s
 .PHONY : graphoperations.cpp.s
 
 han/intersection_algos.o: han/intersection_algos.cpp.o
@@ -239,7 +239,7 @@ han/intersection_algos.o: han/intersection_algos.cpp.o
 
 # target to build an object file
 han/intersection_algos.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/intersection_algos.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/intersection_algos.cpp.o
 .PHONY : han/intersection_algos.cpp.o
 
 han/intersection_algos.i: han/intersection_algos.cpp.i
@@ -248,7 +248,7 @@ han/intersection_algos.i: han/intersection_algos.cpp.i
 
 # target to preprocess a source file
 han/intersection_algos.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/intersection_algos.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/intersection_algos.cpp.i
 .PHONY : han/intersection_algos.cpp.i
 
 han/intersection_algos.s: han/intersection_algos.cpp.s
@@ -257,7 +257,7 @@ han/intersection_algos.s: han/intersection_algos.cpp.s
 
 # target to generate assembly for a file
 han/intersection_algos.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/intersection_algos.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/intersection_algos.cpp.s
 .PHONY : han/intersection_algos.cpp.s
 
 han/utils/util.o: han/utils/util.cpp.o
@@ -266,7 +266,7 @@ han/utils/util.o: han/utils/util.cpp.o
 
 # target to build an object file
 han/utils/util.cpp.o:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/utils/util.cpp.o
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/utils/util.cpp.o
 .PHONY : han/utils/util.cpp.o
 
 han/utils/util.i: han/utils/util.cpp.i
@@ -275,7 +275,7 @@ han/utils/util.i: han/utils/util.cpp.i
 
 # target to preprocess a source file
 han/utils/util.cpp.i:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/utils/util.cpp.i
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/utils/util.cpp.i
 .PHONY : han/utils/util.cpp.i
 
 han/utils/util.s: han/utils/util.cpp.s
@@ -284,7 +284,7 @@ han/utils/util.s: han/utils/util.cpp.s
 
 # target to generate assembly for a file
 han/utils/util.cpp.s:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/utils/util.cpp.s
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(MAKE) -f utility/CMakeFiles/utility.dir/build.make utility/CMakeFiles/utility.dir/han/utils/util.cpp.s
 .PHONY : han/utils/util.cpp.s
 
 # Help Target
@@ -325,6 +325,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/konstantinos/Pilos-Subgraph_Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/konstantinos/Pilos-Subgraph-Matching/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

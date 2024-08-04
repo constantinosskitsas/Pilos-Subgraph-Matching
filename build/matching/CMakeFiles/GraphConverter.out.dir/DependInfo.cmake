@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/konstantinos/Pilos-Subgraph_Matching/matching/GraphConverter.cpp" "/home/konstantinos/Pilos-Subgraph_Matching/build/matching/CMakeFiles/GraphConverter.out.dir/GraphConverter.cpp.o"
+  "/home/konstantinos/Pilos-Subgraph-Matching/matching/GraphConverter.cpp" "/home/konstantinos/Pilos-Subgraph-Matching/build/matching/CMakeFiles/GraphConverter.out.dir/GraphConverter.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -15,8 +15,8 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/konstantinos/Pilos-Subgraph_Matching/build/graph/CMakeFiles/graph.dir/DependInfo.cmake"
-  "/home/konstantinos/Pilos-Subgraph_Matching/build/utility/CMakeFiles/utility.dir/DependInfo.cmake"
+  "/home/konstantinos/Pilos-Subgraph-Matching/build/graph/CMakeFiles/graph.dir/DependInfo.cmake"
+  "/home/konstantinos/Pilos-Subgraph-Matching/build/utility/CMakeFiles/utility.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

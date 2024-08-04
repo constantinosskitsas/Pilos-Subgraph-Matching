@@ -29,7 +29,6 @@ We kept all the functionalities of the framework and for mospecific details we r
 |Algorithm|Description|Execution code
 |:--------:|:------------:|:------------:
 |Pilos | the filtering method of Pilos | PL
-|PilosMT | the filtering method of Pilos multi-thread | PLMT
 
 ## Compile
 Under the root directory of the project, execute the following commands to compile the source code.
@@ -43,7 +42,6 @@ make
 
 ## Execute
 
-MT to be added by parameter also.
 ```zsh
 timeout 600s ./SubgraphMatching.out -dataset $t -qsize $j -qnumber $i -qprop G -filter PL -alpha $alpha -beta 0 -n 5 -num 100000
 ```
@@ -66,7 +64,6 @@ timeout 600s ./SubgraphMatching.out -dataset dblp -qsize 32 -qnumber 1 -qprop G 
 |:--------:|:------------:|
 |-alpha | alpha parameter |
 |-beta | beta parameter|
-|-n | number of threads for PLMT|
 
 ### Query Generation
 To create queries use -qnumber for the number of queries, -qprop the name of the queries you want -dataset the name of the dataset and -filter GQ.
@@ -87,6 +84,8 @@ Please cite our work in your publications if it helps your research:
 ```
 Paper under submission
 ```
+## Note
+
 ## Reproducability
 To repeat the experiments on the paper we propose to use the scrips we provide. build/matching/*.sh
 

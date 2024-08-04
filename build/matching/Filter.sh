@@ -1,7 +1,7 @@
 #!/bin/bash
 for i in $(seq 1 400)
 do
-  for j in 32 64 96 #128 256
+  for j in 32 64 96 128 256
   do
   	for t in dblp
 	do

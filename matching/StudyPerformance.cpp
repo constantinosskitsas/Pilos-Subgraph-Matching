@@ -448,7 +448,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     int startC = 1;
     ui u_nbrs_count1;
     bool add = true;
-    if (true)
+    if (false)
     {
         for (ui i = 0; i < qsiz; i++)
         {
@@ -489,7 +489,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         for (int j = 0; j < (u_nbrs_count - 1); j++)
             if (u_nbrs[j] > u_nbrs[j + 1])
             {
-                cout << "malakaaaa" << endl;
+                cout << "wc" << endl;
             }
     }
 

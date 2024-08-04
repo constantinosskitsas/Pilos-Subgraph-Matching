@@ -22,7 +22,7 @@ resolves queries in 20% less time and leaves 12.5% fewer unresolved
 queries after a lapse of 10 minutes than the state of the art.
 
 ## **Code**
-We build our algorithm on top of SIGMOD'2020 paper "In-Memory Subgraph Matching: an In-depth Study" by Dr. Shixuan Sun and Prof. Qiong Luo.
+We build our algorithm using SIGMOD'2020 paper "In-Memory Subgraph Matching: an In-depth Study" by Dr. Shixuan Sun and Prof. Qiong Luo.
 We kept all the functionalities of the framework and for mospecific details we refer to [Code](https://github.com/RapidsAtHKUST/SubgraphMatching).
 
 ## Additional Techniques Supported

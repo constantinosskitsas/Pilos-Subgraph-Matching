@@ -137,7 +137,7 @@ bool FilterVertices::NLFFilter(Graph *data_graph, Graph *query_graph, ui **&cand
 
     MatrixXd querygraph_eigenvalue(query_graph->getVerticesCount(), 1);
     MatrixXd datagraph_eigenvalue(data_graph->getVerticesCount(), 1);
-    if (isEigenCheck)
+    if (false)
     {
         cout << "why?" << endl;
         MTcalc12(query_graph, query_graph->getGraphMaxDegree(), querygraph_eigenvalue, true, top_s, query_graph->getVerticesCount() * 3);
@@ -997,7 +997,7 @@ void FilterVertices::computeCandidateWithNLF(Graph *data_graph, Graph *query_gra
                 if (is_valid)
                 {
                     // EF check
-                    if (isEigenCheck)
+                    if (false)
                     {
                         bool top_s_check = true;
                         for (ui e = 0; e < top_s; e++)

@@ -3,7 +3,6 @@
 #include "IO.h"
 #include "StudyPerformance.h"
 #include "FilterVertices.h"
-
 #include <iostream>
 #include <numeric>
 #include <fstream>
@@ -200,11 +199,14 @@ matching_algo_outputs Experiments::experiment3(const string data_graph_path, con
     inputs.qgraph_path = query_graph_path;
     inputs.filter = filter;
     inputs.order = "GQL";
-    inputs.order="KF";
     inputs.alpha = alpha;
     inputs.beta = beta;
     inputs.thnum = thnum;
     inputs.embcount = embeddingcount;
+    inputs.engine = "LFTJ";
+    // if (inputs.filter=="PLC"){
+    //    inputs.order="KF";
+    //}
     if (inputs.filter != "CECI")
         inputs.engine = "LFTJ";
     else
@@ -223,7 +225,7 @@ matching_algo_outputs Experiments::experiment3(const string data_graph_path, con
 
     matching_algo_outputs outputs = StudyPerformance::solveGraphQuery(inputs);
     cout << "Matches: " << outputs.enumOutput.embedding_cnt << filter << "call_count " << outputs.call_count << " Total time " << outputs.total_time << " enumeration time: "
-         << outputs.enumeration_time << " preprocessing time: " << outputs.preprocessing_time << " candidate_sum: " << outputs.candidate_count_sum << " matching order: ";
+         << outputs.enumeration_time << " preprocessing time: " << outputs.preprocessing_time << " candidate_sum: " << outputs.candidate_count_sum; //<< " matching order: ";
     for (int i = 0; i < outputs.query_size; i++)
     {
         cout << outputs.matching_order[i] << " ";

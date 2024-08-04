@@ -8,7 +8,8 @@
 #include <queue>
 #include <bitset>
 #include "configuration/config.h"
-
+int parseLine(const char *line);
+int getValue1();
 // Min priority queue.
 auto extendable_vertex_compare = [](std::pair<std::pair<VertexID, ui>, ui> l, std::pair<std::pair<VertexID, ui>, ui> r)
 {
@@ -29,7 +30,11 @@ auto extendable_vertex_compare = [](std::pair<std::pair<VertexID, ui>, ui> l, st
 typedef std::priority_queue<std::pair<std::pair<VertexID, ui>, ui>, std::vector<std::pair<std::pair<VertexID, ui>, ui>>,
                             decltype(extendable_vertex_compare)>
     dpiso_min_pq;
+void calculateCell(const Graph *query_graph, Edges ***edge_matrix,
+                   ui *candidates_count, size_t **&candidatesHC, unordered_map<size_t, std::vector<VertexID>> *&idToValues, int count2, int i, int j);
 
+void calculateCellL(const Graph *query_graph, Edges ***edge_matrix,
+                    ui *candidates_count, size_t **&candidatesHC, unordered_map<size_t, std::vector<VertexID>> *&idToValues, int count2, int i, int j, unordered_map<size_t, std::vector<VertexID>> *&idToValues1, size_t **&candidatesHC1);
 struct enumResult
 {
     size_t embedding_cnt;
@@ -40,6 +45,13 @@ struct enumResult
 class EvaluateQuery
 {
 public:
+    static enumResult LFTJVEQL(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
+                               ui *candidates_count, ui *order, size_t output_limit_num, size_t &call_count, size_t **candidatesHC, unordered_map<size_t, std::vector<VertexID>> *idToValues2, unordered_map<size_t, std::vector<VertexID>> *idToValues, size_t **candidatesHC1);
+    static enumResult LFTJSS(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
+                             ui *candidates_count,
+                             ui *order, size_t output_limit_num, size_t &call_count);
+    static enumResult LFTJVEQ(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
+                              ui *candidates_count, ui *order, size_t output_limit_num, size_t &call_count, size_t **candidatesHC, unordered_map<size_t, std::vector<VertexID>> *idToValues2);
     static size_t exploreGraph(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
                                ui *candidates_count, ui *order, ui *pivot, size_t output_limit_num, size_t &call_count);
     static enumResult LFTJR(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates, ui *candidates_count,
@@ -99,6 +111,10 @@ private:
                                ui **&valid_candidate_idx, bool *&visited_vertices);
     static void releaseBuffer(ui query_vertices_num, ui *idx, ui *idx_count, ui *embedding, ui *idx_embedding,
                               ui *temp_buffer, ui **valid_candidate_idx, bool *visited_vertices, ui **bn, ui *bn_count);
+
+    static void generateValidCandidateIndex(ui depth, ui *idx_embedding, ui *idx_count, ui **valid_candidate_index,
+                                            Edges ***edge_matrix, ui **bn, ui *bn_cnt, ui *order,
+                                            ui *&temp_buffer, ui **candidates, ui *candidates_count, const Graph *query_graph);
 
     static void generateValidCandidateIndex(const Graph *data_graph, ui depth, ui *embedding, ui *idx_embedding,
                                             ui *idx_count, ui **valid_candidate_index, Edges ***edge_matrix,

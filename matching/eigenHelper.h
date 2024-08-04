@@ -6,6 +6,7 @@
 #include "GrM.h"
 // #include "thread"
 using namespace Eigen;
+void calcEigens12(SparseMatrix<double> M, int k, VectorXd &evalues, int count);
 void CompactADLEIGNV(Graph *data_graph, int degree, VectorXd &evalues, VertexID vertex, int depth, int Eprun, int oMax);
 void calcEigensEigenLib(SparseMatrix<double> M, int k, VectorXd &evalues, int count);
 bool isLaplacianMatrix(const Eigen::SparseMatrix<double> &matrix);
@@ -24,3 +25,4 @@ void MTEigCal(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Epr
 void CompactADLEIG(Graph *data_graph, int degree, VectorXd &evalues, VertexID vertex, int depth, int Eprun, int oMax);
 void CompactADJEIG(Graph *data_graph, int degree, VectorXd &evalues, VertexID vertex, int depth);
 void MTcalc12(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Eprun, int oMax);
+void MTcalc12A(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Eprun, int oMax);

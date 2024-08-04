@@ -5,6 +5,7 @@
 #include <Spectra/SymEigsSolver.h>
 #include <Spectra/MatOp/SparseSymShiftSolve.h>
 #include <Spectra/SymEigsShiftSolver.h>
+
 #include <iostream>
 #include <cmath>
 #include <set>
@@ -15,11 +16,71 @@
 #include "eigenHelper.h"
 #include "thread"
 #include <queue>
+#include <mutex>
+std::mutex mtxx;
 typedef Eigen::Triplet<double> T;
 using namespace Eigen;
 using namespace std;
 using namespace Spectra;
+void calcEigens12(SparseMatrix<double> M, int k, VectorXd &evalues, int count)
+{
+    // int sizek = k*2;
+    int dek = k;
 
+    if (count == 0 || count == 1)
+    {
+        evalues.resize(dek);
+
+        evalues(0) = 1;
+        for (int i = 1; i < dek; i++)
+            evalues(i) = 0;
+
+        return;
+    }
+
+    if (k >= count)
+        k = count - 1;
+
+    // SparseGenRealShiftSolver<double> op(M);
+    // SymEigsSolver<SparseGenRealShiftSolver<double>> eigs(op, k, count);
+    //  SparseGenMatProd<double> op(Lpl);
+    // GenEigsSolver< double, LARGEST_MAGN, SparseGenMatProd<double> > eigs(&op, 3, 6);
+    // SparseGenMatProd<double> op(M);
+    SparseGenMatProd<double> op(M);
+    SymEigsSolver<SparseGenMatProd<double>> eigs(op, k, count);
+
+    eigs.init();
+    int nconv = eigs.compute(SortRule::LargestAlge);
+    // int nconv = eigs.compute(SortRule::SmalestAlge);
+    if (eigs.info() == CompInfo::Successful)
+        evalues = eigs.eigenvalues();
+    if (eigs.info() != CompInfo::Successful)
+    {
+        int info = static_cast<int>(eigs.info());
+        while (true)
+            cout << "problem No Eigs" << endl;
+        cout << info;
+        return;
+        // cout<<count<<endl;
+        // cout<<k<<endl;
+        // printSM(M);
+        evalues.resize(k);
+        for (int ss = 0; ss < k - 1; ss++)
+            evalues(ss) = count;
+        evalues(k - 1) = 0;
+    }
+
+    if (evalues.size() < dek)
+    {
+        int sz = evalues.size();
+        evalues.conservativeResize(dek);
+        evalues(sz) = 0;
+        sz++;
+        for (int i = sz; i < dek; i++)
+            // evalues(i) = -1;
+            evalues(i) = 0;
+    }
+}
 void calcEigensEigenLib(SparseMatrix<double> M, int k, VectorXd &evalues, int count)
 {
     int sizek = k * 2;
@@ -298,10 +359,12 @@ void calcEigens1(SparseMatrix<double> M, int k, VectorXd &evalues, int count)
     int sizek = k * 2;
     int dek = k;
     //
-    M.makeCompressed();
+    // M.makeCompressed();
     // if(!M.isApprox(M.transpose()))
     // cout<<"really?"<<endl;
+
     SelfAdjointEigenSolver<SparseMatrix<double>> eigensolver(M);
+
     // EigenSolver<SparseMatrix<double>> eigensolver(M);
     if (eigensolver.info() != Success)
     {
@@ -765,7 +828,7 @@ void MTcalc12(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Epr
         }
     };
     VectorXd evalues;
-    int Tnum = 5;
+    int Tnum = 1;
     int siz = data_graph->getVerticesCount();
     if (Tnum == 1)
     {
@@ -789,6 +852,52 @@ void MTcalc12(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Epr
         for (int d = 0; d < Tnum; d++)
             th[d].join();
     }
+}
+
+void MTcalc12A(Graph *data_graph, int degree, MatrixXd &eigenVD, bool LE, int Eprun, int oMax)
+{
+
+    auto AdJAdl1 = [](int *pos1, Graph *data_graph, int degree, VertexID d, VertexID siz, MatrixXd &eigenVD, bool LE, int Eprun, int oMax)
+    {
+        VectorXd evalues;
+        int depth = 2;
+        int svertex;
+        int evertex;
+        int opd = d;
+        ui num = 1000;
+        while ((opd * num) < siz)
+        {
+            svertex = opd * num;
+            evertex = svertex + num;
+            if (evertex > siz)
+                evertex = siz;
+            for (int i = svertex; i < evertex; i++)
+            {
+                CompactADLEIG(data_graph, degree, evalues, i, depth, Eprun, oMax);
+                eigenVD.row(i) = evalues;
+                evalues.setZero();
+            }
+            mtxx.lock();
+            (*pos1)++;
+            opd = *pos1;
+            cout << opd << endl;
+            mtxx.unlock();
+        }
+    };
+    VectorXd evalues;
+    int Tnum = 30;
+    int pos = Tnum - 1;
+
+    int *pos1 = &pos;
+    int siz = data_graph->getVerticesCount();
+    int div = (int)(siz / Tnum);
+    thread th[Tnum];
+    for (int d = 0; d < Tnum; d++)
+    {
+        th[d] = thread(AdJAdl1, pos1, data_graph, degree, d, siz, ref(eigenVD), LE, Eprun, oMax);
+    }
+    for (int d = 0; d < Tnum; d++)
+        th[d].join();
 }
 
 void CompactADJEIG(Graph *data_graph, int degree, VectorXd &evalues, VertexID vertex, int depth)
@@ -1012,7 +1121,7 @@ void CompactADLEIG(Graph *data_graph, int degree, VectorXd &evalues, VertexID ve
     tripletList = unique_triplets;
     if (tripletList.size() == count * count)
     {
-        cout << "MEga prob" << endl;
+        // cout << "MEga prob" << endl;
         evalues.resize(k);
 
         for (int ss = 0; ss < k; ss++)

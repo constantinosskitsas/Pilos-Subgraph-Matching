@@ -1209,139 +1209,7 @@ void EdgesCSBasicRL(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_gr
         }
     }
 }
-void EdgesCSBasicSetVV(vector<vector<ui>> &verticesID, vector<ui> &NumOfverticesID, vector<vector<vector<ui>>> &EQID,
-                       vector<vector<vector<ui>>> &EVID, int qsiz, int dsiz, Graph *data_graph, Graph *query_graph)
-{
-    ui u_nbrs_count = 0;
-    ui u_nbrs_countD = 0;
-    int sizA = 0;
-    int sizC;
-    VertexID VID = 0;
-    VertexID de = 0;
-    VertexID cne = 0;
-    VertexID labela = 0;
-    vector<ui> tempQID;
-    vector<ui> tempVID;
-    ui *flag = new ui[data_graph->getVerticesCount()];
-    std::fill(flag, flag + data_graph->getVerticesCount(), 0);
-    ui *updated_flag = new ui[data_graph->getVerticesCount()];
-    std::fill(updated_flag, updated_flag + data_graph->getVerticesCount(), 0);
-    // unordered_map<ui, ui> s[qsiz];
-    unordered_set<ui> s[qsiz];
-    ui max = 0;
-    // for (int a=0;a<qsiz;a++){
 
-    // if(NumOfverticesID[i]>max)
-    //  max=NumOfverticesID[i];
-    // EQID.resize(qsiz, std::vector<int>(cols));
-    //    EQID[a].reserve(NumOfverticesID[a]);
-    // for (int j=0;j<NumOfverticesID[a];j++){
-    //    EQID[a].emplace_back();
-    //   EVID[a].emplace_back();
-    //}
-    // }
-    // create a set with unique edges for every CS(i)
-    /*
-    for (int i = 0; i < qsiz; i++)
-    {
-        s[i].reserve(NumOfverticesID[i]);
-        if(NumOfverticesID[i]>max)
-        max=NumOfverticesID[i];
-        for (int j = 0; j <NumOfverticesID[i]; j++)
-            s[i].insert({verticesID[i][j]});
-    }*/
-    // tempQID.reserve(max);
-    // tempVID.reserve(max);
-    for (VertexID a = 0; a < qsiz; a++)
-    {
-        sizA = NumOfverticesID[a];
-        const VertexID *u_nbrs = query_graph->getVertexNeighbors(a, u_nbrs_count);
-        // const VertexID *u_nbrs = query_graph->getVertexNeighbors(a, u_nbrs_count);
-        for (VertexID c = 0; c < u_nbrs_count; c++)
-        {
-            ui updated_flag_count = 0;
-            if (u_nbrs[c] < a)
-                continue;
-            for (int nn = 0; nn < NumOfverticesID[u_nbrs[c]]; nn++)
-            {
-                flag[verticesID[u_nbrs[c]][nn]] = nn + 1;
-                // flag[verticesID[u_nbrs[c]][nn]]=c;
-                updated_flag[updated_flag_count++] = verticesID[u_nbrs[c]][nn];
-            }
-            cne = u_nbrs[c];
-            for (VertexID b = 0; b < sizA; b++)
-            {
-                // VID = verticesID[a][b];
-                const VertexID *u_nbrsD = data_graph->getVertexNeighbors(verticesID[a][b], u_nbrs_countD);
-                for (VertexID e = 0; e < u_nbrs_countD; e++)
-                {
-                    ui NID = u_nbrsD[e];
-                    if (flag[NID] != 0)
-                    // if(s[cne].find(NID)!=s[cne].end())
-
-                    {
-                        EQID[a][b].emplace_back(cne);
-                        EVID[a][b].emplace_back(NID);
-                        EQID[cne][flag[NID] - 1].emplace_back(a);
-                        EVID[cne][flag[NID] - 1].emplace_back(verticesID[a][b]);
-                    }
-                }
-            }
-            for (ui aa = 0; aa < updated_flag_count; ++aa)
-            {
-                VertexID v = updated_flag[aa];
-                flag[v] = 0;
-            }
-        }
-    }
-
-    /*
-    // for CS. for every node of the CS(i)
-    for (VertexID a = 0; a < qsiz; a++)
-    { // take the neiboors of the query node FCS[a]
-        const VertexID *u_nbrs = query_graph->getVertexNeighbors(a, u_nbrs_count);
-        // VertexID* u_nbrs = query_graph->getVertexNeighbors(a, u_nbrs_count);
-        sizA = NumOfverticesID[a];
-        // Now for every node of the neigboors of FCS[a]---
-        for (VertexID c = 0; c < u_nbrs_count; c++)
-        { // we start checking query nodes with smaller id to higher
-            // thus is the query neigboor has smaller ID we already
-            // added the edge to the CS.
-            if (u_nbrs[c] < a)
-                continue;
-            cne = u_nbrs[c];
-            labela = query_graph->getVertexLabel(cne);
-            sizC = NumOfverticesID[cne];
-            // For every node of the CS(i)-> the candidates query node we evaluate
-            // candidate vertex for a query a is FCS[a][b].ID
-            for (VertexID b = 0; b < sizA; b++)
-            {
-                VID = verticesID[a][b];
-                // const VertexID* u_nbrsD = data_graph->getVertexNeighbors(FCS[a][b].ID, u_nbrs_countD); //real neigboors of the candidate vertex
-                // get all the neigbors of the FCS[a][b].ID in the data graph
-                const VertexID *u_nbrsD = data_graph->getNeighborsByLabel(VID, labela, u_nbrs_countD); // real neigboors of the candidate vertex
-                                                                                                                // for every neigboor of the candidate vertex of the real graph
-                                                                                                                // check if the node exists in the set of neigboors
-                for (VertexID e = 0; e < u_nbrs_countD; e++)
-                {
-                    // if(u_nbrsD[e]== FCS[cne][d].ID){
-                    auto got = s[cne].find(u_nbrsD[e]);
-                    if (got != s[cne].end())
-                    {
-                        EQID[a][b].emplace_back(cne);
-                        EVID[a][b].emplace_back(verticesID[cne][got->second]);
-                        //EQID[cne][got->second].emplace_back(a);
-                        //EVID[cne][got->second].emplace_back(VID);
-                    }
-                }
-            }
-        }
-    }*/
-    // for (int i = 0; i < qsiz; i++)
-    // {
-    //     s[i].clear();
-    // }
-}
 /* Add vertices that Pass NLF and Eigen rule to candidate Space.
  * OpenData1 need to be removed from here and pass the eigenVD1 as parameter(index)
  **310 is hardcodes max number of label ID-> can be just extracted from data graph->number of Labels.
@@ -1965,41 +1833,7 @@ inline void removeVertexAndEgjesFKNP(vector<vector<CSV>> &FCS, int i, int deli)
     FCS[i][deli].edges.clear();
     FCS[i][deli].deleted = true;
 }
-/*
-    Loads the query graph,
-    Calculates the eigenvalues for the query
 
-int SpectralMatching(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1)
-{
-    ui** candidates1 = NULL;
-
-    ui* candidates_count1 = NULL;
-
-    Graph *query_graph = new Graph(true);
-    query_graph->loadGraphFromFile(input_query_graph_file);
-
-    int sizq = query_graph->getVerticesCount();
-    ui Eprun = sizq - 3;
-    Eprun=30;
-
-    MatrixXd eigenVq1(sizq, Eprun);
-    int oMax=sizq*3;
-    oMax=300;
-    MTcalc12(query_graph, query_graph->getGraphMaxDegree(), eigenVq1, true, Eprun,oMax);
-    float **eigenQ = NULL;
-    eigenQ = new float *[sizq];
-
-    for (ui i = 0; i < sizq; ++i)
-    {
-        eigenQ[i] = new float[Eprun];
-        for (ui j = 0; j < Eprun; j++)
-        {
-            eigenQ[i][j] = eigenVq1(i, j);
-        }
-    }
-        return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count,EWeight,eigenVD1);
-}
-*/
 int SpectralMatching(int sizd, Graph *data_graph, Graph *query_graph, int twohop, ui **&candidates, ui *&candidates_count, float **&EWeight, float **&eigenVD1, int alpha, int beta, Edges ***edge_matrix, float *&eigenQS)
 {
     auto start = std::chrono::high_resolution_clock::now();
@@ -2028,48 +1862,10 @@ int SpectralMatching(int sizd, Graph *data_graph, Graph *query_graph, int twohop
             if (eigenQ[i][j] > 0)
                 eigenQS[i] += eigenQ[i][j];
         }
-        // if (eigenQS[i]<0){
-        //     cout<<"error"<<endl;
-        //     return 0;
-        // }
     }
-
-    // if(twohop==0)
-    // return CSInit(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count, EWeight, eigenVD1, alpha, beta,edge_matrix);
-    // else
-    // auto end = std::chrono::high_resolution_clock::now();
-
-    // double ECQ = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-    // cout<<"eigen query calc"<<ECQ<<endl;
     return PILOS(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count, EWeight, eigenVD1, alpha, beta, edge_matrix);
 }
 
-int SpectralMatchingV(int sizd, Graph *data_graph, Graph *query_graph, int twohop, ui **&candidates, ui *&candidates_count, float **&EWeight, float **&eigenVD1, int alpha, int beta, Edges ***edge_matrix, size_t **&candidatesHC, unordered_map<size_t, vector<ui>> *&idToValues2)
-{
-    ui **candidates1 = NULL;
-
-    ui *candidates_count1 = NULL;
-    int sizq = query_graph->getVerticesCount();
-    ui Eprun = sizq - 3;
-    Eprun = 30;
-
-    MatrixXd eigenVq1(sizq, Eprun);
-    int oMax = sizq * 3;
-    oMax = 300;
-    MTcalc12(query_graph, query_graph->getGraphMaxDegree(), eigenVq1, true, Eprun, oMax);
-    float **eigenQ = NULL;
-    eigenQ = new float *[sizq];
-
-    for (ui i = 0; i < sizq; ++i)
-    {
-        eigenQ[i] = new float[Eprun];
-        for (ui j = 0; j < Eprun; j++)
-        {
-            eigenQ[i][j] = eigenVq1(i, j);
-        }
-    }
-    return CSInitV(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count, EWeight, eigenVD1, alpha, beta, edge_matrix, candidatesHC, idToValues2);
-}
 int SpectralMatchingMT(int sizd, Graph *data_graph, string input_query_graph_file, int twohop, ui **&candidates, ui *&candidates_count, float **&EWeight, float **&eigenVD1, int alpha, int thnum, int beta)
 {
     ui **candidates1 = NULL;
@@ -2220,17 +2016,7 @@ void fillENMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph, int thnum)
             memset(FCS[i][j].Nedge, 0, sizeof(int) * qsiz);
         }
     }
-    /*
-    int ***test1 = NULL;
-    test1 = new int**[qsiz];
-        for (int i = 0; i < qsiz; i++)
-    {test1[i] = new int*[qsiz];
-        for (int j = 0; j < FCS[i].size(); j++)
-        {
-            test1[i][j] = new int[qsiz];
-            memset(test1[i][j], 0, sizeof(int) * qsiz);
-        }
-    }*/
+
     int Tnum = thnum;
     thread th[Tnum];
     int pos = Tnum - 1;
@@ -2244,113 +2030,11 @@ void fillENMT(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph, int thnum)
         th[d].join();
 }
 
-/* CSInit is unfortunate name, contains all the pruning operations of EigenValues
-*   ** ExtractNImap and ExtractUI2h was calculated together at the begining but
-   ** due to remove/addition of 1-2 hop I had it separated.
-   ** Can be added together again however there is real no runtime cost.
-   **clearWrong() Removes nodes.
-*
 
-int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count,float **&EWeight,float **&eigenVD1)
-{
-    int qsiz = query_graph->getVerticesCount();
-    int dsiz = data_graph->getVerticesCount();
-    vector<vector<CSV>> FCS; //candidate space
-    FCS.reserve(qsiz);
-    vector<vector<CSV>> FCS1(qsiz);
-    //    vector<vector<CSV>> FCS1; //candidate space
-    //FCS1.reserve(qsiz);
-    vector<ui> DegreeK; //Discovered nodes for 2 hop
-    vector<vector<pair<ui, int>>> QueryNlabel;
-    vector<map<ui, int>> NLabel; //Number of Labels 1hop
-    vector<map<ui, int>> NLabel2; //Number of Labels 2hop
-
-
-    //Exctract 1hop label information for query graph
-    ExtractNImap(NLabel, query_graph, qsiz);
-    //Extract 2hop label information for query graph
-    ExtractUI2h(DegreeK, NLabel2, query_graph, qsiz);
-
-    //Initial Pruning add remaining Candidate Vertices to Candidate Space
-
-
-    Vertices(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel,eigenVD1);
-    for (int aa=0;aa<qsiz;aa++)
-    FCS.emplace_back(FCS1[aa]);
-
-    int count = 0;
-    int Tcount = 0;
-
-    //Add Edges between nodes in candidate space
-    EdgesCSBasicSet(FCS, qsiz, dsiz, data_graph, query_graph);
-    //EdgesCSBasicSetMT(FCS, qsiz, dsiz, data_graph, query_graph);
-
-
-    // Get candidate nodes neigborhood information for fast pruning¨
-    //Initial Pruning on Candidate Space
-    while (InitPrunTCSR(FCS, qsiz, query_graph))
-    clearWrong(FCS);
-    //while (InitPrunTCSRMT(FCS, qsiz, query_graph))
-    //clearWrong(FCS);
-
-    fillEN(FCS, qsiz, query_graph);
-    //fillENMT(FCS, qsiz, query_graph);
-
-    int GDegree = query_graph->getGraphMaxDegree();
-    //Neigborhood Pruning
-
-    int cc=0;
-        while (ReverseRefinementNOTESN(NLabel,
-                                  FCS, qsiz, query_graph, GDegree))
-       clearWrong(FCS);
-
-
-    //Not used Anymore-without the one degree rule
-
-
-        ui mc=0;
-         mc=3;
-       while (RefinementEigen(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop)&&mc<5)
-       //while (RefinementEigenMT2(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop)&&mc<5)
-
-        {
-            mc++;
-            clearWrong(FCS);
-            while (ReverseRefinementNOTESN(NLabel, FCS, qsiz, query_graph, GDegree))
-                clearWrong(FCS);
-        }
-    //allocateBufferFCS(FCS, query_graph, candidates, candidates_count);
-    //ADD the candidates to the format That In-Memory Paper has everything.
-    allocateBufferFCS1(FCS, query_graph, candidates, candidates_count,EWeight);
-
-    for (int i = 0; i < qsiz; i++)
-    {
-        for (int j = 0; j < FCS[i].size(); j++){
-            candidates[i][j] = FCS[i][j].ID;
-
-            //ED is for Eigen Ordering -> Not used.
-           EWeight[i][j]=FCS[i][j].ED;
-            //EWeight[i][j]=FCS[i][j].edges.size();
-
-        }
-
-        candidates_count[i] = FCS[i].size();
-    }
-
-    int totalCand = 0;
-    for (int i = 0; i < query_graph->getVerticesCount(); i++)
-    {
-        // cout<<"C(i) "<<candidates_count[i]<<",";
-        totalCand = candidates_count[i] + totalCand;
-    }
-    return totalCand;
-}
-*/
 int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count, float **&EWeight, float **&eigenVD1, int alpha, int beta, Edges ***edge_matrix)
 {
     int qsiz = query_graph->getVerticesCount();
     int dsiz = data_graph->getVerticesCount();
-    // vector<vector<CSV>> FCS(qsiz); // candidate space
     vector<vector<CSV>> FCS;
     FCS.reserve(qsiz);
     vector<ui> DegreeK; // Discovered nodes for 2 hop
@@ -2363,37 +2047,18 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
     vector<vector<bool>> ValidverticesID(qsiz);
     vector<vector<vector<ui>>> EQID(qsiz);
     vector<vector<vector<ui>>> EVID(qsiz);
-    // Exctract 1hop label information for query graph
-    // ui *flag = new ui[data_graph->getVerticesCount()];
-    // std::fill(flag, flag + data_graph->getVerticesCount(), 0);
-    // ui *updated_flag = new ui[data_graph->getVerticesCount()];
-
     ExtractNImap(NLabel, query_graph, qsiz);
-    // Extract 2hop label information for query graph
-
-    // remember to remove from commentsS
-    // ExtractUI2h(DegreeK, NLabel2, query_graph, qsiz,);
-
-    // Initial Pruning add remaining Candidate Vertices to Candidate Space
-    // auto start11= std::chrono::high_resolution_clock::now();
-
     Vertices(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel, eigenVD1);
-
     int count = 0;
     int Tcount = 0;
-    // cout << FCS[0].size() << endl;
     //  Add Edges between nodes in candidate space
     EdgesCSBasicSet(FCS, qsiz, dsiz, data_graph, query_graph);
-
-    //  EdgesCSBasicSetVV(verticesID,NumOfverticesID,EQID,EVID,  qsiz,  dsiz,data_graph, query_graph);
-
     // Get candidate nodes neigborhood information for fast pruning¨
     // Initial Pruning on Candidate Space
     while (InitPrunTCSR(FCS, qsiz, query_graph))
         clearWrong(FCS);
 
     fillEN(FCS, qsiz, query_graph);
-    // cout<<"V time"<<time<<endl;
     int GDegree = query_graph->getGraphMaxDegree();
     // Neigborhood Pruning
     for (int i = 0; i < qsiz; i++)
@@ -2435,14 +2100,12 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
     }
 
     int totalCand = 0;
-    // int maxCan=candidates_count[0];
     for (int i = 0; i < query_graph->getVerticesCount(); i++)
     {
         totalCand = candidates_count[i] + totalCand;
     }
 
     return totalCand;
-    // cout<<"test"<<endl;
     auto start1 = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < qsiz; i++)
     {
@@ -2547,7 +2210,7 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
                     cout << "prob1" << endl;
                 // Find position of neigborin FCS and add it to tempEdge[QV][CQV]=NPW
                 Celements[QV1]++; // increase the number of elements for neigbor
-            } // candidatesHC[i][ja]=hash<string>{}(strd);
+            } 
             candidatesHC[i][ja] = mystdhash(strd);
             candidatesP2[i][ja] = candidatesHC[i][ja];
             auto it = idToValues2[i].find(candidatesP2[i][ja]);
@@ -2562,12 +2225,6 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
                 idToValues2[i][candidatesP2[i][ja]] = {ja};
                 countID++;
             } // have to see how i need to store to be effiecient later on.
-
-            // cout<<()
-            // cout<<(strd)<<endl;
-            // cout<<strd.value()<<endl;
-            // cout<<candidatesHC[i][ja]<<endl;
-            // for all the neigbors of the node
             for (int ta = 0; ta < u_nbrs_count; ta++)
             {
                 nct = u_nbrs[ta]; // get the neigbor
@@ -2593,86 +2250,27 @@ int CSInit(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop,
             {
                 edge_matrix[i][nvert]->edge_[cp] = temp_edges[nvert][cp]; // add E[i][n]->edges
             }
-            // std::copy(temp_edges[nvert].begin(), temp_edges[nvert].begin() + (Celements[nvert]), edge_matrix[i][nvert]->edge_);
             Celements[nvert] = 0;
             CelementsMD[nvert] = 0;
         }
     }
-    // cout<<countID<<endl;
     auto end1 = std::chrono::high_resolution_clock::now();
     double time2 = chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count();
     cout << "time2: " << time2 << endl;
-    //}
-    /*
-
-    const VertexID *u_nbrs;
-    ui u_nbrs_count;
-    for (int i=0;i<qsiz;i++){
-        u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
-        for (int j = 0; j < u_nbrs_count; j++){
-            int nvert=u_nbrs[j];
-            edge_matrix[i][nvert]->vertex_count_ = candidates_count[i];
-            edge_matrix[i][nvert]->offset_ = new ui[candidates_count[i] + 1];
-            std::fill(edge_matrix[i][nvert]->offset_, edge_matrix[i][nvert]->offset_ + candidates_count[i] + 1, 0);
-
-    }
-    }
-*/
-    /*
-             qsiz=query_graph->getVerticesCount();
-        for (int iT=0;iT<qsiz;iT++){
-
-            for (int bT=0;bT<qsiz;bT++){ //edge_matrix[i][j]
-                cout<<"iT"<<iT<<","<<bT<<endl;
-                if (edge_matrix[iT][bT] == NULL)
-                    continue;
-                 cout<<edge_matrix[iT][bT]->vertex_count_<<endl;
-                for (int vc=0;vc<edge_matrix[iT][bT]->vertex_count_;vc++)
-                    if(edge_matrix[iT][bT]->offset_[vc]!=edge_matrix[iT][bT]->offset_[vc])
-                        cout<<"I wish that you never left"<<endl;
-                cout<<"just dive by it"<<endl;
-                if(edge_matrix[iT][bT]->edge_count_!=edge_matrix[iT][bT]->edge_count_)
-                    cout<<"I only wish you the best"<<endl;
-                cout<<"follow my lead"<<endl;
-                for (int ec=0;ec<edge_matrix[iT][bT]->edge_count_;ec++)
-                    if(edge_matrix[iT][bT]->edge_[ec]!=edge_matrix[iT][bT]->edge_[ec])
-                        cout<<"love someone"<<endl;
-            }}
-
-    */ cout << "node" << endl;
-
-    auto start = std::chrono::high_resolution_clock::now();
-    // naiveCalcP2(qsiz,candidates,candidates_count,candidatesP,idToValues,candidatesHC,FCS);
-    auto end = std::chrono::high_resolution_clock::now();
-    double time1 = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    // auto start1 = std::chrono::high_resolution_clock::now();
-    // naiveCalcP(FCS,candidatesP1,idToValues1,candidatesHC);
-    // auto end1 = std::chrono::high_resolution_clock::now();
-    // double time2 = chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count();
-    cout << "naiveCalcP2 :" << time1 << endl;
-    // cout<<"naiveCalcP :"<<time2<<endl;
     return totalCand;
 }
 
 int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count, float **&EWeight, float **&eigenVD1, int alpha, int beta, Edges ***edge_matrix)
-{ // auto start = std::chrono::high_resolution_clock::now();
+{ 
     int MemSize = 0;
     int qsiz = query_graph->getVerticesCount();
     int dsiz = data_graph->getVerticesCount();
-    // vector<vector<CSV>> FCS(qsiz); // candidate space
     vector<vector<CSV>> FCS;
     FCS.reserve(qsiz);
     vector<ui> DegreeK; // Discovered nodes for 2 hop
     vector<vector<pair<ui, int>>> QueryNlabel;
     vector<map<ui, int>> NLabel;  // Number of Labels 1hop
     vector<map<ui, int>> NLabel2; // Number of Labels 2hop
-
-    // vector<vector<ui>> verticesID(qsiz);
-    // vector<ui> NumOfverticesID(qsiz);
-    // vector<vector<bool>> ValidverticesID(qsiz);
-    // vector<vector<vector<ui>>> EQID(qsiz);
-    // vector<vector<vector<ui>>> EVID(qsiz);
-
     // Exctract 1hop label information for query graph
     ui *flag = new ui[data_graph->getVerticesCount()];
     std::fill(flag, flag + data_graph->getVerticesCount(), 0);
@@ -2680,11 +2278,6 @@ int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, 
     std::fill(updated_flag, updated_flag + data_graph->getVerticesCount(), 0);
 
     ui lb = query_graph->getLabelsCount();
-    // cout<<"number of labels "<<lb<<endl;
-    // auto end = std::chrono::high_resolution_clock::now();
-
-    // double load_graphs_time_in_ns = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-    // start = std::chrono::high_resolution_clock::now();
     ExtractNImap(NLabel, query_graph, qsiz);
 
     // Extract 2hop label information for query graph
@@ -2700,27 +2293,15 @@ int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, 
     }
     ExtractUI2h(DegreeK, NLabel2, query_graph, qsiz, VS);
 
-    // Initial Pruning add remaining Candidate Vertices to Candidate Space
-    // start11= std::chrono::high_resolution_clock::now();
     Vertices(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel, eigenVD1);
-    // VerticesNF(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, eigenVD1);
-
-    // cout<<"VV time: "<<time22<<endl;
     int count = 0;
     int Tcount = 0;
     // Add Edges between nodes in candidate space
-    // end = std::chrono::high_resolution_clock::now();
 
-    // double VCprint = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-    // cout<<"Vertices time "<<VCprint<<endl;
-    // start =std::chrono::high_resolution_clock::now();
     EdgesCSBasicRL(FCS, qsiz, dsiz, data_graph, query_graph, flag, updated_flag);
-    // end = std::chrono::high_resolution_clock::now();
-    // ouble ECprint= std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-    // cout<<"Vertices time "<<ECprint<<endl;
+
     // Get candidate nodes neigborhood information for fast pruning¨
     // Initial Pruning on Candidate Space
-    // start= std::chrono::high_resolution_clock::now();
     if (getValue1() > MemSize)
         MemSize = getValue1();
     while (InitPrunTCSR(FCS, qsiz, query_graph))
@@ -2763,7 +2344,6 @@ int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, 
         for (int j = 0; j < FCS[i].size(); j++)
         {
             candidates[i][j] = FCS[i][j].ID;
-            // EWeight[i][j] = FCS[i][j].ED;
         }
         candidates_count[i] = FCS[i].size();
         totalCand = candidates_count[i] + totalCand;
@@ -2772,421 +2352,11 @@ int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, 
         MemSize = getValue1();
     cout << "MemSize" << MemSize / 1000 << endl;
     return totalCand;
-
-    // cout<<"test"<<endl;
-    if (true)
-    {
-        auto start1 = std::chrono::high_resolution_clock::now();
-        for (int i = 0; i < qsiz; i++)
-        {
-            for (int j = 0; j < FCS[i].size(); j++)
-            {
-                std::sort(FCS[i][j].edges.begin(), FCS[i][j].edges.end(), [](const auto &a, const auto &b)
-                          { return a.second < b.second; });
-            }
-        }
-
-        ui **temp_edges = new ui *[qsiz];
-        // vector<vector<ui>> temp_edges(qsiz);
-        for (ui i = 0; i < qsiz; i++)
-        {
-            temp_edges[i] = new ui[data_graph->getEdgesCount() * 2];
-            for (ui j = 0; j < qsiz; j++)
-            {
-                edge_matrix[i][j] = NULL;
-            }
-        }
-
-        const VertexID *u_nbrs;
-        ui u_nbrs_count;
-        ui local_degree;
-        ui max_degree;
-        vector<ui> Celements(qsiz);
-        vector<ui> CelementsMD(qsiz);
-        ui QV1 = 0;
-        ui DV1 = 0;
-        int nct = 0;
-        int diff = 0;
-        int nvert = 0;
-
-        for (int i = 0; i < qsiz; i++)
-        {
-            const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
-            Celements[i] = 0;
-            CelementsMD[i] = 0;
-            for (int jt = 0; jt < u_nbrs_count; jt++)
-            {
-                int nvert = u_nbrs[jt];
-                edge_matrix[i][nvert] = new Edges;
-                edge_matrix[i][nvert]->vertex_count_ = candidates_count[i];
-                edge_matrix[i][nvert]->offset_ = new ui[candidates_count[i] + 1];
-                std::fill(edge_matrix[i][nvert]->offset_, edge_matrix[i][nvert]->offset_ + candidates_count[i] + 1, 0);
-                edge_matrix[i][nvert]->offset_[0] = 0;
-                edge_matrix[i][nvert]->edge_ = new ui[data_graph->getEdgesCount() * 2];
-                std::fill(edge_matrix[i][nvert]->edge_, edge_matrix[i][nvert]->edge_ + data_graph->getEdgesCount() * 2, 0);
-            }
-        }
-        ui **candidatesP = NULL;
-        ui **candidatesP1 = NULL;
-        size_t **candidatesP2 = NULL;
-        unordered_map<int, vector<int>> idToValues;
-        unordered_map<int, vector<int>> idToValues1;
-        unordered_map<size_t, vector<ui>> *idToValues2;
-        candidatesP = new ui *[qsiz];
-        candidatesP1 = new ui *[qsiz];
-        candidatesP2 = new size_t *[qsiz];
-        idToValues2 = new unordered_map<size_t, vector<ui>>[qsiz];
-        for (ui i = 0; i < qsiz; ++i)
-        {
-            candidatesP[i] = new ui[FCS[i].size()];
-            memset(candidatesP[i], -1, sizeof(ui) * FCS[i].size());
-            candidatesP1[i] = new ui[FCS[i].size()];
-            memset(candidatesP1[i], -1, sizeof(ui) * FCS[i].size());
-            candidatesP2[i] = new size_t[FCS[i].size()];
-            memset(candidatesP2[i], -1, sizeof(size_t) * FCS[i].size());
-        }
-        size_t **candidatesHC = NULL;
-        candidatesHC = new size_t *[qsiz];
-        for (ui i = 0; i < qsiz; ++i)
-        {
-            candidatesHC[i] = new size_t[candidates_count[i]];
-        }
-        string strd = "0";
-        int countID = 0;
-
-        cout << (strd) << endl;
-        size_t hashValue = hash<string>{}(strd);
-        hash<string> mystdhash;
-        for (int i = 0; i < qsiz; i++)
-        { // for every Query vertex
-            const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
-            for (ui ja = 0; ja < candidates_count[i]; ja++)
-            {
-                // for every candidate of C[i]
-                strd = "";
-                for (int ka = 0; ka < FCS[i][ja].edges.size(); ka++)
-                {
-                    // for every neigbhoor of C[i]
-                    strd += to_string(FCS[i][ja].edges[ka].second);
-                    strd += ",";
-                    strd += to_string(FCS[i][ja].edges[ka].first);
-                    strd += "-";
-                    QV1 = FCS[i][ja].edges[ka].first;  // get QID of Neigbor
-                    DV1 = FCS[i][ja].edges[ka].second; // get VID of Neigbor
-                    temp_edges[QV1][Celements[QV1]] = findIndBS(FCS, DV1, QV1);
-                    if (QV1 > qsiz)
-                        cout << "prob" << endl;
-                    if (Celements[QV1] > data_graph->getEdgesCount() * 2)
-                        cout << "prob1" << endl;
-                    // Find position of neigborin FCS and add it to tempEdge[QV][CQV]=NPW
-                    Celements[QV1]++; // increase the number of elements for neigbor
-                } // candidatesHC[i][ja]=hash<string>{}(strd);
-                candidatesHC[i][ja] = mystdhash(strd);
-                candidatesP2[i][ja] = candidatesHC[i][ja];
-                auto it = idToValues2[i].find(candidatesP2[i][ja]);
-                if (it != idToValues2[i].end())
-                {
-                    // If the key exists, add the number to the end of the vector associated with that key
-                    it->second.push_back(ja);
-                }
-                else
-                {
-                    // If the key doesn't exist, insert the new key with a vector containing the added number into the map
-                    idToValues2[i][candidatesP2[i][ja]] = {ja};
-                    countID++;
-                } // have to see how i need to store to be effiecient later on.
-                for (int ta = 0; ta < u_nbrs_count; ta++)
-                {
-                    nct = u_nbrs[ta]; // get the neigbor
-                    if (nct > qsiz)
-                        cout << "shouldn" << endl;
-                    edge_matrix[i][nct]->offset_[ja + 1] = Celements[nct];
-                    if ((ja) > candidates_count[i])
-                        cout << "little sara" << endl;
-                    // add the offset in position j+1
-                    diff = edge_matrix[i][nct]->offset_[ja + 1] - edge_matrix[i][nct]->offset_[ja];
-                    if (diff > CelementsMD[nct]) // check for max degree
-                        CelementsMD[nct] = diff;
-                }
-            }
-
-            // after visiting all the nodes for FCS[i]
-            for (int jr = 0; jr < u_nbrs_count; jr++)
-            {                                                            // for every neigbor of i
-                nvert = u_nbrs[jr];                                      // get the neigbor
-                edge_matrix[i][nvert]->edge_count_ = Celements[nvert];   // add E[i][n]->number edges
-                edge_matrix[i][nvert]->max_degree_ = CelementsMD[nvert]; // add E[i][n]->maxD
-                for (int cp = 0; cp < Celements[nvert]; cp++)
-                {
-                    edge_matrix[i][nvert]->edge_[cp] = temp_edges[nvert][cp]; // add E[i][n]->edges
-                }
-                // std::copy(temp_edges[nvert].begin(), temp_edges[nvert].begin() + (Celements[nvert]), edge_matrix[i][nvert]->edge_);
-                Celements[nvert] = 0;
-                CelementsMD[nvert] = 0;
-            }
-        }
-    }
-    return totalCand;
 }
 
-int CSInitV(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count, float **&EWeight, float **&eigenVD1, int alpha, int beta, Edges ***edge_matrix, size_t **&candidatesHC, unordered_map<size_t, vector<ui>> *&idToValues2)
-{
-    int qsiz = query_graph->getVerticesCount();
-    int dsiz = data_graph->getVerticesCount();
-    vector<vector<CSV>> FCS; // candidate space
-    FCS.reserve(qsiz);
-    vector<ui> DegreeK; // Discovered nodes for 2 hop
-    vector<vector<pair<ui, int>>> QueryNlabel;
-    vector<map<ui, int>> NLabel;  // Number of Labels 1hop
-    vector<map<ui, int>> NLabel2; // Number of Labels 2hop
-
-    // Exctract 1hop label information for query graph
-    ExtractNImap(NLabel, query_graph, qsiz);
-    // Extract 2hop label information for query graph
-    // ExtractUI2h(DegreeK, NLabel2, query_graph, qsiz);
-
-    // Initial Pruning add remaining Candidate Vertices to Candidate Space
-    auto start11 = std::chrono::high_resolution_clock::now();
-    Vertices(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel, eigenVD1);
-    auto end11 = std::chrono::high_resolution_clock::now();
-    double time = std::chrono::duration_cast<std::chrono::milliseconds>(end11 - start11).count();
-    cout << "V time" << time << endl;
-    int count = 0;
-    int Tcount = 0;
-    // cout << FCS[0].size() << endl;
-    //  Add Edges between nodes in candidate space
-    EdgesCSBasicSet(FCS, qsiz, dsiz, data_graph, query_graph);
-    // Get candidate nodes neigborhood information for fast pruning¨
-    // Initial Pruning on Candidate Space
-    while (InitPrunTCSR(FCS, qsiz, query_graph))
-        clearWrong(FCS);
-
-    fillEN(FCS, qsiz, query_graph);
-
-    int GDegree = query_graph->getGraphMaxDegree();
-    // Neigborhood Pruning
-    for (int i = 0; i < qsiz; i++)
-    {
-        for (int j = 0; j < FCS[i].size(); j++)
-        {
-            std::sort(FCS[i][j].edges.begin(), FCS[i][j].edges.end(), [](const auto &a, const auto &b)
-                      { return a.first < b.first; });
-        }
-    }
-    int cc = 0;
-    // while (ReverseRefinementNOTESN(NLabel,
-    //                               FCS, qsiz, query_graph, GDegree))
-    clearWrong(FCS);
-
-    ui mc = 0;
-    mc = 3;
-
-    while (RefinementEigen(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop, alpha, beta) && mc < 5)
-    {
-        mc++;
-        clearWrong(FCS);
-        // while (ReverseRefinementNOTESN(NLabel, FCS, qsiz, query_graph, GDegree))
-        clearWrong(FCS);
-    }
-    clearWrong(FCS);
-    allocateBufferFCS1(FCS, query_graph, candidates, candidates_count, EWeight);
-
-    for (int i = 0; i < qsiz; i++)
-    {
-        for (int j = 0; j < FCS[i].size(); j++)
-        {
-            candidates[i][j] = FCS[i][j].ID;
-            EWeight[i][j] = FCS[i][j].ED;
-        }
-        candidates_count[i] = FCS[i].size();
-    }
-
-    int totalCand = 0;
-    int maxCan = candidates_count[0];
-    for (int i = 0; i < query_graph->getVerticesCount(); i++)
-    {
-        totalCand = candidates_count[i] + totalCand;
-        if (maxCan < candidates_count[i])
-            maxCan = candidates_count[i];
-    }
-    cout << "total cand" << totalCand << endl;
-    auto start1 = std::chrono::high_resolution_clock::now();
-    for (int i = 0; i < qsiz; i++)
-    {
-        for (int j = 0; j < FCS[i].size(); j++)
-        {
-            std::sort(FCS[i][j].edges.begin(), FCS[i][j].edges.end(), [](const auto &a, const auto &b)
-                      {
-            if (a.second != b.second) {
-                return a.second < b.second;
-            }
-            // If a.second is equal to b.second, sort by a.first
-            return a.first < b.first; });
-        }
-    }
-
-    ui **temp_edges = new ui *[qsiz];
-    // vector<vector<ui>> temp_edges(qsiz);
-    for (ui i = 0; i < qsiz; i++)
-    {
-        temp_edges[i] = new ui[data_graph->getEdgesCount() * 2];
-        for (ui j = 0; j < qsiz; j++)
-        {
-            edge_matrix[i][j] = NULL;
-        }
-    }
-
-    const VertexID *u_nbrs;
-    ui u_nbrs_count;
-    ui local_degree;
-    ui max_degree;
-    vector<ui> Celements(qsiz);
-    vector<ui> CelementsMD(qsiz);
-    ui QV1 = 0;
-    ui DV1 = 0;
-    int nct = 0;
-    int diff = 0;
-    int nvert = 0;
-
-    for (int i = 0; i < qsiz; i++)
-    {
-        const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
-        Celements[i] = 0;
-        CelementsMD[i] = 0;
-        for (int jt = 0; jt < u_nbrs_count; jt++)
-        {
-            int nvert = u_nbrs[jt];
-            edge_matrix[i][nvert] = new Edges;
-            edge_matrix[i][nvert]->vertex_count_ = candidates_count[i];
-            edge_matrix[i][nvert]->offset_ = new ui[candidates_count[i] + 1];
-            std::fill(edge_matrix[i][nvert]->offset_, edge_matrix[i][nvert]->offset_ + candidates_count[i] + 1, 0);
-            edge_matrix[i][nvert]->offset_[0] = 0;
-            edge_matrix[i][nvert]->edge_ = new ui[data_graph->getEdgesCount() * 2];
-            std::fill(edge_matrix[i][nvert]->edge_, edge_matrix[i][nvert]->edge_ + data_graph->getEdgesCount() * 2, 0);
-        }
-    }
-    int **candidatesP = NULL;
-    // ui **candidatesP1 = NULL;
-    size_t **candidatesP2 = NULL;
-    unordered_map<int, vector<int>> idToValues;
-    // unordered_map<int, vector<int>> idToValues1;
-    candidatesP = new int *[qsiz];
-    // candidatesP1 = new ui *[qsiz];
-    candidatesP2 = new size_t *[qsiz];
-    idToValues2 = new unordered_map<size_t, vector<ui>>[qsiz];
-    for (ui i = 0; i < qsiz; ++i)
-    {
-        candidatesP[i] = new int[FCS[i].size()];
-        memset(candidatesP[i], -1, sizeof(int) * FCS[i].size());
-        // candidatesP1[i] = new ui[FCS[i].size()];
-        // memset(candidatesP1[i], -1, sizeof(ui) * FCS[i].size());
-        candidatesP2[i] = new size_t[FCS[i].size()];
-        memset(candidatesP2[i], -1, sizeof(size_t) * FCS[i].size());
-    }
-    candidatesHC = new size_t *[qsiz];
-    for (ui i = 0; i < qsiz; ++i)
-    {
-        candidatesHC[i] = new size_t[candidates_count[i]];
-    }
-    string strd = "0";
-    int countID = 0;
-
-    // cout<<(strd)<<endl;
-    size_t hashValue = hash<string>{}(strd);
-    hash<string> mystdhash;
-    for (int i = 0; i < qsiz; i++)
-    { // for every Query vertex
-        const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
-        for (ui ja = 0; ja < candidates_count[i]; ja++)
-        {
-            // for every candidate of C[i]
-            strd = "";
-            for (int ka = 0; ka < FCS[i][ja].edges.size(); ka++)
-            {
-                // for every neigbhoor of C[i]
-                strd += to_string(FCS[i][ja].edges[ka].second);
-                strd += ",";
-                strd += to_string(FCS[i][ja].edges[ka].first);
-                strd += "-";
-                QV1 = FCS[i][ja].edges[ka].first;  // get QID of Neigbor
-                DV1 = FCS[i][ja].edges[ka].second; // get VID of Neigbor
-                temp_edges[QV1][Celements[QV1]] = findIndBS(FCS, DV1, QV1);
-                // if(QV1>qsiz)
-                // cout<<"prob"<<endl;
-                // if(Celements[QV1]>data_graph->getEdgesCount() * 2)
-                // cout<<"prob1"<<endl;
-                // Find position of neigborin FCS and add it to tempEdge[QV][CQV]=NPW
-                Celements[QV1]++; // increase the number of elements for neigbor
-            } // candidatesHC[i][ja]=hash<string>{}(strd);
-            candidatesHC[i][ja] = mystdhash(strd);
-            candidatesP2[i][ja] = candidatesHC[i][ja];
-            auto it = idToValues2[i].find(candidatesHC[i][ja]);
-            if (it != idToValues2[i].end())
-            {
-                // If the key exists, add the number to the end of the vector associated with that key
-                it->second.push_back(ja);
-            }
-            else
-            {
-                // If the key doesn't exist, insert the new key with a vector containing the added number into the map
-                idToValues2[i][candidatesHC[i][ja]] = {ja};
-                countID++;
-            } // have to see how i need to store to be effiecient later on.
-
-            // cout<<()
-            // cout<<(strd)<<endl;
-            // cout<<strd.value()<<endl;
-            // cout<<candidatesHC[i][ja]<<endl;
-            // for all the neigbors of the node
-            for (int ta = 0; ta < u_nbrs_count; ta++)
-            {
-                nct = u_nbrs[ta]; // get the neigbor
-                // if(nct>qsiz)
-                //    cout<<"shouldn"<<endl;
-                edge_matrix[i][nct]->offset_[ja + 1] = Celements[nct];
-                // if ((ja)>candidates_count[i])
-                //     cout<<"little sara"<<endl;
-                // add the offset in position j+1
-                diff = edge_matrix[i][nct]->offset_[ja + 1] - edge_matrix[i][nct]->offset_[ja];
-                if (diff > CelementsMD[nct]) // check for max degree
-                    CelementsMD[nct] = diff;
-            }
-        }
-
-        // after visiting all the nodes for FCS[i]
-        for (int jr = 0; jr < u_nbrs_count; jr++)
-        {                                                            // for every neigbor of i
-            nvert = u_nbrs[jr];                                      // get the neigbor
-            edge_matrix[i][nvert]->edge_count_ = Celements[nvert];   // add E[i][n]->number edges
-            edge_matrix[i][nvert]->max_degree_ = CelementsMD[nvert]; // add E[i][n]->maxD
-            for (int cp = 0; cp < Celements[nvert]; cp++)
-            {
-                edge_matrix[i][nvert]->edge_[cp] = temp_edges[nvert][cp]; // add E[i][n]->edges
-            }
-            // std::copy(temp_edges[nvert].begin(), temp_edges[nvert].begin() + (Celements[nvert]), edge_matrix[i][nvert]->edge_);
-            Celements[nvert] = 0;
-            CelementsMD[nvert] = 0;
-        }
-    }
-    cout << "cout" << countID << endl;
-    auto end1 = std::chrono::high_resolution_clock::now();
-    double time2 = chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count();
-    cout << "time" << time2 << endl;
-    auto start = std::chrono::high_resolution_clock::now();
-    // naiveCalcP2(qsiz,candidates,candidates_count,candidatesP,idToValues,candidatesHC,FCS);
-    auto end = std::chrono::high_resolution_clock::now();
-    double time1 = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    // auto start1 = std::chrono::high_resolution_clock::now();
-    // naiveCalcP(FCS,candidatesP1,idToValues1,candidatesHC);
-    // auto end1 = std::chrono::high_resolution_clock::now();
-    // double time2 = chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count();
-    cout << "naiveCalcP2 :" << time1 << endl;
-    // cout<<"naiveCalcP :"<<time2<<endl;
-    return totalCand;
-}
 void naiveCalcP2(int qsiz, ui **&candidates, ui *&candidates_count, int **&candidatesP, unordered_map<int, vector<int>> &idToValues, size_t **&candidatesHC, vector<vector<CSV>> &FCS)
 {
-    cout << "naiveCalcP2" << endl;
+
     int countID = 0;
     for (int i = 0; i < qsiz; i++)
     {
@@ -3202,7 +2372,6 @@ void naiveCalcP2(int qsiz, ui **&candidates, ui *&candidates_count, int **&candi
             {
                 if (candidatesP[i][k] == -1)
                 {
-                    //) &&candidatesHC[i][j]==candidatesHC[i][k]){
                     t = 0;
                     if (FCS[i][j].edges.size() == FCS[i][k].edges.size())
                     {
@@ -3219,17 +2388,8 @@ void naiveCalcP2(int qsiz, ui **&candidates, ui *&candidates_count, int **&candi
                     }
                 }
             }
-            // if(check_edgesP(FCS[i][j].edges,FCS[i][k].edges)){
-            //     candidatesP[i][k]=countID;
-            //     idToValues[countID].push_back(FCS[i][k].ID);
-            // }
-        } // if (candidatesP[i][candidates_count[i]-1]==-1){
-        // candidatesP[i][candidates_count[i]-1]=countID;
-        // countID++;
-        // idToValues[countID].push_back(FCS[i][(FCS[i].size()-1)].ID);
-        //}
+        } 
     } // last element case
-    cout << "countID-naiveCalcP2: " << countID << endl;
 }
 /*
 void naiveCalcP(vector<vector<CSV>> &FCS,ui **&candidatesP,unordered_map<int, vector<int>> &idToValues,size_t **&candidatesHC){
@@ -3292,73 +2452,22 @@ int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twoho
     vector<vector<pair<ui, int>>> QueryNlabel;
     vector<map<ui, int>> NLabel;  // Number of Labels 1hop
     vector<map<ui, int>> NLabel2; // Number of Labels 2hop
-
-    // Exctract 1hop label information for query graph
-    // auto start = chrono::high_resolution_clock::now();
-
     ExtractNImap(NLabel, query_graph, qsiz);
-    // auto end = chrono::high_resolution_clock::now();
-    // double n1 = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-    // cout<<"N1Maps: "<<n1<<endl;
-
-    // Extract 2hop label information for query graph
-    ////auto start1 = chrono::high_resolution_clock::now();
-    // ExtractUI2h(DegreeK, NLabel2, query_graph, qsiz);
-    ////auto end1 = chrono::high_resolution_clock::now();
-    // n1 = chrono::duration_cast<chrono::milliseconds>(end1 - start1).count();
-    // cout<<"ExtractUI2h: "<<n1<<endl;
-
-    // auto start2 = chrono::high_resolution_clock::now();
     VerticesMT2(FCS1, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel, eigenVD1, thnum);
-    // auto end2 = chrono::high_resolution_clock::now();
-    // n1 = chrono::duration_cast<chrono::milliseconds>(end2 - start2).count();
-    // cout<<"VerticesMT2: "<<n1<<endl;
-    // auto start3 = chrono::high_resolution_clock::now();
     for (int aa = 0; aa < qsiz; aa++)
         FCS.emplace_back(FCS1[aa]);
-    // auto end3 = chrono::high_resolution_clock::now();
-    // n1 = chrono::duration_cast<chrono::milliseconds>(end3 - start3).count();
-    // cout<<"FCSEB: "<<n1<<endl;
     int count = 0;
     int Tcount = 0;
-    // auto start4 = chrono::high_resolution_clock::now();
     EdgesCSBasicSetMT(FCS, qsiz, dsiz, data_graph, query_graph, thnum);
-    // auto end4 = chrono::high_resolution_clock::now();
-    // n1 = chrono::duration_cast<chrono::milliseconds>(end4 - start4).count();
-    // cout<<"EdgesCSBasicSetMT: "<<n1<<endl;
-
-    // auto start5 = chrono::high_resolution_clock::now();
     while (InitPrunTCSRMT(FCS, qsiz, query_graph, thnum))
         clearWrong(FCS);
-    // auto end5 = chrono::high_resolution_clock::now();
-    // n1 = chrono::duration_cast<chrono::milliseconds>(end5- start5).count();
-    // cout<<"InitPrunTCSRMT: "<<n1<<endl;
-
-    // auto start6 = chrono::high_resolution_clock::now();
     fillENMT(FCS, qsiz, query_graph, thnum);
-    // auto end6 = chrono::high_resolution_clock::now();
-    // n1 = chrono::duration_cast<chrono::milliseconds>(end6- start6).count();
-    // cout<<"fillENMT: "<<n1<<endl;
     int GDegree = query_graph->getGraphMaxDegree();
-
     int cc = 0;
     bool st = true;
-    // auto start7 = chrono::high_resolution_clock::now();
     st = ReverseRefinementNOTESNMT(NLabel,
                                    FCS, qsiz, query_graph, GDegree, thnum);
     clearWrong(FCS);
-
-    while (st == true)
-    {
-        // st = ReverseRefinementNOTESNMT(NLabel,
-        //                              FCS, qsiz, query_graph, GDegree);
-        clearWrong(FCS);
-    }
-    // auto end7 = chrono::high_resolution_clock::now();
-    // n1 = chrono::duration_cast<chrono::milliseconds>(end7- start7).count();
-    // cout<<"ReverseRefinementNOTESNMT: "<<n1<<endl;
-    // auto start8 = chrono::high_resolution_clock::now();
-
     ui mc = 0;
     mc = 3;
     while (RefinementEigenMT2(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop, alpha, thnum, beta) && mc < 5)
@@ -3366,39 +2475,24 @@ int CSInitMT(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twoho
     {
         mc++;
         clearWrong(FCS);
-        // while (ReverseRefinementNOTESNMT(NLabel, FCS, qsiz, query_graph, GDegree))
         clearWrong(FCS);
     }
-    // auto end8 = chrono::high_resolution_clock::now();
-    // n1 = chrono::duration_cast<chrono::milliseconds>(end8- start8).count();
-    // cout<<"RefinementEigenMT2: "<<n1<<endl;
-
-    // auto start9 = chrono::high_resolution_clock::now();
     allocateBufferFCS1(FCS, query_graph, candidates, candidates_count, EWeight);
-
     for (int i = 0; i < qsiz; i++)
     {
         for (int j = 0; j < FCS[i].size(); j++)
         {
             candidates[i][j] = FCS[i][j].ID;
-            // if (FCS[i][j].deleted)
-            //     cout<<"malaka"<<endl;
-            //  ED is for Eigen Ordering -> Not used.
             EWeight[i][j] = FCS[i][j].ED;
         }
 
         candidates_count[i] = FCS[i].size();
     }
-
     int totalCand = 0;
     for (int i = 0; i < query_graph->getVerticesCount(); i++)
     {
         totalCand = candidates_count[i] + totalCand;
     }
-    // auto end9 = chrono::high_resolution_clock::now();
-    // n1 = chrono::duration_cast<chrono::milliseconds>(end9- start9).count();
-    // cout<<"Transfer: "<<n1<<endl;
-
     return totalCand;
 }
 
@@ -3508,11 +2602,6 @@ bool ReverseRefinementNOTESN(vector<map<ui, int>> NLabel, vector<vector<CSV>> &F
                 removeVertexAndEgjesFKNP(FCS, i, j);
                 returnhere = true;
             }
-            // else if(!k_con(FCS,i,j,qsiz,query_graph,10)){
-            // removeVertexAndEgjesFKNP(FCS, i, j);
-            //     returnhere = true;
-            // cout<<"hola"<<endl;
-            //}
             else
             {
                 FCS[i][j].IPchange = false;
@@ -3628,59 +2717,6 @@ bool RefinementNV(vector<map<ui, int>> NLabel, vector<vector<CSV>> &FCS, int qsi
     return returnhere;
 }
 
-bool k_con(vector<vector<CSV>> &FCS, int qid, int vid, int qsiz, Graph *query_graph, int ksiz_)
-{
-    vector<ui> tempL;
-    ui u_nbrs_count;
-
-    ui cnID;
-    unordered_map<ui, ui> SID;
-    const VertexID *u_nbrs = query_graph->getVertexNeighbors(qid, u_nbrs_count);
-    for (int mpe = 2; mpe <= ksiz_; mpe++)
-    {
-        for (int i = 0; i < u_nbrs_count; i++)
-        {
-            cnID = u_nbrs[i];
-            if (FCS[qid][vid].Nedge[cnID] == ksiz_)
-            {
-                tempL.push_back(cnID);
-            }
-        }
-        if (tempL.size() > ksiz_)
-        {
-            int tempLc = 0;
-            int k = 0;
-            while (k < FCS[qid][vid].edges.size() && tempLc < tempL.size())
-            {
-                if (tempL[tempLc] == 1000000)
-                    cout << "how?" << endl;
-                if (FCS[qid][vid].edges[k].first == tempL[tempLc])
-                {
-                    auto it = SID.find(FCS[qid][vid].edges[k].second);
-                    if (it != SID.end())
-                    {
-                        if (it->second != 0)
-                            it->second -= 1;
-                        else
-                            return false;
-                    }
-                    else
-                    {
-                        SID[FCS[qid][vid].edges[k].second] = ksiz_;
-                    }
-                    k++;
-                }
-                else if (FCS[qid][vid].edges[k].first > tempL[tempLc] && FCS[qid][vid].edges[k].first != 1000000)
-                    tempLc++;
-                else
-                    k++;
-            }
-        }
-        SID.clear();
-        tempL.clear();
-    }
-    return true;
-}
 
 bool ReverseRefinementNOTESNMT(vector<map<ui, int>> &NLabel, vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph, ui GDegree, int thnum)
 {
@@ -3826,7 +2862,6 @@ bool ReverseRefinementNOTESNMT(vector<map<ui, int>> &NLabel, vector<vector<CSV>>
 ** We calculate eigenValues only if it passed the second pruning rule and the size of Matrix is less than oMax
 */
 
-// not used
 bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vector<CSV>> &FCS,
                      int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> DM, int twohop)
 {
@@ -3852,7 +2887,6 @@ bool RefinementEigen(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, 
     ui oMax;
     ui oMax2;
     oMax = 150;
-    // oMax2=qsiz * 5;
     if (twohop == 0)
     {
         oMax = 25;

@@ -1,5 +1,3 @@
-
-
 #include <functional>
 #include <map>
 #include <chrono>
@@ -179,26 +177,8 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 #ifdef PRINT1
     std::cout << "Load graphs..." << std::endl;
 #endif
-
     auto start = std::chrono::high_resolution_clock::now();
-
     Graph *query_graph = new Graph(true);
-    /*
-    cout<<input_query_graph_file<<endl;
-    cout<<input_data_graph_file<<endl;
-    input_query_graph_file="dataset/hprd/query_graph/query_G_32_93.graph";
-    input_data_graph_file="dataset/hprd/data_graph/hprd.graph";
-    input_filter_type = "PLC";
-    inputs.filter = "PLC";
-    alpha="125";
-    beta="0";
-    input_order_type = "GQL";
-    input_order_type="GQL";
-    embdcount=100000;
-    input_engine_type="LFTJVEQ";
-  */
-    // return outputs;
-
     query_graph->loadGraphFromFile(input_query_graph_file);
     query_graph->buildCoreTable();
     outputs.query_size = query_graph->getVerticesCount();
@@ -208,7 +188,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     ui dsiz = 0;
     if (input_csr_file_path.empty())
     {
-        if (inputs.filter == "KF" || inputs.filter == "KFE" || inputs.filter == "KFD" || inputs.filter == "PLMT" || inputs.filter == "PL" || inputs.filter == "PLV" || inputs.filter == "PLC")
+        if (inputs.filter == "KF" ||  inputs.filter == "PLMT" || inputs.filter == "PL" || inputs.filter == "PLV" || inputs.filter == "PLC")
         {
             data_graph->loadGraphFromFile(input_data_graph_file);
             data_graph->BuildLabelOffset();
@@ -271,8 +251,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     bool isEigenCheck;
     int top_s = std::stoi(input_tops);
     istringstream(input_iseigen) >> isEigenCheck;
-    // top_s=10;
-
     ui **candidates = NULL;
     float **EWeight = NULL;
     ui *candidates_count = NULL;
@@ -292,10 +270,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     candidatesHC2 = new size_t *[query_graph->getVerticesCount()];
     candidatesHC3 = new size_t *[query_graph->getVerticesCount()];
     size_t *candidatesHCQ = new size_t[query_graph->getVerticesCount()];
-    // size_t **candidatesP2 = NULL;
-    // candidatesP2 = new size_t *[query_graph->getVerticesCount()];
     unordered_map<size_t, vector<ui>> *idToValues2;
-
     unordered_map<size_t, vector<ui>> *idToValues3;
     unordered_map<size_t, vector<ui>> *idToValues4;
     unordered_map<size_t, vector<ui>> idTovaluesQ;
@@ -320,14 +295,13 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
         SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+        input_engine_type = "LFTJVEQ";
     }
     else if (input_filter_type == "PLV")
     {
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
-
         SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 1, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
-        // SpectralMatchingV(query_graph->getVerticesCount(), data_graph, query_graph, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1,edge_matrix1,candidatesHC,idToValues2);
     }
     else if (input_filter_type == "PLC")
     {
@@ -336,7 +310,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         if (getValue1() > MemSize)
             MemSize = getValue1();
         SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
-        // SpectralMatchingV(query_graph->getVerticesCount(), data_graph, query_graph, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1,edge_matrix1,candidatesHC,idToValues2);
     }
     else if (input_filter_type == "PLMT")
     {
@@ -344,6 +317,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         int thnum1 = stoi(thnum);
         int beta1 = stoi(beta);
         SpectralMatchingMT(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, thnum1, beta1);
+        input_engine_type = "LFTJVEQ";
     }
     else if (input_filter_type == "NLF")
     {
@@ -448,160 +422,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     int startC = 1;
     ui u_nbrs_count1;
     bool add = true;
-    if (true)
-    {
-        for (ui i = 0; i < qsiz; i++)
-        {
-            if (candidatesHCQ[i] != 0)
-                continue;
-            candidatesHCQ[i] = startC;
-            idTovaluesQ[startC] = {i};
-
-            const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
-            for (ui j = i + 1; j < qsiz; j++)
-            {
-                add = true;
-                const VertexID *u_nbrs1 = query_graph->getVertexNeighbors(j, u_nbrs_count1);
-                if (u_nbrs_count == u_nbrs_count1)
-                {
-                    for (int kk = 0; kk < u_nbrs_count; kk++)
-                    {
-                        if (u_nbrs[kk] != u_nbrs1[kk])
-                        {
-                            add = false;
-                            break;
-                        }
-                    }
-                    if (add == true)
-                    {
-                        candidatesHCQ[j] = startC;
-                        idTovaluesQ[candidatesHCQ[j]].push_back(j);
-                    }
-                }
-            }
-            startC++;
-        }
-    }
-
-    for (int i = 0; i < qsiz; i++)
-    {
-        const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
-        for (int j = 0; j < (u_nbrs_count - 1); j++)
-            if (u_nbrs[j] > u_nbrs[j + 1])
-            {
-                cout << "malakaaaa" << endl;
-            }
-    }
-
-    if (false)
-    {
-        string strd = "";
-        size_t hashValue = hash<string>{}(strd);
-        hash<string> mystdhash;
-
-        std::ostringstream oss1;
-
-        for (int in = 0; in < qsiz; in++)
-        {
-            const VertexID *u_nbrs = query_graph->getVertexNeighbors(in, u_nbrs_count);
-            for (ui ij = 0; ij < candidates_count[in]; ij++)
-            {
-                strd = "";
-                for (int it = 0; it < u_nbrs_count; it++)
-                {
-                    ui QVL = u_nbrs[it];
-                    ui ES = edge_matrix[in][QVL]->offset_[ij];
-                    ui EN = edge_matrix[in][QVL]->offset_[ij + 1];
-                    ui sms = 0;
-
-                    while (ES < EN)
-                    {
-                        // strd += to_string(edge_matrix1[in][u_nbrs[it]]->edge_[ES]) + "," + to_string(QVL) + "-";
-                        strd += to_string(edge_matrix[in][u_nbrs[it]]->edge_[ES]) + ","; // + to_string(QVL) + "-";
-                        ES++;
-                    }
-                    strd += to_string(QVL);
-                    strd += "-";
-                }
-                candidatesHC2[in][ij] = mystdhash(strd);
-                auto it = idToValues3[in].find(candidatesHC2[in][ij]);
-
-                if (it != idToValues3[in].end())
-                {
-
-                    // If the key exists, add the number to the end of the vector associated with that key
-                    it->second.push_back(ij);
-                }
-                else
-                {
-                    // If the key doesn't exist, insert the new key with a vector containing the added number into the map
-                    idToValues3[in][candidatesHC2[in][ij]] = {ij};
-                    // countID++;
-                }
-            }
-        }
-    }
-
-    if (false)
-    {
-        ui EN = 0;
-        int countID = 0;
-        bool add = false;
-        ui count2 = 0;
-        ui ENN;
-        for (int i = 0; i < qsiz; i++)
-        {
-            const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
-            const VertexID *u_nbrs1 = query_graph->getVertexNeighbors(i, u_nbrs_count1);
-            for (ui j = 0; j < candidates_count[i]; j++)
-            {
-                if (candidatesHC3[i][j] != 0)
-                    continue;
-                count2++;
-                candidatesHC3[i][j] = count2;
-                idToValues4[i][candidatesHC3[i][j]] = {j};
-                // check first if it has an ID
-                for (int k = j + 1; k < candidates_count[i]; k++)
-                {
-                    add = true;
-                    if (candidatesHC3[i][k] != 0)
-                        continue;
-                    for (int d = 0; d < u_nbrs_count; d++)
-                    {
-                        ui CVQ = u_nbrs[d];
-                        ui SP = edge_matrix[i][CVQ]->offset_[j];
-                        ui EP = edge_matrix[i][CVQ]->offset_[j + 1];
-                        ui SPC = edge_matrix[i][CVQ]->offset_[k];
-                        ui EPC = edge_matrix[i][CVQ]->offset_[k + 1];
-                        if ((EP - SP) == (EPC - SPC))
-                        {
-                            int Times = EP - SP;
-                            for (int ee = 0; ee < Times; ee++)
-                            {
-                                if (edge_matrix[i][CVQ]->edge_[SP + ee] != edge_matrix[i][CVQ]->edge_[SPC + ee])
-                                {
-                                    add = false;
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            add = false;
-                        }
-                        if (add == false)
-                            break;
-                    }
-                    if (add == true)
-                    {
-                        candidatesHC3[i][k] = count2;
-                        idToValues4[i][count2].push_back(k);
-                    }
-                }
-            }
-        }
-        cout << "count2 :" << count2 << endl;
-    }
     end = std::chrono::high_resolution_clock::now();
     double bns = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     double build_table_time_in_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
@@ -645,129 +465,11 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         GenerateQueryPlan::generateQSIQueryPlan(data_graph, query_graph, edge_matrix, matching_order, pivots);
     }
-
-    else if (input_order_type == "KF")
-    {
-        ui qsiz = query_graph->getVerticesCount();
-        float ED[qsiz];
-        float MAXED[qsiz];
-        ui TOO = 0;
-        // ui count1=0;
-        ui count2 = 0;
-        ui count1 = 0;
-        float maxED = 0;
-        float maxEDW = 0;
-        ui maxCan = 0;
-        for (int d = 0; d < qsiz; d++)
-        {
-            maxED = 0;
-            ED[d] = 0;
-            count1 = 0;
-            for (int k = 0; k < candidates_count[d]; k++)
-                if (EWeight[d][k] == 100000)
-                    count1++;
-                else
-                {
-                    ED[d] = ED[d] + EWeight[d][k];
-                    if (EWeight[d][k] > maxED)
-                        maxED = EWeight[d][k];
-                }
-            ED[d] = ED[d] + (count1 * (maxED + eigenQS[d]));
-            ED[d] = ED[d] / eigenQS[d];
-        }
-        for (int d = 0; d < qsiz; d++)
-        {
-            ; // cout<<ED[d]<<","<<eigenQS[d]<<endl;
-        }
-
-        GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED, matching_order, pivots);
-    }
-    else if (input_order_type == "KFX")
-    {
-        // else if (input_filter_type=="KF"){
-        ui qsiz = query_graph->getVerticesCount();
-        float ED[qsiz];
-        ui TOO = 0;
-        ui count1 = 0;
-        ui count2 = 0;
-        float maxED = 0;
-        float maxEDW = 0;
-        ui maxCan = 0;
-        for (int d = 0; d < qsiz; d++)
-        {
-            for (int k = 0; k < candidates_count[d]; k++)
-                if (EWeight[d][k] == 10000)
-                    count1++;
-                else
-                {
-                    ED[d] = ED[d] + EWeight[d][k];
-                    if (EWeight[d][k] > maxED)
-                        maxED = EWeight[d][k];
-                }
-            ED[d] = ED[d] + count1 * maxED;
-            if (ED[d] > maxEDW)
-                maxEDW = ED[d];
-            if (maxCan < candidates_count[d])
-                maxCan = candidates_count[d];
-            maxED = 0;
-            count1 = 0;
-        }
-        // TOO =0 -> 0.9 *Gives high value to size-> Number of Candidates/Max Candidates
-        // 0.1 *Gives low value to EW-> EW/MEW
-        // 1-p2 means low weight gets high value(looking for min)
-        // Prioritizes min candidates with max weight
-        if (input_order_type == "KFA")
-        {
-            for (int i = 0; i < qsiz; i++)
-            {
-                float p1 = candidates_count[i] / maxCan;
-                float p2 = ED[i] / maxEDW;
-                p1 = p1 * 0.9;
-                p2 = (1 - p2) * (0.1);
-                ED[i] = p1 + (p2);
-            }
-            GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED, matching_order, pivots);
-        } // TOO =1 -> 0.9 *Gives high value to size-> Number of Candidates/Max Candidates
-          // 0.1 *Gives low value to EW-> EW/MEW
-          // p2 means low weight gets low value(looking for min)
-          // Prioritizes min candidates with min weight
-        else if (input_order_type == "KFB")
-        {
-            for (int i = 0; i < qsiz; i++)
-            {
-                float p1 = candidates_count[i] / maxCan;
-                float p2 = ED[i] / maxEDW;
-                p1 = p1 * 0.9;
-                p2 = (p2) * (0.1);
-                ED[i] = p1 + (p2);
-            }
-            GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED, matching_order, pivots);
-        }
-        // TOO=1 NEW-> EigenWeight/Num of Candidates
-        else if (input_order_type == "KFC")
-        {
-            cout << "malista" << endl;
-            for (int i = 0; i < qsiz; i++)
-            {
-                ED[i] = ED[i] / candidates_count[i];
-                cout << ED[i] << endl;
-            }
-            GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED, matching_order, pivots);
-        }
-
-        else if (input_order_type == "KFD")
-            GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED, matching_order, pivots);
-        else
-            GenerateQueryPlan::generateGQLQueryPlanN(data_graph, query_graph, ED, matching_order, pivots);
-        //}*/
-    }
-
     else if (input_order_type == "GQL")
     {
 
         if (inputs.order_pointer == NULL)
         {
-            // GenerateQueryPlan::generateGQLQueryPlanNEC(data_graph, query_graph, candidates_count, matching_order, pivots,candidatesHCQ,idTovaluesQ);
             GenerateQueryPlan::generateGQLQueryPlan(data_graph, query_graph, candidates_count, matching_order, pivots);
         }
         else
@@ -834,7 +536,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         if (inputs.order_pointer == NULL)
         {
             // GenerateQueryPlan::printSimplifiedQueryPlan(query_graph, matching_order);
-            // GenerateQueryPlan::checkQueryPlanCorrectness(query_graph, matching_order, pivots);
+             GenerateQueryPlan::checkQueryPlanCorrectness(query_graph, matching_order, pivots);
         }
         else
         {
@@ -894,10 +596,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     EvaluateQuery::qfliter_bsr_graph_ = BuildTable::qfliter_bsr_graph_;
 #endif
 
-    // if (input_filter_type=="PLC")
-    //     input_engine_type="LFTJVEQ";
-    // else input_engine_type="LFTJ";
-    input_engine_type = "LFTJVEQ";
     size_t call_count = 0;
     size_t time_limit = 0;
     if (input_filter_type == "NLF")
@@ -926,10 +624,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
             MemSize = getValue1();
         s = EvaluateQuery::LFTJVEQ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                    matching_order, output_limit, call_count, candidatesHC3, idToValues4);
-        // s = EvaluateQuery::LFTJVEQL(data_graph, query_graph, edge_matrix, candidates, candidates_count,
-        //                             matching_order, output_limit, call_count,candidatesHC3,idToValues4,idToValues3,candidatesHC2);
-        // s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
-        //                             matching_order, output_limit, call_count);
         embedding_count = s.embedding_cnt;
         outputs.call_count = call_count;
     }
@@ -947,45 +641,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
             s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                     inputs.order_pointer, output_limit, call_count);
         }
-        embedding_count = s.embedding_cnt;
-        outputs.call_count = call_count;
-    }
-    else if (input_engine_type == "LFTJA")
-    {
-        s = EvaluateQuery::LFTJA(data_graph, query_graph, edge_matrix, candidates, candidates_count,
-                                 matching_order, output_limit, call_count, EWeight);
-        embedding_count = s.embedding_cnt;
-
-        outputs.call_count = call_count;
-    }
-    else if (input_engine_type == "LFTJB")
-    {
-        s = EvaluateQuery::LFTJB(data_graph, query_graph, edge_matrix, candidates, candidates_count,
-                                 matching_order, output_limit, call_count, EWeight);
-        embedding_count = s.embedding_cnt;
-        outputs.call_count = call_count;
-    }
-    else if (input_engine_type == "LFTJR")
-    {
-        s = EvaluateQuery::LFTJR(data_graph, query_graph, edge_matrix, candidates, candidates_count,
-                                 matching_order, output_limit, call_count);
-        embedding_count = s.embedding_cnt;
-        outputs.call_count = call_count;
-    }
-    else if (input_engine_type == "LFTCR")
-    {
-        ui CC = 0;
-        for (int i = 0; i < query_graph->getVerticesCount(); i++)
-        {
-            CC += candidates_count[i];
-        }
-        CC = CC - candidates_count[matching_order[query_graph->getVerticesCount() - 1]];
-        if (CC < 2000)
-            s = EvaluateQuery::LFTJB(data_graph, query_graph, edge_matrix, candidates, candidates_count, matching_order, output_limit, call_count, EWeight);
-        else if (CC > 20000)
-            s = EvaluateQuery::LFTJA(data_graph, query_graph, edge_matrix, candidates, candidates_count, matching_order, output_limit, call_count, EWeight);
-        else
-            s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count, matching_order, output_limit, call_count);
         embedding_count = s.embedding_cnt;
         outputs.call_count = call_count;
     }

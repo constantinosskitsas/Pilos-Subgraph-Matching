@@ -220,7 +220,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     auto end = std::chrono::high_resolution_clock::now();
 
     double load_graphs_time_in_ns = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-    cout << "load graph2: " << load_graphs_time_in_ns << endl;
     input_tops = "10";
     if (query_graph->getVerticesCount() == 4)
         input_tops = "4";
@@ -307,17 +306,9 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
-        if (getValue1() > MemSize)
-            MemSize = getValue1();
+        //if (getValue1() > MemSize)
+        //    MemSize = getValue1();
         SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
-    }
-    else if (input_filter_type == "PLMT")
-    {
-        int alpha1 = stoi(alpha);
-        int thnum1 = stoi(thnum);
-        int beta1 = stoi(beta);
-        SpectralMatchingMT(query_graph->getVerticesCount(), data_graph, input_query_graph_file, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, thnum1, beta1);
-        input_engine_type = "LFTJVEQ";
     }
     else if (input_filter_type == "NLF")
     {
@@ -374,7 +365,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         outputs.candidate.push_back(set<ui>());
     }
-
     for (int i = 0; i < query_graph->getVerticesCount(); i++)
     {
         for (int j = 0; j < candidates_count[i]; j++)
@@ -382,7 +372,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
             outputs.candidate[i].insert(candidates[i][j]);
         }
     }
-
     // Compute the candidates false positive ratio.
 #ifdef OPTIMAL_CANDIDATES
     std::vector<ui> optimal_candidates_count;
@@ -398,8 +387,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 
     start = std::chrono::high_resolution_clock::now();
     Edges ***edge_matrix = NULL;
-
-    // if (input_filter_type != "CECI")
     if (input_filter_type != "CECI")
     {
         edge_matrix = new Edges **[query_graph->getVerticesCount()];
@@ -417,7 +404,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         candidatesHC2[i] = new size_t[candidates_count[i]];
         memset(candidatesHC2[i], 0, sizeof(size_t) * candidates_count[i]);
     }
-
     memset(candidatesHCQ, 0, sizeof(size_t) * qsiz);
     int startC = 1;
     ui u_nbrs_count1;
@@ -426,7 +412,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     double bns = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     double build_table_time_in_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     size_t memory_cost_in_bytes = 0;
-    // cout<<(bns)<<"bns"<<endl;
     if (input_filter_type == "PLV")
         memory_cost_in_bytes = BuildTable::computeMemoryCostInBytes(query_graph, candidates_count, edge_matrix);
     else if (input_filter_type == "PL")
@@ -620,8 +605,8 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     }
     else if (input_engine_type == "LFTJVEQ")
     {
-        if (getValue1() > MemSize)
-            MemSize = getValue1();
+        //if (getValue1() > MemSize)
+        //    MemSize = getValue1();
         s = EvaluateQuery::LFTJVEQ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                    matching_order, output_limit, call_count, candidatesHC3, idToValues4);
         embedding_count = s.embedding_cnt;
@@ -702,9 +687,9 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     /**
      * Release the allocated memories.
      */
-    if (getValue1() > MemSize)
-        MemSize = getValue1();
-    cout << "MemSize" << MemSize / 1000 << endl;
+    //if (getValue1() > MemSize)
+    //    MemSize = getValue1();
+    //cout << "MemSize" << MemSize / 1000 << endl;
     delete[] candidates_count;
     delete[] tso_order;
     delete[] tso_tree;

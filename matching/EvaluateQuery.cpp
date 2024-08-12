@@ -1477,9 +1477,9 @@ EvaluateQuery::LFTJVEQ(const Graph *data_graph, const Graph *query_graph, Edges 
                        ui *candidates_count, ui *order, size_t output_limit_num, size_t &call_count, size_t **candidatesHC, unordered_map<size_t, std::vector<VertexID>> *idToValues2)
 {
 
-    int MemSize = 0;
-    if (getValue1() > MemSize)
-        MemSize = getValue1();
+    //int MemSize = 0;
+    //if (getValue1() > MemSize)
+    //    MemSize = getValue1();
     enumResult s;
 
     // for (int i=0; i<query_graph->getVerticesCount();i++){
@@ -1516,8 +1516,8 @@ EvaluateQuery::LFTJVEQ(const Graph *data_graph, const Graph *query_graph, Edges 
     idx_count[cur_depth] = candidates_count[start_vertex]; // set the size for current depth
     // all the nodes are possible candidates
     int count2 = 1;
-    if (start_vertex >= max_depth)
-        cout << "gia afto" << endl;
+    //if (start_vertex >= max_depth)
+    //    cout << "gia afto" << endl;
     calculateCell(query_graph, edge_matrix, candidates_count, candidatesHC, idToValues2, count2, start_vertex, 0);
     count2++;
     VP[start_vertex] = idToValues2[start_vertex][candidatesHC[start_vertex][0]];
@@ -1793,9 +1793,9 @@ EvaluateQuery::LFTJVEQ(const Graph *data_graph, const Graph *query_graph, Edges 
     }
 
 EXIT:
-    if (getValue1() > MemSize)
-        MemSize = getValue1();
-    cout << "MemSize" << MemSize / 1000 << endl;
+    //if (getValue1() > MemSize)
+    //    MemSize = getValue1();
+   // cout << "MemSize" << MemSize / 1000 << endl;
     releaseBuffer(max_depth, idx, idx_count, embedding, idx_embedding, temp_buffer, valid_candidate_idx,
                   visited_vertices,
                   bn, bn_count);

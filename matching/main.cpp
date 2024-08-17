@@ -197,13 +197,14 @@ int main(int argc, char **argv)
     ui aa[5] = {32, 64, 96, 128, 256};
     srand(time(NULL));
     if (query_filter == "GQ")
-    {
+    {data_graph->loadGraphFromFile(datagraph);
         bool ck = false;
         int qn = stoi(query_number);
-        for (int da = 0; da <= 4; da++)
+        for (int da = 0; da <= 0; da++)
             for (int di = 1; di <= qn; di++)
-            {
+            {cout<<"hi"<<endl;
                 ui kk = aa[da];
+                cout<<"hi1"<<endl;
                 while (!GenerateQueryD(kk, data_graph, 1, di, dataset_name))
                     ;
                 cout << "da " << kk << " di " << di << endl;
@@ -227,7 +228,7 @@ int main(int argc, char **argv)
     vector<pair<matching_algo_outputs, matching_algo_outputs>> evaluations;
     std::ostringstream oss;
     int row = 0;
-    oss << query_number << " " << query_size << " " << KF.call_count << " " << KF.enumOutput.embedding_cnt;
+    oss << query_number << " " << query_size << " " << KF.call_count << " " << KF.enumOutput.embedding_cnt<<" "<<KF.C_E;
     oss << " " << KF.total_time << " " << KF.candidate_count_sum; //<<LDF.first.enumOutput.embedding_cnt;
     oss << " " << KF.preprocessing_time;
     oss << " " << KF.enumeration_time;

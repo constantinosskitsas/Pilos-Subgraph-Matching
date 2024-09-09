@@ -372,6 +372,14 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
             outputs.candidate[i].insert(candidates[i][j]);
         }
     }
+    unordered_set<ui> CandidateSet;
+    for (int i = 0; i < query_graph->getVerticesCount(); i++){
+        for (int j = 0; j < candidates_count[i]; j++)
+        {
+            CandidateSet.insert(candidates[i][j]);
+        }
+    }outputs.candidate_count_sum_set=CandidateSet.size();
+    
     // Compute the candidates false positive ratio.
 #ifdef OPTIMAL_CANDIDATES
     std::vector<ui> optimal_candidates_count;
@@ -573,14 +581,13 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         sscanf(input_max_embedding_num.c_str(), "%zu", &output_limit);
     }
     // int embdcountaa=stoi(inputs.embcount);
-    output_limit = stoi(inputs.embcount);
+    output_limit = stoul(inputs.embcount);
     if (output_limit == -1 || output_limit == -1)
         // output_limit = 2000000000;
         output_limit = std::numeric_limits<size_t>::max();
 #if ENABLE_QFLITER == 1
     EvaluateQuery::qfliter_bsr_graph_ = BuildTable::qfliter_bsr_graph_;
 #endif
-
     size_t call_count = 0;
     size_t time_limit = 0;
     if (input_filter_type == "NLF")
@@ -607,10 +614,12 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         //if (getValue1() > MemSize)
         //    MemSize = getValue1();
+        cout<<"LFTJVEQ"<<endl;
         s = EvaluateQuery::LFTJVEQ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                    matching_order, output_limit, call_count, candidatesHC3, idToValues4);
         embedding_count = s.embedding_cnt;
         outputs.call_count = call_count;
+        outputs.C_E =s.Can_embed;
     }
     else if (input_engine_type == "LFTJ")
     {
@@ -628,6 +637,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         }
         embedding_count = s.embedding_cnt;
         outputs.call_count = call_count;
+        outputs.C_E =0;
     }
     else if (input_engine_type == "GQL")
     {

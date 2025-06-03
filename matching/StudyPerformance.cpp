@@ -294,7 +294,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
         SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
-        input_engine_type = "LFTJ";
+        input_engine_type = "LFTJVEQ";
     }
     else if (input_filter_type == "PLV")
     {

@@ -616,7 +616,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         //if (getValue1() > MemSize)
         //    MemSize = getValue1();
-        cout<<"LFTJCN"<<endl;
         s = EvaluateQuery::LFTJVEQCN(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                    matching_order, output_limit, call_count, candidatesHC3, idToValues4);
         //s = EvaluateQuery::LFTJVEQFN(data_graph, query_graph, edge_matrix, candidates, candidates_count,

@@ -569,11 +569,11 @@ void allocateBufferFCS1(vector<vector<CSV>> &FCS, const Graph *query_graph, ui *
     memset(candidates_count, 0, sizeof(ui) * query_vertex_num);
 
     candidates = new ui *[query_vertex_num];
-    EWeight = new float *[query_vertex_num];
+    //EWeight = new float *[query_vertex_num];
     for (ui i = 0; i < query_vertex_num; ++i)
     {
         candidates[i] = new ui[FCS[i].size()];
-        EWeight[i] = new float[FCS[i].size()];
+        //EWeight[i] = new float[FCS[i].size()];
     }
 }
 /*Extract Label Information for the query
@@ -749,15 +749,15 @@ void Vertices(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, G
     VectorXd qevalues;
     bool con = true;
     ui com = data_graph->getGraphMaxLabelFrequency();
-
     ui copies = query_graph->getLabelsCount() + 1;
     ui labelsNum[copies];
+    const ui *labelData[copies];
     ui kk;
     ui i;
     ui j;
     ui reverseLab[310];
     ui u_nbrs_countD = 0;
-    const ui *labelData[copies];
+
     LabelID label = 0;
     for (i = 0; i < 310; i++)
         reverseLab[i] = 310;
@@ -781,9 +781,11 @@ void Vertices(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, G
     ui k = 0;
     ui degree = 0;
     ui data_vertex_num;
-
-    int prunES = qsiz - 3;
-    prunES = 30;
+    int prunES = 30;
+    if (prunES>qsiz){
+        prunES = qsiz-1;
+    }
+        
     // for every C(q)
     ui vdata_vertex_num = 0;
     for (i = 0; i < qsiz; i++)
@@ -799,13 +801,16 @@ void Vertices(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, G
             if (data_graph->getVertexDegree(data_vertex) >= degree)
             {
                 con = true;
-
+                //prunES=0;
                 // Eigen Value Pruning up to pruneEs value
+                //prunES=0;
+                #ifdef EIGEN_INDEX
                 for (kk = 0; kk < prunES; kk++)
                 {
-                    if (eigenVq1[i][kk] <= -1)
+                    if (eigenVq1[i][kk] <0)
                         break;
                     if (eigenVD1[data_vertex][kk] < eigenVq1[i][kk])
+                    //if (eigenVD1[data_vertex][kk] - eigenVq1[i][kk]<-0.0001)
                         // Rounding errors for eigenvalue
                         if ((eigenVq1[i][kk] - eigenVD1[data_vertex][kk]) > 0.0001)
                         {
@@ -813,6 +818,7 @@ void Vertices(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, G
                             break;
                         }
                 }
+                #endif
 
                 if (con)
                 {
@@ -834,7 +840,7 @@ void Vertices(vector<vector<CSV>> &FCS, int qsiz, int dsiz, Graph *data_graph, G
                     }
                 }
             }
-        } 
+        }
         FCS.emplace_back(CS);
         CS.clear();
     }
@@ -947,19 +953,16 @@ int SpectralMatching(int sizd, Graph *data_graph, Graph *query_graph, int twohop
     Eprun = 30;
     MatrixXd eigenVq1(sizq, Eprun);
     int oMax = sizq * 3;
-    oMax = 300;
+    oMax = 10000;
     MTcalc12(query_graph, query_graph->getGraphMaxDegree(), eigenVq1, true, Eprun, oMax);
     float **eigenQ = NULL;
     eigenQ = new float *[sizq];
     for (ui i = 0; i < sizq; ++i)
     {
         eigenQ[i] = new float[Eprun];
-        eigenQS[i] = 0;
         for (ui j = 0; j < Eprun; j++)
         {
             eigenQ[i][j] = eigenVq1(i, j);
-            if (eigenQ[i][j] > 0)
-                eigenQS[i] += eigenQ[i][j];
         }
     }
     return PILOS(data_graph, query_graph, eigenQ, twohop, candidates, candidates_count, EWeight, eigenVD1, alpha, beta, edge_matrix);
@@ -997,7 +1000,7 @@ inline VertexID findIndBS(vector<vector<CSV>> &FCS, VertexID IDC, VertexID IDQ)
     cout << IDC << "IDC,IDQ" << IDQ << endl;
     return -10000;
 }
-
+//for memory less requirements check map solution
 /*Degree check for every node so we avoid computations in the future.
 **Assuming that to be here the degree check is valid
 **For every query vertex the node has to have at least 1 edge in
@@ -1034,7 +1037,7 @@ void fillEN(vector<vector<CSV>> &FCS, int qsiz, Graph *query_graph)
 }
 
 int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, ui **&candidates, ui *&candidates_count, float **&EWeight, float **&eigenVD1, int alpha, int beta, Edges ***edge_matrix)
-{ 
+{    int totalCand = 0;
     int MemSize = 0;
     int qsiz = query_graph->getVerticesCount();
     int dsiz = data_graph->getVerticesCount();
@@ -1045,10 +1048,7 @@ int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, 
     vector<map<ui, int>> NLabel;  // Number of Labels 1hop
     vector<map<ui, int>> NLabel2; // Number of Labels 2hop
     // Exctract 1hop label information for query graph
-    ui *flag = new ui[data_graph->getVerticesCount()];
-    std::fill(flag, flag + data_graph->getVerticesCount(), 0);
-    ui *updated_flag = new ui[data_graph->getVerticesCount()];
-    std::fill(updated_flag, updated_flag + data_graph->getVerticesCount(), 0);
+
 
     ui lb = query_graph->getLabelsCount();
     ExtractNImap(NLabel, query_graph, qsiz);
@@ -1066,22 +1066,30 @@ int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, 
     }
     ExtractUI2h(DegreeK, NLabel2, query_graph, qsiz, VS);
 
+
     Vertices(FCS, qsiz, dsiz, data_graph, query_graph, eigenVq1, NLabel, eigenVD1);
+     totalCand = 0;
     int count = 0;
     int Tcount = 0;
-    // Add Edges between nodes in candidate space
 
-    EdgesCSBasicRL(FCS, qsiz, dsiz, data_graph, query_graph, flag, updated_flag);
+    // Add Edges between nodes in candidate space
+        ui *flag = new ui[data_graph->getVerticesCount()];
+    std::fill(flag, flag + data_graph->getVerticesCount(), 0);
+    ui *updated_flag = new ui[data_graph->getVerticesCount()];
+    std::fill(updated_flag, updated_flag + data_graph->getVerticesCount(), 0);
+    
+       EdgesCSBasicRL(FCS, qsiz, dsiz, data_graph, query_graph, flag, updated_flag);
 
     // Get candidate nodes neigborhood information for fast pruning¨
     // Initial Pruning on Candidate Space
-    //if (getValue1() > MemSize)
-    //    MemSize = getValue1();
+
+
     while (InitPrunTCSR(FCS, qsiz, query_graph))
         clearWrong(FCS);
 
     fillEN(FCS, qsiz, query_graph);
     int GDegree = query_graph->getGraphMaxDegree();
+
     // Neigborhood Pruning
     for (int i = 0; i < qsiz; i++)
     {
@@ -1095,10 +1103,8 @@ int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, 
     while (RefinementNV(NLabel, FCS, qsiz, query_graph, data_graph, GDegree, flag, updated_flag))
         clearWrong(FCS);
     ui mc = 3;
-    if (twohop == 2)
-    {
         while (RFNV(NLabel, NLabel2, FCS, qsiz, query_graph, eigenVq1, DegreeK, twohop, alpha, beta, flag, updated_flag, VS) && mc < 5)
-        {
+        {        
             mc++;
             clearWrong(FCS);
             while (RefinementNV(NLabel, FCS, qsiz, query_graph, data_graph, GDegree, flag, updated_flag))
@@ -1107,23 +1113,27 @@ int PILOS(Graph *data_graph, Graph *query_graph, float **&eigenVq1, int twohop, 
                 clearWrong(FCS);
             }
         }
-    }
+    delete[] flag;
+    delete[] updated_flag;
     clearWrong(FCS);
     allocateBufferFCS1(FCS, query_graph, candidates, candidates_count, EWeight);
-    int totalCand = 0;
+    //ui query_vertex_num = query_graph->getVerticesCount();
+    //candidates_count = new ui[query_vertex_num];
+    //memset(candidates_count, 0, sizeof(ui) * query_vertex_num);
+    //candidates = new ui *[query_vertex_num];
+    //EWeight = new float *[query_vertex_num];
 
     for (int i = 0; i < qsiz; i++)
-    {
+    {   candidates[i] = new ui[FCS[i].size()];
         for (int j = 0; j < FCS[i].size(); j++)
         {
             candidates[i][j] = FCS[i][j].ID;
         }
         candidates_count[i] = FCS[i].size();
         totalCand = candidates_count[i] + totalCand;
+
     }
-    //if (getValue1() > MemSize)
-    //    MemSize = getValue1();
-    //cout << "MemSize" << MemSize / 1000 << endl;
+
     return totalCand;
 }
 
@@ -1230,11 +1240,13 @@ bool RefinementNV(vector<map<ui, int>> NLabel, vector<vector<CSV>> &FCS, int qsi
 
 bool RFNV(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vector<CSV>> &FCS,
           int qsiz, Graph *query_graph, float **&eigenVq1, vector<ui> DM, int twohop, int alpha, int beta, ui *&flag, ui *&updated_flag, int **&VS)
-{
+{int MemSize=0;
     vector<T> tripletList;
     std::map<int, int> count_uniques;
     std::set<std::pair<int, int>> seen;
     std::vector<Triplet<double>> unique_triplets;
+
+
     ui *flagq = new ui[query_graph->getVerticesCount()];
     std::fill(flagq, flagq + query_graph->getVerticesCount(), 0);
     ui *updated_flagq = new ui[query_graph->getVerticesCount()];
@@ -1244,8 +1256,9 @@ bool RFNV(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vect
     VertexID vertex = 0;
     vector<VertexID> temp2;
     vector<pair<VertexID, VertexID>> q_curr;
-    int Eprun = qsiz - 3;
-    Eprun = 30;
+    int Eprun =30;
+    if (Eprun>qsiz)
+    Eprun=qsiz-1; 
     VertexID vertexDegree = 0;
     VertexID vertexlabel = 0;
     ui SIDDSize = 0;
@@ -1254,14 +1267,17 @@ bool RFNV(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vect
     ui oMax;
     oMax = alpha;
     ui oMax2;
-    float **LM = new float *[oMax + 1];
+
     ui *SIDN = new ui[qsiz];
     ui lb = query_graph->getLabelsCount();
+    float **LM = new float *[oMax + 1];
     for (int i = 0; i <= oMax; i++)
     {
         LM[i] = new float[oMax + 1];
+        //this is wrong.
         memset(LM[i], 0, oMax + 1 * oMax + 1 * sizeof(float));
     }
+     
     VectorXd evalues(Eprun);
     ui i;
     ui j;
@@ -1381,12 +1397,13 @@ bool RFNV(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vect
                     }
                     con = true;
                     sumD = 0;
-
+                    //Eprun=4;
                     for (int dd = 0; dd < Eprun; dd++)
                     {
                         if (eigenVq1[i][dd] <= -1)
                             break;
                         if (evalues[dd] < eigenVq1[i][dd])
+                        //if (evalues[dd] - eigenVq1[i][dd]<-0.0001)
                         {
                             if ((eigenVq1[i][dd] - evalues[dd]) > 0.0001)
                             {
@@ -1396,8 +1413,8 @@ bool RFNV(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vect
                         }
                         // Eigen Ordering If we want to eigenvalues uncomment.
                         // Add the values up
-                        else
-                            sumD += evalues[dd];
+                       // else
+                       //     sumD += evalues[dd];
                     }
                     if (!con)
                     {
@@ -1414,7 +1431,7 @@ bool RFNV(vector<map<ui, int>> NLabel, vector<map<ui, int>> NLabel2, vector<vect
                     {
                         FCS[i][j].change = false;
                         // Eigen Ordering
-                        FCS[i][j].ED = sumD;
+                        //FCS[i][j].ED = sumD;
                         for (int aa = 0; aa <= IDDLC[0]; aa++)
                         {
                             flag[updated_flag[aa]] = 0;

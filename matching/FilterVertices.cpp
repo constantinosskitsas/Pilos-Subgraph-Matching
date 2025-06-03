@@ -134,9 +134,10 @@ bool FilterVertices::LDFFilter(Graph *data_graph, Graph *query_graph, ui **&cand
 bool FilterVertices::NLFFilter(Graph *data_graph, Graph *query_graph, ui **&candidates, ui *&candidates_count, bool isEigenCheck, int top_s)
 {
     allocateBuffer(data_graph, query_graph, candidates, candidates_count);
-
-    MatrixXd querygraph_eigenvalue(query_graph->getVerticesCount(), 1);
-    MatrixXd datagraph_eigenvalue(data_graph->getVerticesCount(), 1);
+    //MatrixXd querygraph_eigenvalue(query_graph->getVerticesCount(), 0);
+    //MatrixXd datagraph_eigenvalue(data_graph->getVerticesCount(), 0);
+    MatrixXd querygraph_eigenvalue(0, 0);
+    MatrixXd datagraph_eigenvalue(0, 0);
     if (false)
     {
         cout << "why?" << endl;
@@ -159,11 +160,15 @@ bool FilterVertices::NLFFilter(Graph *data_graph, Graph *query_graph, ui **&cand
 }
 
 bool FilterVertices::GQLFilter(Graph *data_graph, Graph *query_graph, ui **&candidates, ui *&candidates_count, bool isEigenCheck, int top_s)
-{
+{   int MemSize=0;
     // Local refinement.
+                if (getValue1() > MemSize)
+       MemSize = getValue1();
     if (!NLFFilter(data_graph, query_graph, candidates, candidates_count, false, top_s))
         return false;
     // Allocate buffer.
+            if (getValue1() > MemSize)
+       MemSize = getValue1();
     ui query_vertex_num = query_graph->getVerticesCount();
     ui data_vertex_num = data_graph->getVerticesCount();
 
@@ -173,7 +178,8 @@ bool FilterVertices::GQLFilter(Graph *data_graph, Graph *query_graph, ui **&cand
         valid_candidates[i] = new bool[data_vertex_num];
         memset(valid_candidates[i], 0, sizeof(bool) * data_vertex_num);
     }
-
+        if (getValue1() > MemSize)
+       MemSize = getValue1();
     ui query_graph_max_degree = query_graph->getGraphMaxDegree();
     ui data_graph_max_degree = data_graph->getGraphMaxDegree();
 
@@ -195,7 +201,8 @@ bool FilterVertices::GQLFilter(Graph *data_graph, Graph *query_graph, ui **&cand
             valid_candidates[query_vertex][data_vertex] = true;
         }
     }
-
+    if (getValue1() > MemSize)
+       MemSize = getValue1();
     // Global refinement.
     for (ui l = 0; l < 2; ++l)
     {
@@ -222,6 +229,9 @@ bool FilterVertices::GQLFilter(Graph *data_graph, Graph *query_graph, ui **&cand
 
     // Compact candidates.
     compactCandidates(candidates, candidates_count, query_vertex_num);
+            if (getValue1() > MemSize)
+       MemSize = getValue1();
+           cout << "MemSize" << MemSize / 1000 << endl;
 
     // Release memory.
     for (ui i = 0; i < query_vertex_num; ++i)
@@ -288,24 +298,32 @@ bool FilterVertices::TSOFilter(Graph *data_graph, Graph *query_graph, ui **&cand
 
 bool FilterVertices::CFLFilter(Graph *data_graph, Graph *query_graph, ui **&candidates, ui *&candidates_count,
                                ui *&order, TreeNode *&tree, bool isEigenCheck, int top_s)
-{
+{ int MemSize=0;
     allocateBuffer(data_graph, query_graph, candidates, candidates_count);
     int level_count;
     ui *level_offset;
+            if (getValue1() > MemSize)
+       MemSize = getValue1();
     GenerateFilteringPlan::generateCFLFilterPlan(data_graph, query_graph, tree, order, level_count, level_offset, isEigenCheck, top_s);
-
-    MatrixXd querygraph_eigenvalue(query_graph->getVerticesCount(), top_s);
+        if (getValue1() > MemSize)
+       MemSize = getValue1();
+    //MatrixXd querygraph_eigenvalue(query_graph->getVerticesCount(), top_s);
     // MTcalc12(query_graph,query_graph->getGraphMaxDegree(),querygraph_eigenvalue,true,top_s,query_graph->getVerticesCount()*3);
-    MatrixXd datagraph_eigenvalue(data_graph->getVerticesCount(), top_s);
+    //MatrixXd datagraph_eigenvalue(data_graph->getVerticesCount(), top_s);
     // datagraph_eigenvalue = openData(Experiments::datagraphEigenMatrix);
+    MatrixXd querygraph_eigenvalue(1, 1);
+    // MTcalc12(query_graph,query_graph->getGraphMaxDegree(),querygraph_eigenvalue,true,top_s,query_graph->getVerticesCount()*3);
+    MatrixXd datagraph_eigenvalue(1, 1);
     VertexID start_vertex = order[0];
     computeCandidateWithNLF(data_graph, query_graph, start_vertex, candidates_count[start_vertex], candidates[start_vertex], datagraph_eigenvalue,
                             querygraph_eigenvalue, isEigenCheck, top_s);
-
+        if (getValue1() > MemSize)
+       MemSize = getValue1();
     ui *updated_flag = new ui[data_graph->getVerticesCount()];
     ui *flag = new ui[data_graph->getVerticesCount()];
     std::fill(flag, flag + data_graph->getVerticesCount(), 0);
-
+            if (getValue1() > MemSize)
+       MemSize = getValue1();
     // Top-down generation.
     for (int i = 1; i < level_count; ++i)
     {
@@ -342,9 +360,12 @@ bool FilterVertices::CFLFilter(Graph *data_graph, Graph *query_graph, ui **&cand
                 pruneCandidates(data_graph, query_graph, query_vertex, node.under_level_, node.under_level_count_, candidates, candidates_count, flag, updated_flag);
             }
         }
-    }
+    }        if (getValue1() > MemSize)
+       MemSize = getValue1();
     compactCandidates(candidates, candidates_count, query_graph->getVerticesCount());
-
+        if (getValue1() > MemSize)
+       MemSize = getValue1();
+           cout << "MemSize" << MemSize / 1000 << endl;
     delete[] updated_flag;
     delete[] flag;
     return isCandidateSetValid(candidates, candidates_count, query_graph->getVerticesCount());
@@ -352,17 +373,21 @@ bool FilterVertices::CFLFilter(Graph *data_graph, Graph *query_graph, ui **&cand
 
 bool FilterVertices::DPisoFilter(Graph *data_graph, Graph *query_graph, ui **&candidates, ui *&candidates_count,
                                  ui *&order, TreeNode *&tree, bool isEigenCheck, int top_s)
-{
+{   int MemSize=0; 
+    if (getValue1() > MemSize)
+       MemSize = getValue1();
     if (!LDFFilter(data_graph, query_graph, candidates, candidates_count, isEigenCheck, top_s))
         return false;
-
+    if (getValue1() > MemSize)
+       MemSize = getValue1();
     GenerateFilteringPlan::generateDPisoFilterPlan(data_graph, query_graph, tree, order);
 
     ui query_vertices_num = query_graph->getVerticesCount();
     ui *updated_flag = new ui[data_graph->getVerticesCount()];
     ui *flag = new ui[data_graph->getVerticesCount()];
     std::fill(flag, flag + data_graph->getVerticesCount(), 0);
-
+        if (getValue1() > MemSize)
+       MemSize = getValue1();
     // The number of refinement is k. According to the original paper, we set k as 3.
     for (ui k = 0; k < 3; ++k)
     {
@@ -385,9 +410,12 @@ bool FilterVertices::DPisoFilter(Graph *data_graph, Graph *query_graph, ui **&ca
             }
         }
     }
-
+    if (getValue1() > MemSize)
+       MemSize = getValue1();
     compactCandidates(candidates, candidates_count, query_graph->getVerticesCount());
-
+    if (getValue1() > MemSize)
+       MemSize = getValue1();
+           cout << "MemSize" << MemSize / 1000 << endl;
     delete[] updated_flag;
     delete[] flag;
     return isCandidateSetValid(candidates, candidates_count, query_graph->getVerticesCount());
@@ -885,6 +913,7 @@ void FilterVertices::allocateBuffer(const Graph *data_graph, const Graph *query_
     {
         candidates[i] = new ui[candidates_max_num];
     }
+
 }
 
 bool FilterVertices::verifyExactTwigIso(const Graph *data_graph, const Graph *query_graph, ui data_vertex, ui query_vertex,

@@ -140,11 +140,23 @@ void generate_datagraph_eigenvector(string data_graph_path, string csvfilename, 
 {
     Graph *data_graph = new Graph(true);
     data_graph->loadGraphFromFile(data_graph_path);
-
-    MatrixXd datagraph_eigenvalue(data_graph->getVerticesCount(), size);
+    //size=35;
+    MatrixXd datagraph_eigenvalue(data_graph->getVerticesCount(), 30);
     cout << "Start compute eigen value" << endl;
-
-    MTcalc12A(data_graph, data_graph->getGraphMaxDegree(), datagraph_eigenvalue, true, size, 250);
+    //if(size==30){
+    //MTcalc13A(data_graph, data_graph->getGraphMaxDegree(), datagraph_eigenvalue, true, 30, 400);
+    //cout<<"lalala"<<endl;
+    //csvfilename+="13A";}
+    //else{
+    auto start = std::chrono::high_resolution_clock::now();
+    MTcalc12A(data_graph, data_graph->getGraphMaxDegree(), datagraph_eigenvalue, true, 30, size);
+    //MTcalc13A(data_graph, data_graph->getGraphMaxDegree(), datagraph_eigenvalue, true, 30, size);
+    auto end = std::chrono::high_resolution_clock::now();
+    double PT = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    cout<<"Eigenvalue calculation time for "<<size<<"is : "<<PT<<endl;
+    //cout<<"nononon"<<endl;
+    //csvfilename+="_"+size;
+    //}
     saveData(csvfilename, datagraph_eigenvalue);
     // saveData("test1", datagraph_eigenvalue);
 }
@@ -188,23 +200,27 @@ int main(int argc, char **argv)
     string beta = command.getbeta();
     string thnum = command.getThreadCount();
     string embeddingcount = command.getMaximumEmbeddingNum1();
-    string datagraph = "../../dataset/" + dataset_name + "/data_graph/" + dataset_name + ".graph";
+    string datagraph1 = "../../../Pilos-Subgraph_Matching/dataset/";
+    //string datagraph2 = "../../";
+    string datagraph = datagraph1 + dataset_name + "/data_graph/" + dataset_name + ".graph";
     auto start = std::chrono::high_resolution_clock::now();
-    Graph *data_graph = new Graph(true);
+    
     auto end = std::chrono::high_resolution_clock::now();
     double PT = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
     string StoreFile = command.getStoreFile();
     ui aa[5] = {32, 64, 96, 128, 256};
     srand(time(NULL));
+    //data_graph->loadGraphFromFile(datagraph);
     if (query_filter == "GQ")
-    {data_graph->loadGraphFromFile(datagraph);
+    {
+        Graph *data_graph = new Graph(true);
+        data_graph->loadGraphFromFile(datagraph);
         bool ck = false;
         int qn = stoi(query_number);
         for (int da = 0; da <= 0; da++)
             for (int di = 1; di <= qn; di++)
-            {cout<<"hi"<<endl;
+            {
                 ui kk = aa[da];
-                cout<<"hi1"<<endl;
                 while (!GenerateQueryD(kk, data_graph, 1, di, dataset_name))
                     ;
                 cout << "da " << kk << " di " << di << endl;
@@ -214,21 +230,28 @@ int main(int argc, char **argv)
         return 0;
     }
     if (query_filter == "EC")
-    {
+    {      auto start = std::chrono::high_resolution_clock::now();
+
         int numeig = stoi(query_number);
-        generate_datagraph_eigenvector("../../dataset/" + dataset_name + "/data_graph/" + dataset_name + ".graph", dataset_name + ".csv", numeig);
+        generate_datagraph_eigenvector(datagraph1 + dataset_name + "/data_graph/" + dataset_name + ".graph", "../../"+dataset_name +"12A_"+query_number+".csv", numeig);
+        auto end = std::chrono::high_resolution_clock::now();
+        double PT = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        cout<<"SHE knowles "<<PT <<endl;
         return 0;
     }
-    Experiments::datagraphEigenMatrix = "../../" + dataset_name + ".csv";
+    Experiments::datagraphEigenMatrix = "../../../Pilos-Subgraph_Matching/"+ dataset_name + ".csv";
+    //Experiments::datagraphEigenMatrix = "../../"+ dataset_name +"_500"+".csv";
+    //Experiments::datagraphEigenMatrix = "../../" + dataset_name + ".csv";
     // string datagraph = "../../dataset/wordnet/data_graph/wordnet.graph";
-    datagraph = "../../dataset/" + dataset_name + "/data_graph/" + dataset_name + ".graph";
-    string querygraph = "../../dataset/" + dataset_name + "/query_graph/query_" + query_property + "_" + query_size + "_" + query_number + ".graph";
+    datagraph = datagraph1 + dataset_name + "/data_graph/" + dataset_name + ".graph";
+    string querygraph = datagraph1 + dataset_name + "/query_graph/query_" + query_property + "_" + query_size + "_" + query_number + ".graph";
+    
     // pair <matching_algo_outputs,matching_algo_outputs> KFE = MatchingWrapper(datagraph,querygraph,"KFE");
     matching_algo_outputs KF = Experiments::experiment3(datagraph, querygraph, query_filter, "0", NULL, alpha, beta, thnum, embeddingcount);
     vector<pair<matching_algo_outputs, matching_algo_outputs>> evaluations;
     std::ostringstream oss;
     int row = 0;
-    oss << query_number << " " << query_size << " " << KF.call_count << " " << KF.enumOutput.embedding_cnt<<" "<<KF.C_E;
+    oss << query_number << " " << query_size << " " << KF.call_count << " " << KF.enumOutput.embedding_cnt;
     oss << " " << KF.total_time << " " << KF.candidate_count_sum; //<<LDF.first.enumOutput.embedding_cnt;
     oss << " " << KF.preprocessing_time;
     oss << " " << KF.enumeration_time;

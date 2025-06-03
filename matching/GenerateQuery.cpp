@@ -129,7 +129,7 @@ bool GenerateQueryD(ui QS, const Graph *data_graph, ui MinDen, int dd, string Da
     if (((ED * 2) / QS) > 0)
     {
         // std::ofstream outputFile("dataset\\wordnet\\query_graph\\query_dense_"+to_string(QS)+"_"+to_string(dd)+".graph");
-        std::ofstream outputFile("../../dataset/" + Dataset + "/query_graph/query_G2_" + to_string(QS) + "_" + to_string(dd) + ".graph");
+        std::ofstream outputFile("../../dataset/" + Dataset + "/query_graph/query_G_" + to_string(QS) + "_" + to_string(dd) + ".graph");
         outputFile << "t " << QS << " " << ED << std::endl;
         for (int i = 0; i < QS; i++)
         {

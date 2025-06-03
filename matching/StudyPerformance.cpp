@@ -182,7 +182,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     query_graph->loadGraphFromFile(input_query_graph_file);
     query_graph->buildCoreTable();
     outputs.query_size = query_graph->getVerticesCount();
-
     Graph *data_graph = new Graph(true);
     float **eigenVD1 = NULL;
     ui dsiz = 0;
@@ -195,13 +194,14 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
             dsiz = data_graph->getVerticesCount();
 
             eigenVD1 = new float *[dsiz];
-
+            #ifdef EIGEN_INDEX 
             for (ui i = 0; i < dsiz; ++i)
             {
                 eigenVD1[i] = new float[35];
             }
 
             openData1(Experiments::datagraphEigenMatrix, eigenVD1);
+            #endif
         }
         else
         {
@@ -275,7 +275,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     unordered_map<size_t, vector<ui>> idTovaluesQ;
     idToValues3 = new unordered_map<size_t, vector<ui>>[query_graph->getVerticesCount()];
     idToValues4 = new unordered_map<size_t, vector<ui>>[query_graph->getVerticesCount()];
-    float *eigenQS = new float[query_graph->getVerticesCount()];
+    float *eigenQS = new float[query_graph->getVerticesCount()];//not used
     int qsiz = query_graph->getVerticesCount();
     edge_matrix1 = new Edges **[query_graph->getVerticesCount()];
     for (ui i = 0; i < query_graph->getVerticesCount(); ++i)
@@ -293,22 +293,23 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 0, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
-        input_engine_type = "LFTJVEQ";
+        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+        input_engine_type = "LFTJ";
     }
     else if (input_filter_type == "PLV")
     {
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
-        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 1, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+        SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+        input_engine_type = "LFTJVEQ";
+
     }
     else if (input_filter_type == "PLC")
     {
         int alpha1 = stoi(alpha);
         int beta1 = stoi(beta);
-        //if (getValue1() > MemSize)
-        //    MemSize = getValue1();
         SpectralMatching(query_graph->getVerticesCount(), data_graph, query_graph, 2, candidates, candidates_count, EWeight, eigenVD1, alpha1, beta1, edge_matrix1, eigenQS);
+        input_engine_type = "LFTJVEQFN";
     }
     else if (input_filter_type == "NLF")
     {
@@ -319,7 +320,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         FilterVertices::NLFFilter(data_graph, query_graph, candidates, candidates_count, true, top_s);
     }
     else if (input_filter_type == "GQL")
-    {
+    {       
         FilterVertices::GQLFilter(data_graph, query_graph, candidates, candidates_count, isEigenCheck, top_s);
     }
     else if (input_filter_type == "TSO")
@@ -327,13 +328,13 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         FilterVertices::TSOFilter(data_graph, query_graph, candidates, candidates_count, tso_order, tso_tree, isEigenCheck, top_s);
     }
     else if (input_filter_type == "CFL")
-    {
+    {        
 
         FilterVertices::CFLFilter(data_graph, query_graph, candidates, candidates_count, cfl_order, cfl_tree, isEigenCheck, top_s);
     }
     else if (input_filter_type == "DPiso")
     {
-
+       
         FilterVertices::DPisoFilter(data_graph, query_graph, candidates, candidates_count, dpiso_order, dpiso_tree, false, top_s);
     }
     else if (input_filter_type == "CECI")
@@ -372,14 +373,14 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
             outputs.candidate[i].insert(candidates[i][j]);
         }
     }
+    /*
     unordered_set<ui> CandidateSet;
     for (int i = 0; i < query_graph->getVerticesCount(); i++){
         for (int j = 0; j < candidates_count[i]; j++)
         {
             CandidateSet.insert(candidates[i][j]);
         }
-    }outputs.candidate_count_sum_set=CandidateSet.size();
-    
+    }outputs.candidate_count_sum_set=CandidateSet.size();*/
     // Compute the candidates false positive ratio.
 #ifdef OPTIMAL_CANDIDATES
     std::vector<ui> optimal_candidates_count;
@@ -404,13 +405,15 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         }
         BuildTable::buildTables(data_graph, query_graph, candidates, candidates_count, edge_matrix);
     }
+           
     ui u_nbrs_count;
+    if (input_engine_type == "LFTJVEQ"||input_engine_type == "LFTJVEQFN")
     for (ui i = 0; i < qsiz; ++i)
     {
         candidatesHC3[i] = new size_t[candidates_count[i]];
         memset(candidatesHC3[i], 0, sizeof(size_t) * candidates_count[i]);
-        candidatesHC2[i] = new size_t[candidates_count[i]];
-        memset(candidatesHC2[i], 0, sizeof(size_t) * candidates_count[i]);
+       // candidatesHC2[i] = new size_t[candidates_count[i]];
+       // memset(candidatesHC2[i], 0, sizeof(size_t) * candidates_count[i]);
     }
     memset(candidatesHCQ, 0, sizeof(size_t) * qsiz);
     int startC = 1;
@@ -432,9 +435,9 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 #endif
     }
     else
-    {
-        memory_cost_in_bytes = BuildTable::computeMemoryCostInBytes(query_graph, candidates_count, ceci_order, ceci_tree,
-                                                                    TE_Candidates, NTE_Candidates);
+    {;
+        //memory_cost_in_bytes = BuildTable::computeMemoryCostInBytes(query_graph, candidates_count, ceci_order, ceci_tree,
+                                                          //          TE_Candidates, NTE_Candidates);
 #ifdef PRINT1
         BuildTable::printTableCardinality(query_graph, ceci_tree, ceci_order, TE_Candidates, NTE_Candidates);
 #endif
@@ -446,7 +449,6 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 #endif
 
     start = std::chrono::high_resolution_clock::now();
-
     ui *matching_order = NULL;
     ui *pivots = NULL;
     ui **weight_array = NULL;
@@ -522,7 +524,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
 
     end = std::chrono::high_resolution_clock::now();
     double generate_query_plan_time_in_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-
+           
     if (input_order_type != "Spectrum")
     {
 
@@ -595,7 +597,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         output_limit = 0;
     }
     sscanf(input_time_limit.c_str(), "%zu", &time_limit);
-
+    
     start = std::chrono::high_resolution_clock::now();
     enumResult s;
 
@@ -605,7 +607,7 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
                                                       candidates_count, matching_order, pivots, output_limit, call_count);
     }
     else if (input_engine_type == "LFTJ" && output_limit == 0)
-    {
+    {   
         embedding_count = 0;
         outputs.call_count = 0;
         s.embedding_cnt = 0;
@@ -614,8 +616,23 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     {
         //if (getValue1() > MemSize)
         //    MemSize = getValue1();
-        cout<<"LFTJVEQ"<<endl;
-        s = EvaluateQuery::LFTJVEQ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
+        cout<<"LFTJCN"<<endl;
+        s = EvaluateQuery::LFTJVEQCN(data_graph, query_graph, edge_matrix, candidates, candidates_count,
+                                   matching_order, output_limit, call_count, candidatesHC3, idToValues4);
+        //s = EvaluateQuery::LFTJVEQFN(data_graph, query_graph, edge_matrix, candidates, candidates_count,
+        //                           matching_order, output_limit, call_count, candidatesHC3, idToValues4);
+        embedding_count = s.embedding_cnt;
+        outputs.call_count = call_count;
+        outputs.C_E =s.Can_embed;
+    }
+    else if (input_engine_type == "LFTJVEQFN")
+    {
+        //if (getValue1() > MemSize)
+        //    MemSize = getValue1();
+        cout<<"LFTJFN"<<endl;
+        //s = EvaluateQuery::LFTJVEQCN(data_graph, query_graph, edge_matrix, candidates, candidates_count,
+        //                           matching_order, output_limit, call_count, candidatesHC3, idToValues4);
+        s = EvaluateQuery::LFTJVEQFN(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                    matching_order, output_limit, call_count, candidatesHC3, idToValues4);
         embedding_count = s.embedding_cnt;
         outputs.call_count = call_count;
@@ -624,14 +641,17 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
     else if (input_engine_type == "LFTJ")
     {
         if (inputs.order_pointer == NULL)
-        {
+        {cout<<"LFTJ"<<endl;
             s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                     matching_order, output_limit, call_count);
+            //cout<<"LFTJ"<<endl;
+            //s = EvaluateQuery::LFTJVEQ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
+            //                       matching_order, output_limit, call_count, candidatesHC3, idToValues4);
             // embedding_count=0;
         }
 
         else
-        {
+        {cout<<"LFTJ"<<endl;
             s = EvaluateQuery::LFTJ(data_graph, query_graph, edge_matrix, candidates, candidates_count,
                                     inputs.order_pointer, output_limit, call_count);
         }
@@ -640,19 +660,19 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         outputs.C_E =0;
     }
     else if (input_engine_type == "GQL")
-    {
+    {cout<<"GQL"<<endl;
         s = EvaluateQuery::exploreGraphQLStyle(data_graph, query_graph, candidates, candidates_count,
                                                matching_order, output_limit, call_count);
 
         embedding_count = s.embedding_cnt;
     }
     else if (input_engine_type == "QSI")
-    {
+    {cout<<"QSI"<<endl;
         embedding_count = EvaluateQuery::exploreQuickSIStyle(data_graph, query_graph, candidates, candidates_count,
                                                              matching_order, pivots, output_limit, call_count);
     }
     else if (input_engine_type == "DPiso")
-    {
+    {cout<<"DPiso"<<endl;
         embedding_count = EvaluateQuery::exploreDPisoStyle(data_graph, query_graph, dpiso_tree,
                                                            edge_matrix, candidates, candidates_count,
                                                            weight_array, dpiso_order, output_limit,
@@ -663,11 +683,11 @@ matching_algo_outputs StudyPerformance::solveGraphQuery(matching_algo_inputs inp
         //                                                           call_count);
     }
     else if (input_engine_type == "Spectrum")
-    {
+    {cout<<"Spectrum"<<endl;
         spectrum_analysis(data_graph, query_graph, edge_matrix, candidates, candidates_count, output_limit, spectrum, time_limit);
     }
     else if (input_engine_type == "CECI")
-    {
+    {cout<<"CECI"<<endl;
         embedding_count = EvaluateQuery::exploreCECIStyle(data_graph, query_graph, ceci_tree, candidates, candidates_count, TE_Candidates,
                                                           NTE_Candidates, ceci_order, output_limit, call_count);
     }

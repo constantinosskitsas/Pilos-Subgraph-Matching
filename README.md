@@ -72,10 +72,10 @@ For example, to generate 400 queries for dblp
 ./SubgraphMatching.out -dataset dblp -qnumber 400 -qprop G -filter QG
 ```
 ### Index Generation
-To create Eigenvalue index for a dataset use -filter GQ.
-For example, to generate 400 queries for dblp
+To create Eigenvalue index for a dataset use -filter EC.
+For example, to generate EC for alpha 100 for dblp
 ```zsh
-./SubgraphMatching.out -dataset dblp -filter EC
+./SubgraphMatching.out -dataset dblp -filter EC -qnumber 100
 ```
 ## Reference
 

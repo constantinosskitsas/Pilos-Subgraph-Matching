@@ -29,6 +29,8 @@ struct matching_algo_outputs
     ui query_size;
     vector<set<ui>> candidate;
     ui candidate_count_sum;
+    ui candidate_count_sum_set;
+    ui C_E;
     double total_time;
     double preprocessing_time;
     double enumeration_time;

@@ -24,6 +24,62 @@ bool EvaluateQuery::exit_;
 #ifdef DISTRIBUTION
 size_t *EvaluateQuery::distribution_count_;
 #endif
+
+void calculateCellFN(const Graph *query_graph, Edges ***edge_matrix,
+                   ui *candidates_count, size_t **&candidatesHC, unordered_map<size_t, std::vector<VertexID>> *&idToValues, int count2, int i, int j,int ROQ[])
+{
+
+    ui u_nbrs_count;
+    bool add = true;
+    const VertexID *u_nbrs = query_graph->getVertexNeighbors(i, u_nbrs_count);
+    ui PO=ROQ[i];
+    for (int k = 0; k < candidates_count[i]; k++)
+    {
+        add = true;
+        if (k == j)
+        {
+            candidatesHC[i][k] = count2;
+            idToValues[i][count2].push_back(k);
+            continue;
+        }
+        if (candidatesHC[i][k] != 0)
+            continue;
+        for (int d = 0; d < u_nbrs_count; d++)
+        { 
+            ui CVQ = u_nbrs[d];
+            if (ROQ[CVQ]<PO)
+            continue;
+            ui SP = edge_matrix[i][CVQ]->offset_[j];
+            ui EP = edge_matrix[i][CVQ]->offset_[j + 1];
+            ui SPC = edge_matrix[i][CVQ]->offset_[k];
+            ui EPC = edge_matrix[i][CVQ]->offset_[k + 1];
+            int Times = EP - SP;
+            if ((EP - SP) == (EPC - SPC))
+            {
+                for (int ee = 0; ee < Times; ee++)
+                {
+                    if (edge_matrix[i][CVQ]->edge_[SP + ee] != edge_matrix[i][CVQ]->edge_[SPC + ee])
+                    {
+                        add = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                add = false;
+            }
+            if (add == false)
+                break;
+        }
+        if (add == true)
+        {
+            candidatesHC[i][k] = count2;
+            idToValues[i][count2].push_back(k);
+        }
+    }
+}
+
 int parseLine(const char *line)
 {
     // This assumes the format "VmSize: <value> kB"
@@ -1132,7 +1188,8 @@ enumResult
 EvaluateQuery::LFTJ(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
                     ui *candidates_count,
                     ui *order, size_t output_limit_num, size_t &call_count)
-{
+{    int MemSize = 0;
+
 
     enumResult s;
     for (int i = 0; i < query_graph->getVerticesCount(); i++)
@@ -1182,12 +1239,14 @@ EvaluateQuery::LFTJ(const Graph *data_graph, const Graph *query_graph, Edges ***
         // current position smaller than size
         while (idx[cur_depth] < idx_count[cur_depth])
         {
+
+
             // from all the valid IDS
             ui valid_idx = valid_candidate_idx[cur_depth][idx[cur_depth]]; // valid id
             // the position is the first element from the idx matrix
             VertexID u = order[cur_depth];         // u is current depth qid
             VertexID v = candidates[u][valid_idx]; // v is FCS[qid][vid] valid_idx-> position in CS
-
+ 
             if (visited_vertices[v])
             {
                 idx[cur_depth] += 1;
@@ -1233,6 +1292,8 @@ EvaluateQuery::LFTJ(const Graph *data_graph, const Graph *query_graph, Edges ***
                                     // generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
                                     //                            bn_count, order, temp_buffer);
                                     // get the candidates for next depth
+                generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
+                                bn_count, order, temp_buffer, candidates, candidates_count, query_graph);
 
 #ifdef ENABLE_FAILING_SET
                 if (idx_count[cur_depth] == 0)
@@ -1275,6 +1336,9 @@ EvaluateQuery::LFTJ(const Graph *data_graph, const Graph *query_graph, Edges ***
     // Release the buffer.
 
 EXIT:
+ //if (getValue1() > MemSize)
+  //      MemSize = getValue1();
+//cout << "MemSize" << MemSize / 1000 << endl;
     releaseBuffer(max_depth, idx, idx_count, embedding, idx_embedding, temp_buffer, valid_candidate_idx,
                   visited_vertices,
                   bn, bn_count);
@@ -1473,6 +1537,387 @@ EXIT:
 }
 
 enumResult
+EvaluateQuery::LFTJVEQCN(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
+                       ui *candidates_count, ui *order, size_t output_limit_num, size_t &call_count, size_t **candidatesHC, unordered_map<size_t, std::vector<VertexID>> *idToValues2)
+{
+//auto start = std::chrono::high_resolution_clock::now();
+//double ens=10000;
+    int MemSize = 0;
+    enumResult s;
+    ui **bn;
+    ui *bn_count;
+    generateBN(query_graph, order, bn, bn_count);
+    bool NotifyALL = true;
+    // Allocate the memory buffer.
+    ui *idx;
+    ui *idx_count;
+    ui *embedding;
+    ui *idx_embedding;
+    ui *temp_buffer;
+    ui **valid_candidate_idx;
+    bool *visited_vertices;
+    allocateBuffer(data_graph, query_graph, candidates_count, idx, idx_count, embedding, idx_embedding,
+                   temp_buffer, valid_candidate_idx, visited_vertices);
+    vector<ui> VP[query_graph->getVerticesCount()];
+    vector<ui> VN[query_graph->getVerticesCount()];
+    vector<ui> VNTemp;
+
+
+
+    bool *embd_vertices = new bool[data_graph->getVerticesCount()];
+    std::fill(embd_vertices, embd_vertices + data_graph->getVerticesCount(), false);
+    size_t embedding_cnt = 0;
+    int cur_depth = 0;
+    int max_depth = query_graph->getVerticesCount();
+    VertexID start_vertex = order[0];
+    bool Match_BA[max_depth] = {false};
+    idx[cur_depth] = 0;                                    // set the starting position to 0 for the current depth
+    idx_count[cur_depth] = candidates_count[start_vertex]; // set the size for current depth
+    // all the nodes are possible candidates
+    int count2 = 1;
+    calculateCell(query_graph, edge_matrix, candidates_count, candidatesHC, idToValues2, count2, start_vertex, 0);
+    count2++;
+    VP[start_vertex] = idToValues2[start_vertex][candidatesHC[start_vertex][0]];
+    VN[start_vertex] = idToValues2[start_vertex][candidatesHC[start_vertex][0]];
+
+    for (ui i = 0; i < idx_count[cur_depth]; ++i)
+    {
+        valid_candidate_idx[cur_depth][i] = i;
+    }
+
+#ifdef ENABLE_FAILING_SET
+    std::vector<std::bitset<MAXIMUM_QUERY_GRAPH_SIZE>> ancestors;
+    computeAncestor(query_graph, bn, bn_count, order, ancestors);
+    std::vector<std::bitset<MAXIMUM_QUERY_GRAPH_SIZE>> vec_failing_set(max_depth);
+    std::unordered_map<VertexID, VertexID> reverse_embedding;
+    reverse_embedding.reserve(MAXIMUM_QUERY_GRAPH_SIZE * 2);
+#endif
+
+    int k;
+
+    VertexID utemp; // u is current depth qid
+    VertexID vtemp;
+    int counter = 0;
+    while (true)
+    {
+        // current position smaller than size
+        while (idx[cur_depth] < idx_count[cur_depth])
+        {
+            // from all the valid IDS
+            ui valid_idx = valid_candidate_idx[cur_depth][idx[cur_depth]]; // valid id
+            if (valid_idx == 10000000)
+            {
+                idx[cur_depth] += 1;
+                continue;
+            }
+            // the position is the first element from the idx matrix
+            VertexID u = order[cur_depth]; // u is current depth qid
+            VertexID v = candidates[u][valid_idx]; // v is FCS[qid][vid] valid_idx-> position in CS
+            size_t candidate = candidatesHC[u][valid_idx];
+            if (candidate == 0)
+            {
+                calculateCell(query_graph, edge_matrix, candidates_count, candidatesHC, idToValues2, count2, u, valid_idx);
+                count2++;
+            }
+            candidate = candidatesHC[u][valid_idx];
+           //         if (getValue1() > MemSize)
+           // MemSize = getValue1();
+            VP[u].clear();
+            VN[u].clear();
+            // if (cur_depth<(max_depth-2)){
+            if (cur_depth != max_depth - 1)
+            {
+                VP[u] = idToValues2[u][candidatesHC[u][valid_idx]]; // keeps location in candidates matrix
+                VN[u] = idToValues2[u][candidatesHC[u][valid_idx]];
+            }
+
+            Match_BA[u] = false; // set embedings found to empty for start
+
+            if (visited_vertices[v])
+            {   
+                utemp=reverse_embedding[v];
+                
+                if (cur_depth != max_depth - 1&&Match_BA[utemp] == false)
+                {
+                        //ui valid_idxN = valid_candidate_idx[k][idx[k] - 1];
+                       // vtemp = candidates[utemp][valid_idxN];
+                        VNTemp.clear();
+                            if (VN[u].size() > 1 && VN[utemp].size() > 1)
+                            { 
+                                int ia = 0;
+                                int io = 0;
+                                while (ia < VN[u].size() && io < VN[utemp].size())
+                                { 
+                                    if (candidates[u][VN[u][ia]] == candidates[utemp][VN[utemp][io]])
+                                    {
+                                        VNTemp.push_back(VN[utemp][io]);
+                                        ia++;
+                                        io++;
+                                    }
+                                    else if (candidates[u][VN[u][ia]] < candidates[utemp][VN[utemp][io]])
+                                        ia++;
+                                    else
+                                        io++;
+                                }
+                            }
+                            VN[utemp] = VNTemp;
+                            VNTemp.clear();                                                               
+                }
+                else if(cur_depth == max_depth - 1&&Match_BA[utemp] == false){
+                int ia=0;
+                int io=0;
+                VNTemp.clear();
+                while (ia<idx_count[cur_depth]&&io<VN[utemp].size()){
+                    ui valid_idxN = valid_candidate_idx[cur_depth][ia];
+                    if (valid_idxN == 10000000)
+                    {
+                        ia += 1;
+                        continue;
+                    }
+                    if (VN[utemp][io]==valid_idxN){
+                        //VNTemp.push_back(VN[u][io]);
+                        VNTemp.push_back(VN[utemp][io]);
+                        ia++;
+                        io++;
+                    }
+                    
+                    else if(VN[utemp][io]>valid_idxN)
+                    ia++;
+                    else
+                    io++;
+                  // ia++;
+                }
+                VN[utemp]=VNTemp; 
+                VNTemp.clear();
+                }
+
+        if (cur_depth != max_depth - 1 && !Match_BA[utemp]&&false)
+        {
+    if (VN[u].size() > 1 && VN[utemp].size() > 1)
+    {
+        size_t ia = 0;                // iterator in VN[u]
+        size_t io = 0;                // iterator in VN[utemp] (read)
+        size_t write = 0;             // iterator in VN[utemp] (write)
+
+        while (ia < VN[u].size() && io < VN[utemp].size())
+        {
+            auto cu = candidates[u]     [ VN[u]     [ia] ];
+            auto cv = candidates[utemp][ VN[utemp][io] ];
+
+            if (cu == cv)                               // keep
+            {
+                VN[utemp][write++] = VN[utemp][io];
+                ++ia;
+                ++io;
+            }
+            else if (cu < cv) ++ia;                     // advance ia
+            else              ++io;                     // advance io
+        }
+        VN[utemp].resize(write);                        // discard tail
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Case 2:  cur_depth == max_depth‑1  (intersect VN[utemp] with       */
+/*           valid_candidate_idx slice [0 .. idx_count‑1) )            */
+else if (cur_depth == max_depth - 1 && !Match_BA[utemp]&&false)
+{
+    size_t ia = 0;                       // iterator in valid_candidate_idx
+    size_t io = 0;                       // iterator in VN[utemp] (read)
+    size_t write = 0;                    // iterator in VN[utemp] (write)
+
+    while (ia < idx_count[cur_depth] && io < VN[utemp].size())
+    {
+        ui valid_idxN = valid_candidate_idx[cur_depth][ia];
+
+        if (valid_idxN == 10000000) { ++ia; continue; }  // skip holes
+
+        if (VN[utemp][io] == valid_idxN)                // keep
+        {
+            VN[utemp][write++] = VN[utemp][io];
+            ++ia;
+            ++io;
+        }
+        else if (VN[utemp][io] > valid_idxN) ++ia;      // advance ia
+        else                                          ++io;  // advance io
+    }
+    VN[utemp].resize(write);                            // discard tail
+}
+                idx[cur_depth] += 1;
+#ifdef ENABLE_FAILING_SET
+                vec_failing_set[cur_depth] = ancestors[u];
+                vec_failing_set[cur_depth] |= ancestors[reverse_embedding[v]];
+                vec_failing_set[cur_depth - 1] |= vec_failing_set[cur_depth];
+#endif
+                continue;
+            }
+            embd_vertices[v] = true;
+            counter++;
+            embedding[u] = v;             // set the embeding of depth qid to v
+            idx_embedding[u] = valid_idx; // reverse the id of the embdeing to the position
+            visited_vertices[v] = true;
+            idx[cur_depth] += 1; // next element
+
+#ifdef ENABLE_FAILING_SET
+            reverse_embedding[v] = u;
+#endif
+
+            if (cur_depth == max_depth - 1)
+            {
+                embedding_cnt += 1;
+                NotifyALL = true;
+                visited_vertices[v] = false;
+                embd_vertices[v] = false;
+                counter--;
+                NotifyALL = false;
+                int ao = cur_depth;//-1;
+                // while(ao>=0 &&Match_BA[ao]==false){
+                while (ao >= 0)
+                {
+                    // VN[order[cur_depth]].clear();
+                    Match_BA[order[ao]] = true;
+                    ao--;
+                }
+
+#ifdef ENABLE_FAILING_SET
+                reverse_embedding.erase(embedding[u]);
+                vec_failing_set[cur_depth].set();
+                vec_failing_set[cur_depth - 1] |= vec_failing_set[cur_depth];
+#endif
+
+                if (embedding_cnt >= output_limit_num)
+                {   
+                    goto EXIT;
+                }
+            }
+            else
+            {
+                call_count += 1;
+                cur_depth += 1;     // next depth
+                idx[cur_depth] = 0; // set the element to 0
+                generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
+                                            bn_count, order, temp_buffer, candidates, candidates_count, query_graph);
+
+                // get the candidates for next depth
+#ifdef ENABLE_FAILING_SET
+                if (idx_count[cur_depth] == 0)
+                {
+                    vec_failing_set[cur_depth - 1] = ancestors[order[cur_depth]];
+                }
+                else
+                {
+                    vec_failing_set[cur_depth - 1].reset();
+                }
+#endif
+            }
+        }
+
+        cur_depth -= 1;
+        int ao = cur_depth;
+
+        if (NotifyALL == true)
+        { // notify all Match_ that there was a match.
+            // after visiting all the nodes of last level so it wont be repeated
+            NotifyALL = false;
+            while (ao >= 0)
+            {
+                Match_BA[ao] = true;
+                ao--;
+            }
+        } // no embeddings case
+        if (cur_depth == max_depth - 1)
+            continue;
+        ui vq = order[cur_depth];
+        if (Match_BA[vq] == false && idx[cur_depth] < idx_count[cur_depth])
+        {
+            if (VN[vq].size() > 1)
+            { // something to remove
+                for (int dd = 0; dd < VN[vq].size(); dd++)
+                {
+                    for (int kk = (idx[cur_depth]); kk < idx_count[cur_depth]; kk++)
+                    {
+                        ui valid_idxn = valid_candidate_idx[cur_depth][kk];
+                        if (valid_idxn == 10000000)
+                            continue;
+                        // VertexID vn = candidates[order[cur_depth]][valid_idxn];
+                        if (valid_idxn == VN[vq][dd])
+                        {
+                            // if(candidates[vq][valid_idxn]==candidates[vq][VN[vq][dd]]){
+                            valid_candidate_idx[cur_depth][kk] = 10000000;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else if (false)
+        {
+            if (VP[order[cur_depth]].size() > 1)
+            {
+                int sp = 0;
+                ui sLo = 0;
+                for (int dd = 0; dd < VN[order[cur_depth]].size(); dd++)
+                {
+                    for (int kk = idx[cur_depth]; kk < idx_count[cur_depth]; kk++)
+                    {
+                        ui valid_idxn = valid_candidate_idx[cur_depth][kk];
+                        if (valid_idxn == 10000000)
+                            continue;
+                        // VertexID vn = candidates[order[cur_depth]][valid_idxn];
+                        if (candidates[order[cur_depth]][valid_idxn] == candidates[order[cur_depth]][VN[order[cur_depth]][dd]])
+                        {
+                            sLo = valid_candidate_idx[cur_depth][idx[cur_depth] + sp];
+                            valid_candidate_idx[cur_depth][idx[cur_depth] + sp] = valid_candidate_idx[cur_depth][kk];
+                            valid_candidate_idx[cur_depth][kk] = sLo;
+                            sp++;
+                            break;
+                        } // ui valid_idx = valid_candidate_idx[cur_depth][idx[cur_depth]];//valid id
+                    }
+                }
+            }
+        }
+
+        if (cur_depth < 0)
+            break;
+        else
+        {
+            VertexID u = order[cur_depth];
+#ifdef ENABLE_FAILING_SET
+            reverse_embedding.erase(embedding[u]);
+            if (cur_depth != 0)
+            {
+                if (!vec_failing_set[cur_depth].test(u))
+                {
+                    vec_failing_set[cur_depth - 1] = vec_failing_set[cur_depth];
+                    idx[cur_depth] = idx_count[cur_depth];
+                }
+                else
+                {
+                    vec_failing_set[cur_depth - 1] |= vec_failing_set[cur_depth];
+                }
+            }
+#endif
+            visited_vertices[embedding[u]] = false;
+            embd_vertices[embedding[u]] = false;
+            counter--;
+        }
+    }
+
+EXIT:
+
+    releaseBuffer(max_depth, idx, idx_count, embedding, idx_embedding, temp_buffer, valid_candidate_idx,
+                  visited_vertices,
+                  bn, bn_count);
+
+    int true_cand_sum = 0;
+    s.embedding_cnt = embedding_cnt;
+    s.candidate_true_count_sum = true_cand_sum;
+    return s;
+}
+
+
+
+enumResult
 EvaluateQuery::LFTJVEQ(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
                        ui *candidates_count, ui *order, size_t output_limit_num, size_t &call_count, size_t **candidatesHC, unordered_map<size_t, std::vector<VertexID>> *idToValues2)
 {
@@ -1490,6 +1935,7 @@ EvaluateQuery::LFTJVEQ(const Graph *data_graph, const Graph *query_graph, Edges 
     ui **bn;
     ui *bn_count;
     generateBN(query_graph, order, bn, bn_count);
+
     bool NotifyALL = true;
     // Allocate the memory buffer.
     ui *idx;
@@ -1659,8 +2105,9 @@ EvaluateQuery::LFTJVEQ(const Graph *data_graph, const Graph *query_graph, Edges 
                 visited_vertices[v] = false;
                 embd_vertices[v] = false;
                 counter--;
+
                 NotifyALL = false;
-                int ao = cur_depth;
+                int ao = cur_depth;//-1;
                 // while(ao>=0 &&Match_BA[ao]==false){
                 while (ao >= 0)
                 {
@@ -1676,7 +2123,7 @@ EvaluateQuery::LFTJVEQ(const Graph *data_graph, const Graph *query_graph, Edges 
 #endif
 
                 if (embedding_cnt >= output_limit_num)
-                {
+                {   
                     goto EXIT;
                 }
             }
@@ -1739,7 +2186,488 @@ EvaluateQuery::LFTJVEQ(const Graph *data_graph, const Graph *query_graph, Edges 
                 }
             }
         }
-        else if (true)
+        else if (false)
+        {
+            if (VP[order[cur_depth]].size() > 1)
+            {
+                int sp = 0;
+                ui sLo = 0;
+                for (int dd = 0; dd < VN[order[cur_depth]].size(); dd++)
+                {
+                    for (int kk = idx[cur_depth]; kk < idx_count[cur_depth]; kk++)
+                    {
+                        ui valid_idxn = valid_candidate_idx[cur_depth][kk];
+                        if (valid_idxn == 10000000)
+                            continue;
+                        // VertexID vn = candidates[order[cur_depth]][valid_idxn];
+                        if (candidates[order[cur_depth]][valid_idxn] == candidates[order[cur_depth]][VN[order[cur_depth]][dd]])
+                        {
+                            sLo = valid_candidate_idx[cur_depth][idx[cur_depth] + sp];
+                            valid_candidate_idx[cur_depth][idx[cur_depth] + sp] = valid_candidate_idx[cur_depth][kk];
+                            valid_candidate_idx[cur_depth][kk] = sLo;
+                            sp++;
+                            break;
+                        } // ui valid_idx = valid_candidate_idx[cur_depth][idx[cur_depth]];//valid id
+                    }
+                }
+            }
+        }
+
+        if (cur_depth < 0)
+            break;
+        else
+        {
+            VertexID u = order[cur_depth];
+#ifdef ENABLE_FAILING_SET
+            reverse_embedding.erase(embedding[u]);
+            if (cur_depth != 0)
+            {
+                if (!vec_failing_set[cur_depth].test(u))
+                {
+                    vec_failing_set[cur_depth - 1] = vec_failing_set[cur_depth];
+                    idx[cur_depth] = idx_count[cur_depth];
+                }
+                else
+                {
+                    vec_failing_set[cur_depth - 1] |= vec_failing_set[cur_depth];
+                }
+            }
+#endif
+            visited_vertices[embedding[u]] = false;
+            embd_vertices[embedding[u]] = false;
+            counter--;
+        }
+    }
+
+EXIT:
+    //if (getValue1() > MemSize)
+    //    MemSize = getValue1();
+   // cout << "MemSize" << MemSize / 1000 << endl;
+    releaseBuffer(max_depth, idx, idx_count, embedding, idx_embedding, temp_buffer, valid_candidate_idx,
+                  visited_vertices,
+                  bn, bn_count);
+
+    int true_cand_sum = 0;
+    s.embedding_cnt = embedding_cnt;
+    s.candidate_true_count_sum = true_cand_sum;
+    return s;
+}
+//FOrward Neighors
+enumResult
+EvaluateQuery::LFTJVEQFN(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
+                       ui *candidates_count, ui *order, size_t output_limit_num, size_t &call_count, size_t **candidatesHC, unordered_map<size_t, std::vector<VertexID>> *idToValues2)
+{
+  
+    enumResult s;
+    ui **bn;
+    ui *bn_count;
+    generateBN(query_graph, order, bn, bn_count);
+    bool NotifyALL = true;
+    // Allocate the memory buffer.
+    ui *idx;
+    ui *idx_count;
+    ui *embedding;
+    ui *idx_embedding;
+    ui *temp_buffer;
+    ui **valid_candidate_idx;
+    bool *visited_vertices;
+    allocateBuffer(data_graph, query_graph, candidates_count, idx, idx_count, embedding, idx_embedding,
+                   temp_buffer, valid_candidate_idx, visited_vertices);
+    vector<ui> VP[query_graph->getVerticesCount()];
+    vector<ui> VN[query_graph->getVerticesCount()];
+    vector<ui> VNTemp;
+    int RQ[query_graph->getVerticesCount()];
+    for (int i=0;i<query_graph->getVerticesCount();i++){
+        RQ[order[i]]=i;
+    }
+    bool *embd_vertices = new bool[data_graph->getVerticesCount()];
+    std::fill(embd_vertices, embd_vertices + data_graph->getVerticesCount(), false);
+    size_t embedding_cnt = 0;
+    int cur_depth = 0;
+    int max_depth = query_graph->getVerticesCount();
+    VertexID start_vertex = order[0];
+    bool Match_BA[max_depth] = {false};
+    idx[cur_depth] = 0;                                    // set the starting position to 0 for the current depth
+    idx_count[cur_depth] = candidates_count[start_vertex]; // set the size for current depth
+    // all the nodes are possible candidates
+    int count2 = 1;
+    calculateCell(query_graph, edge_matrix, candidates_count, candidatesHC, idToValues2, count2, start_vertex, 0);
+    count2++;
+    VP[start_vertex] = idToValues2[start_vertex][candidatesHC[start_vertex][0]];
+    VN[start_vertex] = idToValues2[start_vertex][candidatesHC[start_vertex][0]];
+
+    for (ui i = 0; i < idx_count[cur_depth]; ++i)
+    {
+        valid_candidate_idx[cur_depth][i] = i;
+    }
+
+#ifdef ENABLE_FAILING_SET
+    std::vector<std::bitset<MAXIMUM_QUERY_GRAPH_SIZE>> ancestors;
+    computeAncestor(query_graph, bn, bn_count, order, ancestors);
+    std::vector<std::bitset<MAXIMUM_QUERY_GRAPH_SIZE>> vec_failing_set(max_depth);
+    std::unordered_map<VertexID, VertexID> reverse_embedding;
+    reverse_embedding.reserve(MAXIMUM_QUERY_GRAPH_SIZE * 2);
+#endif
+
+    int k;
+
+    VertexID utemp; // u is current depth qid
+    VertexID vtemp;
+    int counter = 0;
+    while (true)
+    {
+        // current position smaller than size
+        while (idx[cur_depth] < idx_count[cur_depth])
+        {
+            // from all the valid IDS
+            ui valid_idx = valid_candidate_idx[cur_depth][idx[cur_depth]]; // valid id
+            if (valid_idx == 10000000)
+            {
+                idx[cur_depth] += 1;
+                continue;
+            }
+            // the position is the first element from the idx matrix
+            VertexID u = order[cur_depth]; // u is current depth qid
+            VertexID v = candidates[u][valid_idx]; // v is FCS[qid][vid] valid_idx-> position in CS
+            size_t candidate = candidatesHC[u][valid_idx];
+            if (candidate == 0&&cur_depth != max_depth - 1)
+            {
+                calculateCellFN(query_graph, edge_matrix, candidates_count, candidatesHC, idToValues2, count2, u, valid_idx,RQ);
+                //calculateCell(query_graph, edge_matrix, candidates_count, candidatesHC, idToValues2, count2, u, valid_idx);
+                count2++;
+            }
+            candidate = candidatesHC[u][valid_idx];
+            VP[u].clear();
+            VN[u].clear();
+
+            if (cur_depth != max_depth - 1)//change here
+            {
+                 // keeps location in candidates matrix
+                VN[u] = idToValues2[u][candidatesHC[u][valid_idx]];
+            if (cur_depth != 0) {
+                size_t write = 0;
+                //size_t ia = idx[cur_depth];
+                size_t ia =0;
+                for (size_t read = 0; read < VN[u].size() && ia < idx_count[cur_depth]; ) {
+                    ui valid = valid_candidate_idx[cur_depth][ia];
+                    if (valid == 10000000) { ++ia; continue; }
+                    if (VN[u][read] == valid) VN[u][write++] = VN[u][read++], ++ia;
+                    else if (VN[u][read] > valid) ++ia;
+                    else ++read;
+                }
+                VN[u].resize(write);
+                
+            }
+            VP[u] = VN[u];
+        }
+            
+            if (cur_depth != max_depth - 1&&false)//change here
+            {
+                VP[u] = idToValues2[u][candidatesHC[u][valid_idx]]; // keeps location in candidates matrix
+                VN[u] = idToValues2[u][candidatesHC[u][valid_idx]];
+                if (cur_depth!=0){
+                int ia=idx[cur_depth];
+                int io=0;
+                VNTemp.clear();
+                while (ia<idx_count[cur_depth]&&io<VN[u].size()){
+                    ui valid_idx = valid_candidate_idx[cur_depth][ia];
+                    if (valid_idx == 10000000)
+                    {
+                        ia += 1;
+                        continue;
+                    }
+                    if (VN[u][io]==valid_idx){
+                        VNTemp.push_back(VN[u][io]);
+                        ia++;
+                        io++;
+                    }
+                    
+                    else if(VN[u][io]>valid_idx)
+                    ia++;
+                    else
+                    io++;
+                }
+                VN[u]=VNTemp;
+            }
+            }
+
+
+            Match_BA[u] = false; // set embedings found to empty for start
+            
+            if (visited_vertices[v]&false)
+            {
+                if (cur_depth != max_depth - 1)
+                {
+                    for (k = 0; k < cur_depth; k++)
+                    { // cout<<"Phase B"<<endl;
+                        if (Match_BA[order[k]] == true)
+                            continue;
+                        utemp = order[k];
+                        // ui valid_idxN=valid_candidate_idx[k][idx[k]-1];
+                        ui valid_idxN = valid_candidate_idx[k][idx[k] - 1];
+
+                        vtemp = candidates[utemp][valid_idxN];
+
+                        VNTemp.clear();
+                        if (vtemp == v)
+                        {
+
+                            if (VN[u].size() > 1 && VN[utemp].size() > 1)
+                            {
+                                int ia = 0;
+                                int io = 0;
+                                // cout<<VN[utemp].size()<<endl;
+                                while (ia < VN[u].size() && io < VN[utemp].size())
+                                { // sorted?
+
+                                    if (candidates[u][VN[u][ia]] == candidates[utemp][VN[utemp][io]])
+                                    {
+                                        VNTemp.push_back(VN[utemp][io]);
+                                        ia++;
+                                        io++;
+                                    }
+                                    else if (candidates[u][VN[u][ia]] < candidates[utemp][VN[utemp][io]])
+                                        ia++;
+                                    else
+                                        io++;
+                                }
+                            }
+                            VN[utemp] = VNTemp;
+                            VNTemp.clear();
+                            break;
+                        }
+                    }
+                }
+                idx[cur_depth] += 1;
+#ifdef ENABLE_FAILING_SET
+                vec_failing_set[cur_depth] = ancestors[u];
+                vec_failing_set[cur_depth] |= ancestors[reverse_embedding[v]];
+                vec_failing_set[cur_depth - 1] |= vec_failing_set[cur_depth];
+#endif
+                continue;
+            }
+            
+            
+           if (visited_vertices[v])
+            {   
+                utemp=reverse_embedding[v];
+                
+                if (cur_depth != max_depth - 1&&Match_BA[utemp] == false&&false)
+                {
+                        //ui valid_idxN = valid_candidate_idx[k][idx[k] - 1];
+                       // vtemp = candidates[utemp][valid_idxN];
+                        VNTemp.clear();
+                            if (VN[u].size() > 1 && VN[utemp].size() > 1)
+                            { 
+                                int ia = 0;
+                                int io = 0;
+                                while (ia < VN[u].size() && io < VN[utemp].size())
+                                { 
+                                    if (candidates[u][VN[u][ia]] == candidates[utemp][VN[utemp][io]])
+                                    {
+                                        VNTemp.push_back(VN[utemp][io]);
+                                        ia++;
+                                        io++;
+                                    }
+                                    else if (candidates[u][VN[u][ia]] < candidates[utemp][VN[utemp][io]])
+                                        ia++;
+                                    else
+                                        io++;
+                                }
+                            }
+                            VN[utemp] = VNTemp;
+                            VNTemp.clear();                                                               
+                }
+                else if(cur_depth == max_depth - 1&&Match_BA[utemp] == false&&false){
+                int ia=0;
+                int io=0;
+                VNTemp.clear();
+                while (ia<idx_count[cur_depth]&&io<VN[utemp].size()){
+                    ui valid_idxN = valid_candidate_idx[cur_depth][ia];
+                    if (valid_idxN == 10000000)
+                    {
+                        ia += 1;
+                        continue;
+                    }
+                    if (VN[utemp][io]==valid_idxN){
+                        //VNTemp.push_back(VN[u][io]);
+                        VNTemp.push_back(VN[utemp][io]);
+                        ia++;
+                        io++;
+                    }
+                    
+                    else if(VN[utemp][io]>valid_idxN)
+                    ia++;
+                    else
+                    io++;
+                  // ia++;
+                }
+                VN[utemp]=VNTemp; 
+                VNTemp.clear();
+                }
+                
+
+                if (cur_depth != max_depth - 1 && !Match_BA[utemp])
+                //if (cur_depth != max_depth - 1&&false)
+                {size_t write = 0; 
+            if (VN[u].size() > 0 && VN[utemp].size() > 0)
+            {
+                size_t ia = 0;                // iterator in VN[u]
+                size_t io = 0;                // iterator in VN[utemp] (read)
+                            // iterator in VN[utemp] (write)
+        
+                while (ia < VN[u].size() && io < VN[utemp].size())
+                {
+                    auto cu = candidates[u]     [ VN[u]     [ia] ];
+                    auto cv = candidates[utemp][ VN[utemp][io] ];
+        
+                    if (cu == cv)                               // keep
+                    {
+                        VN[utemp][write++] = VN[utemp][io];
+                        ++ia;
+                        ++io;
+                    }
+                    else if (cu < cv) ++ia;                     // advance ia
+                    else              ++io;                     // advance io
+                }
+                VN[utemp].resize(write);                          // discard tail
+            }
+        }
+        
+        /* ------------------------------------------------------------------ */
+        /*  Case 2:  cur_depth == max_depth‑1  (intersect VN[utemp] with       */
+        /*           valid_candidate_idx slice [0 .. idx_count‑1) )            */
+        else if (cur_depth == max_depth - 1 && !Match_BA[utemp])
+        //else if (cur_depth == max_depth - 1 &&false)
+        {
+            size_t ia = 0;                       // iterator in valid_candidate_idx
+            size_t io = 0;                       // iterator in VN[utemp] (read)
+            size_t write = 0;                    // iterator in VN[utemp] (write)
+        
+            while (ia < idx_count[cur_depth] && io < VN[utemp].size())
+            {
+                ui valid_idxN = valid_candidate_idx[cur_depth][ia];
+        
+                if (valid_idxN == 10000000) { ++ia; continue; }  // skip holes
+        
+                if (VN[utemp][io] == valid_idxN)                // keep
+                {
+                    VN[utemp][write++] = VN[utemp][io];
+                    ++ia;
+                    ++io;
+                }
+                else if (VN[utemp][io] > valid_idxN) ++ia;      // advance ia
+                else                                          ++io;  // advance io
+            }
+            VN[utemp].resize(write);                            // discard tail
+        }
+                idx[cur_depth] += 1;
+#ifdef ENABLE_FAILING_SET
+                vec_failing_set[cur_depth] = ancestors[u];
+                vec_failing_set[cur_depth] |= ancestors[reverse_embedding[v]];
+                vec_failing_set[cur_depth - 1] |= vec_failing_set[cur_depth];
+#endif
+                continue;
+            }
+            embd_vertices[v] = true;
+            counter++;
+            embedding[u] = v;             // set the embeding of depth qid to v
+            idx_embedding[u] = valid_idx; // reverse the id of the embdeing to the position
+            visited_vertices[v] = true;
+            idx[cur_depth] += 1; // next element
+
+#ifdef ENABLE_FAILING_SET
+            reverse_embedding[v] = u;
+#endif
+
+            if (cur_depth == max_depth - 1)
+            {
+                embedding_cnt += 1;
+                NotifyALL = true;
+                visited_vertices[v] = false;
+                embd_vertices[v] = false;
+                counter--;
+                NotifyALL = false;
+                int ao = cur_depth;//-1;
+                // while(ao>=0 &&Match_BA[ao]==false){
+                while (ao >= 0)
+                {
+                    // VN[order[cur_depth]].clear();
+                    Match_BA[order[ao]] = true;
+                    ao--;
+                }
+
+#ifdef ENABLE_FAILING_SET
+                reverse_embedding.erase(embedding[u]);
+                vec_failing_set[cur_depth].set();
+                vec_failing_set[cur_depth - 1] |= vec_failing_set[cur_depth];
+#endif
+
+                if (embedding_cnt >= output_limit_num)
+                {   
+                    goto EXIT;
+                }
+            }
+            else
+            {
+                call_count += 1;
+                cur_depth += 1;     // next depth
+                idx[cur_depth] = 0; // set the element to 0
+                generateValidCandidateIndex(cur_depth, idx_embedding, idx_count, valid_candidate_idx, edge_matrix, bn,
+                                            bn_count, order, temp_buffer, candidates, candidates_count, query_graph);
+                // get the candidates for next depth
+#ifdef ENABLE_FAILING_SET
+                if (idx_count[cur_depth] == 0)
+                {
+                    vec_failing_set[cur_depth - 1] = ancestors[order[cur_depth]];
+                }
+                else
+                {
+                    vec_failing_set[cur_depth - 1].reset();
+                }
+#endif
+            }
+        }
+
+        cur_depth -= 1;
+        int ao = cur_depth;
+
+        if (NotifyALL == true)
+        { // notify all Match_ that there was a match.
+            // after visiting all the nodes of last level so it wont be repeated
+            NotifyALL = false;
+            while (ao >= 0)
+            {
+                Match_BA[ao] = true;
+                ao--;
+            }
+        } // no embeddings case
+        if (cur_depth == max_depth - 1)
+            continue;
+        ui vq = order[cur_depth];
+        if (Match_BA[vq] == false && idx[cur_depth] < idx_count[cur_depth])
+        {
+            if (VN[vq].size() > 0)
+            { // something to remove
+                for (int dd = 0; dd < VN[vq].size(); dd++)
+                {
+                    for (int kk = (idx[cur_depth]); kk < idx_count[cur_depth]; kk++)
+                    {
+                        ui valid_idxn = valid_candidate_idx[cur_depth][kk];
+                        if (valid_idxn == 10000000)
+                            continue;
+                        // VertexID vn = candidates[order[cur_depth]][valid_idxn];
+                        if (valid_idxn == VN[vq][dd])
+                        {
+                            // if(candidates[vq][valid_idxn]==candidates[vq][VN[vq][dd]]){
+                            valid_candidate_idx[cur_depth][kk] = 10000000;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else if (false)
         {
             if (VP[order[cur_depth]].size() > 1)
             {
@@ -1806,6 +2734,10 @@ EXIT:
     s.candidate_true_count_sum = true_cand_sum;
     return s;
 }
+
+
+
+
 
 enumResult
 EvaluateQuery::LFTJVEQL(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,

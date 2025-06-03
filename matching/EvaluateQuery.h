@@ -39,12 +39,18 @@ struct enumResult
 {
     size_t embedding_cnt;
     ui candidate_true_count_sum;
+    ui Can_embed;
     vector<set<ui>> candidate_true;
 };
 
 class EvaluateQuery
 {
 public:
+static enumResult
+LFTJVEQCN(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
+                       ui *candidates_count, ui *order, size_t output_limit_num, size_t &call_count, size_t **candidatesHC, unordered_map<size_t, std::vector<VertexID>> *idToValues2);
+    static enumResult LFTJVEQFN(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
+                       ui *candidates_count, ui *order, size_t output_limit_num, size_t &call_count, size_t **candidatesHC, unordered_map<size_t, std::vector<VertexID>> *idToValues2);
     static enumResult LFTJVEQL(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,
                                ui *candidates_count, ui *order, size_t output_limit_num, size_t &call_count, size_t **candidatesHC, unordered_map<size_t, std::vector<VertexID>> *idToValues2, unordered_map<size_t, std::vector<VertexID>> *idToValues, size_t **candidatesHC1);
     static enumResult LFTJSS(const Graph *data_graph, const Graph *query_graph, Edges ***edge_matrix, ui **candidates,

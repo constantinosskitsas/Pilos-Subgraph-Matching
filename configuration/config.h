@@ -46,7 +46,7 @@
  * Define ENABLE_FAILING_SET to enable the failing set pruning set intersection method.
  */
 #define ENABLE_FAILING_SET
-
+#define EIGEN_INDEX
 /**
  * Enable collection the distribution of the candidate_true in the data graph.
  */

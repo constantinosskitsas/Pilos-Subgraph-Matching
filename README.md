@@ -3,10 +3,11 @@
 ## **Introduction**
 Subgraph matching seeks all the occurrences of a
 query graph inside another graph. As it reduces to subgraph
-isomorphism, it is NP-hard. Current methods reduce the computation by filtering the set of candidates on which they run
-subgraph isomorphism. Nevertheless, when the query is large, the
-number of candidates grows rapidly, rendering current methods
-largely ineffective in pruning and fail to answer even within one
+isomorphism, it is NP-hard. Current methods reduce the com-
+putation by filtering the candidates on which they run subgraph
+isomorphism. Nevertheless, when the query is large, the number
+of candidates grows rapidly, rendering current methods largely
+ineffective in pruning and incapable to answer even within one
 hour. A primary reason for this ineffectiveness is their inability to
 effectively consider the query graph structure in the computation.
 In this paper, we propose PILOS, a novel matching algorithm
@@ -16,10 +17,11 @@ for verification. PILOS uses (i) an offline light-weight index-based
 phase, which leverages the top graph Laplacian eigenvalues of
 query and data node neighborhoods to reduce candidates via
 neighborhood filtering and (ii) an online phase, which further
-prunes candidates stored in an auxiliary data structure by applying the interlacing theorem on their graph Laplacian spectra.
+prunes candidates stored in an auxiliary data structure; both
+phases apply the interlacing theorem on graph Laplacian spectra.
 Our thorough experimental study shows that, on average, PILOS
-resolves queries in 16% less time and leaves 21% fewer unresolved
-queries after a lapse of 10 minutes than the state of the art.
+resolves queries in 19% less time and leaves 23% fewer unresolved
+queries after a lapse of 10 minutes than the best previous work.
 
 ## **Code**
 We build our algorithm using SIGMOD'2020 paper "In-Memory Subgraph Matching: an In-depth Study" by Dr. Shixuan Sun and Prof. Qiong Luo.
@@ -29,7 +31,8 @@ We kept all the functionalities of the framework and for mospecific details we r
 |Algorithm|Description|Execution code
 |:--------:|:------------:|:------------:
 |Pilos | the filtering method of Pilos | PL
-
+To run without the offline spectral index comment #define EIGEN_INDEX
+in Line 49 in config.h
 ## Compile
 Under the root directory of the project, execute the following commands to compile the source code.
 
@@ -82,7 +85,19 @@ For example, to generate EC for alpha 100 for dblp
 Please cite our work in your publications if it helps your research:
 
 ```
-Paper under submission
+@INPROCEEDINGS {,
+author = { Skitsas, Konstantinos and Mottin, Davide and Karras, Panagiotis },
+booktitle = { 2025 IEEE 41st International Conference on Data Engineering (ICDE) },
+title = {{ PILOS: Scalable Large-Subgraph Matching by Online Spectral Filtering }},
+year = {2025},
+volume = {},
+ISSN = {2375-026X},
+pages = {1180-1193},
+doi = {10.1109/ICDE65448.2025.00093},
+url = {https://doi.ieeecomputersociety.org/10.1109/ICDE65448.2025.00093},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA},
+month =May}
 ```
 ## Note
 

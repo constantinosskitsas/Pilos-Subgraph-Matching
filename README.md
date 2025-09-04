@@ -104,10 +104,6 @@ month =May}
 ## Reproducability
 To repeat the experiments on the paper we propose to use the scrips we provide. build/matching/*.sh
 
-## Datasets
-PLease find them in the link 
-https://aarhusuniversitet-my.sharepoint.com/:u:/r/personal/au647909_uni_au_dk/Documents/datasets.zip?csf=1&web=1&e=cnndCK
-
 ## Coverage Problem
 
 We also propose MIX and Match to solve the coverage problem in subgraph matching https://github.com/constantinosskitsas/Mix-Match
